@@ -1,12 +1,12 @@
 import { LitElement, html, css, customElement } from 'lit-element';
+import '@salte-io/salte-pages';
 
 import page from 'page';
 
 import { version } from '@salte-ci/package.json';
 
 import '@salte-ci/src/sci-navigation.js';
-import '@salte-ci/src/sci-pages.js';
-import '@salte-ci/src/sci-button.js';
+import '@salte-ci/src/sci-login-button.js';
 
 @customElement('sci-app')
 class App extends LitElement {
@@ -24,13 +24,14 @@ class App extends LitElement {
       <sci-navigation>
         <a href="/">Salte CI</a>
         <a href="/docs">Documentation</a>
-        <sci-button class="ml-auto">Login</sci-button>
+        <sci-login-button class="ml-auto"></sci-login-button>
       </sci-navigation>
 
-      <sci-pages selected="${this.page}" fallback="dashboard" @load="${this.load}">
-        <sci-page-dashboard page="dashboard"></sci-page-dashboard>
-        <sci-page-test page="test"></sci-page-test>
-      </sci-pages>
+      <salte-pages selected="${this.page}" fallback="404" @load="${this.load}">
+        <sci-page-home page="home"></sci-page-home>
+        <sci-page-repository page="repository"></sci-page-repository>
+        <sci-page-404 page="404"></sci-page-404>
+      </salte-pages>
     `;
   }
 
@@ -59,8 +60,14 @@ class App extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     document.body.removeAttribute('unresolved');
-    page('/:page?', (context) => {
-      this.page = context.params.page || null;
+    page('*', (context) => {
+      const [_dummy, page] = context.path.match(/^\/([^/]+)?/);
+
+      if (['github', 'gitlab', 'bitbucket'].includes(page)) {
+        this.page = 'repository';
+      } else {
+        this.page = context.params.page || 'home';
+      }
     });
     page();
   }
@@ -68,11 +75,14 @@ class App extends LitElement {
   load({ detail: page }) {
     let promise = null;
     switch (page) {
-      case 'dashboard':
-        promise = import('@salte-ci/src/pages/sci-page-dashboard.js');
+      case 'home':
+        promise = import('@salte-ci/src/pages/sci-page-home.js');
         break;
-      case 'test':
-        promise = import('@salte-ci/src/pages/sci-page-test.js');
+      case 'repository':
+        promise = import('@salte-ci/src/pages/sci-page-repository.js');
+        break;
+      case '404':
+        promise = import('@salte-ci/src/pages/sci-page-404.js');
         break;
     }
 

@@ -1,8 +1,5 @@
 import { LitElement, html, css, customElement } from 'lit-element';
 
-import { Converter } from 'showdown';
-import highlight from 'showdown-highlight';
-
 import hljs from 'highlight.js/lib/highlight';
 import yaml from 'highlight.js/lib/languages/yaml';
 hljs.registerLanguage('yaml', yaml);
@@ -64,23 +61,18 @@ class Terminal extends LitElement {
         background: linear-gradient(top, #ebebeb, #d5d5d5);
       }
 
-      #markdown {
+      #terminal {
         background: #1B1D23;
-        padding: 10px;
+        color: white;
         border-bottom-right-radius: inherit;
         border-bottom-left-radius: inherit;
+        padding: 15px;
+        font-family: monospace;
       }
 
-      pre {
-        margin: 0;
-        padding: 0;
-      }
-
-      /* HighlightJS Tomorrow Night */
-      .hljs{display:block;overflow-x:auto;padding:.5em;background:#1E1E1E;color:#DCDCDC}.hljs-addition,.hljs-deletion{display:inline-block;width:100%}.hljs-keyword,.hljs-link,.hljs-literal,.hljs-name,.hljs-symbol{color:#569CD6}.hljs-link{text-decoration:underline}.hljs-built_in,.hljs-type{color:#4EC9B0}.hljs-class,.hljs-number{color:#B8D7A3}.hljs-meta-string,.hljs-string{color:#D69D85}.hljs-regexp,.hljs-template-tag{color:#9A5334}.hljs-formula,.hljs-function,.hljs-params,.hljs-subst,.hljs-title{color:#DCDCDC}.hljs-comment,.hljs-quote{color:#57A64A;font-style:italic}.hljs-doctag{color:#608B4E}.hljs-meta,.hljs-meta-keyword,.hljs-tag{color:#9B9B9B}.hljs-template-variable,.hljs-variable{color:#BD63C5}.hljs-attr,.hljs-attribute,.hljs-builtin-name{color:#9CDCFE}.hljs-section{color:gold}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}.hljs-bullet,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-id,.hljs-selector-pseudo,.hljs-selector-tag{color:#D7BA7D}.hljs-addition{background-color:#144212}.hljs-deletion{background-color:#600}
-
-      .hljs {
-        background: none;
+      .no-menu {
+        border-top-right-radius: inherit;
+        border-top-left-radius: inherit;
       }
     `;
   }
@@ -95,7 +87,9 @@ class Terminal extends LitElement {
         </div>
       ` : ''}
 
-      <div id="markdown"></div>
+      <div id="terminal" class="${this.menu ? '' : 'no-menu'}">
+        <slot></slot>
+      </div>
     `;
   }
 
@@ -104,33 +98,8 @@ class Terminal extends LitElement {
       menu: {
         type: Boolean,
         reflect: true
-      },
-
-      markdown: String
-    }
-  }
-
-  updated(changedProperties) {
-    if (changedProperties) {
-      if (changedProperties.has('markdown')) {
-        const markdown = this.shadowRoot.getElementById('markdown');
-
-        markdown.innerHTML = this.markdown ? this.converter.makeHtml(this.markdown) : '';
       }
     }
-  }
-
-  get converter() {
-    if (!this._converter) {
-      this._converter = new Converter({
-        ghCompatibleHeaderId: true,
-        simplifiedAutoLink: true,
-        tables: true,
-        extensions: [highlight]
-      });
-    }
-
-    return this._converter;
   }
 }
 
