@@ -3,7 +3,8 @@
     "experimentalDecorators": true,
     "baseUrl": "./",
     "paths": {
-      "@salte-ci/*": ["*"]
+      "@salte-ci/*": ["*"],
+      "@salte-auth/oauth/*": ["src/salte-oauth/*"]
     }
   }
 }

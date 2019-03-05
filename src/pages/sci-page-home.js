@@ -43,7 +43,7 @@ class Home extends PageMixin(LitElement) {
   render() {
     return html`
       <h1>Salte CI</h1>
-      <h2>The simplest and most<br>versatile build platform in existance.</h2>
+      <h2>The simplest and most<br>versatile build platform in existence.</h2>
       <sci-terminal menu>
         <sci-code-editor
           .code="${this.code}"

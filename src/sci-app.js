@@ -5,11 +5,12 @@ import page from 'page';
 
 import { version } from '@salte-ci/package.json';
 
+import AuthMixin from '@salte-ci/src/mixins/sci-auth.js';
+
 import '@salte-ci/src/sci-navigation.js';
-import '@salte-ci/src/sci-login-button.js';
 
 @customElement('sci-app')
-class App extends LitElement {
+class App extends AuthMixin(LitElement) {
   static get styles() {
     return css`
       :host {
@@ -24,12 +25,17 @@ class App extends LitElement {
       <sci-navigation>
         <a href="/">Salte CI</a>
         <a href="/docs">Documentation</a>
-        <sci-login-button class="ml-auto"></sci-login-button>
+        ${this.authenticated ? html`
+          <a href="/account" class="ml-auto">Account</a>
+        ` : html`
+          <sci-button @click="${this.login}" class="ml-auto">Login</sci-button>
+        `}
       </sci-navigation>
 
       <salte-pages selected="${this.page}" fallback="404" @load="${this.load}">
         <sci-page-home page="home"></sci-page-home>
         <sci-page-repository page="repository"></sci-page-repository>
+        <sci-page-account page="account"></sci-page-account>
         <sci-page-404 page="404"></sci-page-404>
       </salte-pages>
     `;
@@ -61,12 +67,12 @@ class App extends LitElement {
     super.connectedCallback();
     document.body.removeAttribute('unresolved');
     page('*', (context) => {
-      const [_dummy, page] = context.path.match(/^\/([^/]+)?/);
+      const [_dummy, page] = context.path.match(/^\/([^/?]+)?/);
 
       if (['github', 'gitlab', 'bitbucket'].includes(page)) {
         this.page = 'repository';
       } else {
-        this.page = context.params.page || 'home';
+        this.page = page || 'home';
       }
     });
     page();
@@ -81,6 +87,9 @@ class App extends LitElement {
       case 'repository':
         promise = import('@salte-ci/src/pages/sci-page-repository.js');
         break;
+      case 'account':
+        promise = import('@salte-ci/src/pages/sci-page-account.js');
+        break;
       case '404':
         promise = import('@salte-ci/src/pages/sci-page-404.js');
         break;
@@ -91,6 +100,14 @@ class App extends LitElement {
     }).catch((error) => {
       console.error(error);
     });
+  }
+
+  login() {
+    this.auth.loginWithRedirect();
+  }
+
+  logout() {
+    this.auth.logoutWithRedirect();
   }
 }
 

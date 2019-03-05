@@ -3,6 +3,12 @@ import Raven from 'raven-js';
 import { version } from '@salte-ci/package.json';
 import config from '@salte-ci/src/config.js';
 
+import { oauth } from '@salte-ci/src/mixins/sci-auth.js';
+
+oauth.on('login', () => {
+  console.log('login!');
+});
+
 Raven.config('https://b8f036ced5554aff9442688709954e7f@sentry.io/1404350', {
   whitelistUrls: [
     /https?:\/\/(www\.)?salte\.ci/,
