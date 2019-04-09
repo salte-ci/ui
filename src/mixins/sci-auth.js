@@ -1,57 +1,53 @@
-import { SalteAuth } from '@salte-io/salte-auth/dist/salte-auth.es6.js';
-
-import OAuth from '@salte-ci/src/salte-oauth/salte-oauth.js';
-import GitHub from '@salte-ci/src/salte-oauth/providers/github.js';
-import GitLab from '@salte-ci/src/salte-oauth/providers/gitlab.js';
-import Bitbucket from '@salte-ci/src/salte-oauth/providers/bitbucket.js';
+import { SalteAuth } from '@salte-auth/salte-auth';
+import { Auth0 } from '@salte-auth/auth0';
+import { GitHub } from '@salte-auth/github';
+import { Bitbucket } from '@salte-auth/bitbucket';
+import { Redirect } from '@salte-auth/redirect';
 
 import config from '@salte-ci/src/config.js';
 
 const auth = new SalteAuth({
-    providerUrl: config.idp.providerUrl,
-    responseType: 'id_token token',
-    redirectUrl: location.origin,
-    clientId: config.idp.clientId,
-    scope: 'openid',
-
-    queryParams: {
-      audience: config.idp.audience
-    },
-
-    endpoints: [
-      /^http:\/\/localhost:8080\/(?!socket.io\/)/
-    ],
-
-    provider: 'auth0'
-});
-
-const oauth = new OAuth({
   providers: [
-    new GitHub(config.oauth.github),
-    new GitLab(config.oauth.gitlab),
-    new Bitbucket(config.oauth.bitbucket)
+    new Auth0({
+      url: 'https://salte.auth0.com',
+      audience: config.providers.auth0.audience,
+      clientID: config.providers.auth0.clientID,
+      responseType: 'id_token token',
+
+      endpoints: [
+        /^http:\/\/localhost:8080\/(?!socket.io\/)/
+      ]
+    }),
+
+    new GitHub({
+      clientID: config.providers.github,
+      responseType: 'code'
+    }),
+
+    new Bitbucket({
+      clientID: config.providers.bitbucket,
+      responseType: 'code'
+    })
+  ],
+
+  handlers: [
+    new Redirect({
+      default: true
+    })
   ]
 });
 
 const AuthMixin = function(superClass) {
-    return class extends auth.mixin(superClass) {
-      get oauth() {
-        return oauth;
-      }
-
-      set user(user) {
-          const oldUser = this._user;
-          this._user = user;
-          this.groups = this.user && this.user['http://salte.io/groups'] || [];
-
-          this.requestUpdate('user', oldUser);
-      }
-
-      get user() {
-          return this._user;
-      }
+  return class extends superClass {
+    get auth() {
+      return auth;
     }
+
+    provider(name) {
+      return this.auth.provider(name);
+    }
+  }
 };
 
-export { auth, oauth, AuthMixin };
+export { auth, AuthMixin };
 export default AuthMixin;

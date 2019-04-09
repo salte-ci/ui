@@ -23,12 +23,14 @@ class App extends AuthMixin(LitElement) {
   render() {
     return html`
       <sci-navigation>
-        <a href="/">Salte CI</a>
+        <a href="/">
+          <img style="width: 50px; height: 50px;" src="https://raw.githubusercontent.com/salte-ci/logos/master/images/logo/transparent.svg?sanitize=true">
+        </a>
         <a href="/docs">Documentation</a>
-        ${this.authenticated ? html`
-          <a href="/account" class="ml-auto">Account</a>
-        ` : html`
+        ${this.provider('auth0').idToken.expired ? html`
           <sci-button @click="${this.login}" class="ml-auto">Login</sci-button>
+        ` : html`
+          <a href="/account" class="ml-auto">Account</a>
         `}
       </sci-navigation>
 
@@ -103,11 +105,11 @@ class App extends AuthMixin(LitElement) {
   }
 
   login() {
-    this.auth.loginWithRedirect();
+    this.auth.login('auth0');
   }
 
   logout() {
-    this.auth.logoutWithRedirect();
+    this.auth.logout('auth0');
   }
 }
 

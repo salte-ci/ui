@@ -23,9 +23,9 @@ class Account extends PageMixin(AuthMixin(LitElement)) {
 
   render() {
     return html`
-      <sci-button @click="${() => this.oauth.login('github')}">GitHub</sci-button>
-      <sci-button @click="${() => this.oauth.login('gitlab')}">GitLab</sci-button>
-      <sci-button @click="${() => this.oauth.login('bitbucket')}">Bitbucket</sci-button>
+      <sci-button @click="${() => this.auth.login('github')}">GitHub</sci-button>
+      <!-- <sci-button @click="${() => this.auth.login('gitlab')}">GitLab</sci-button> -->
+      <sci-button @click="${() => this.auth.login('bitbucket')}">Bitbucket</sci-button>
     `;
   }
 }
