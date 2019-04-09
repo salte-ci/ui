@@ -1,0 +1,47 @@
+stages:
+  - install
+  - build
+  - deploy
+
+Install:
+  stage: install
+  image: node:lts-alpine
+  cache:
+    paths:
+      - .npm/
+  script:
+    - npm ci
+  artifacts:
+    paths:
+      - node_modules/
+
+Install:Deploy:
+  stage: install
+  image: node:lts-alpine
+  cache:
+    paths:
+      - .npm/
+  script:
+    - npm ci --production
+  artifacts:
+    paths:
+      - node_modules/
+
+Test:
+  stage: build
+  image: node:lts-alpine
+  script:
+    - npm start lint
+  dependencies:
+    - Install
+
+Build:
+  stage: build
+  image: node:lts-alpine
+  script:
+    - npm start build
+  dependencies:
+    - Install
+  artifacts:
+    paths:
+      - dist/

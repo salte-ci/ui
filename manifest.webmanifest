@@ -1,0 +1,10 @@
+{
+  "name": "Salte CI",
+  "short_name": "Salte CI",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#e96c70",
+  "background_color": "#e96c70",
+  "icons": [],
+  "gcm_sender_id": "103953800507"
+}

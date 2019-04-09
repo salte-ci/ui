@@ -1,0 +1,24 @@
+```yml
+# These will run in parallel!
+Install:
+  install:ci:
+    image: node:lts-alpine
+    cache: npm
+    script:
+      - npm ci
+    artifacts:
+      - node_modules/
+
+  install:deploy:
+    image: node:lts-alpine
+    cache: npm
+    script:
+      - npm ci --production
+    artifacts:
+      - node_modules/
+
+Test:
+  image: node:lts-alpine
+  script:
+    - npm start lint
+```

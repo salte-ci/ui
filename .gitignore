@@ -1,0 +1,17 @@
+# Operating System Files
+.DS_STORE
+
+# NodeJS / Yarn
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Editors
+.vscode/
+
+# ParcelJS
+dist/
+.cache/
+
+# Firebase
+.firebase/
