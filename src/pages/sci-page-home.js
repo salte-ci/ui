@@ -1,13 +1,13 @@
 import { LitElement, html, css, customElement } from 'lit-element';
 
-import PageMixin from '@salte-ci/src/mixins/sci-pages.js';
+import { PageMixin } from '@salte-ci/src/mixins/sci-pages.js';
 
 import '@salte-ci/src/sci-terminal.js';
 import '@salte-ci/src/sci-code-editor.js';
 
-import markdown from '@salte-ci/src/markdown/ci-example.md';
+import fs from 'fs';
 
-const code = markdown.replace('```yml\n', '').replace('\n```', '');
+/* Buffer */
 
 @customElement('sci-page-home')
 class Home extends PageMixin(LitElement) {
@@ -62,7 +62,7 @@ class Home extends PageMixin(LitElement) {
   constructor() {
     super();
 
-    this.code = code;
+    this.code = fs.readFileSync('src/examples/ci-example.yml', 'UTF8');
   }
 }
 

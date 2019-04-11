@@ -1,4 +1,3 @@
-```yml
 # These will run in parallel!
 Install:
   install:ci:
@@ -21,4 +20,3 @@ Test:
   image: node:lts-alpine
   script:
     - npm start lint
-```

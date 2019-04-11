@@ -1,6 +1,6 @@
 import 'web-animations-js/web-animations-next-lite.min.js';
 
-export default function(superClass) {
+export function PageMixin(superClass) {
   return class extends superClass {
     show(animate) {
       if (animate) {

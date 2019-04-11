@@ -5,7 +5,7 @@ import page from 'page';
 
 import { version } from '@salte-ci/package.json';
 
-import AuthMixin from '@salte-ci/src/mixins/sci-auth.js';
+import { AuthMixin } from '@salte-ci/src/mixins/sci-auth.js';
 
 import '@salte-ci/src/sci-navigation.js';
 
@@ -28,7 +28,7 @@ class App extends AuthMixin(LitElement) {
         </a>
         <a href="/docs">Documentation</a>
         ${this.provider('auth0').idToken.expired ? html`
-          <sci-button @click="${this.login}" class="ml-auto">Login</sci-button>
+          <sci-button @click="${() => this.auth.login('auth0')}" class="ml-auto">Login</sci-button>
         ` : html`
           <a href="/account" class="ml-auto">Account</a>
         `}
@@ -71,7 +71,7 @@ class App extends AuthMixin(LitElement) {
     page('*', (context) => {
       const [_dummy, page] = context.path.match(/^\/([^/?]+)?/);
 
-      if (['github', 'gitlab', 'bitbucket'].includes(page)) {
+      if (['github'].includes(page)) {
         this.page = 'repository';
       } else {
         this.page = page || 'home';
@@ -102,14 +102,6 @@ class App extends AuthMixin(LitElement) {
     }).catch((error) => {
       console.error(error);
     });
-  }
-
-  login() {
-    this.auth.login('auth0');
-  }
-
-  logout() {
-    this.auth.logout('auth0');
   }
 }
 

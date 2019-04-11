@@ -2,8 +2,7 @@
     "plugins": [
       ["module-resolver", {
         "alias": {
-          "@salte-ci": "./",
-          "@salte-auth/oauth": "./src/salte-oauth/"
+          "@salte-ci": "./"
         }
       }],
       "@babel/plugin-proposal-class-properties",

@@ -7,9 +7,7 @@ const configs = {
         audience: 'https://api.alpha.salte.ci',
         clientID: 'w9hJqUpalRBXq9x7kMSwIfCaMqv6VA6P'
       },
-      github: '9dad4396a89d95d3a741',
-      gitlab: '45929db1758cba74f0b0fa9b04895411e72ec00359bd94d6a4de33b1aa83078f',
-      bitbucket: 'VqptWh6yxkjHrBLHWc'
+      github: 'Iv1.a172bb140c3987bd'
     }
   },
   'https://alpha.salte.ci': {
@@ -20,9 +18,7 @@ const configs = {
         audience: 'https://api.alpha.salte.ci',
         clientID: 'w9hJqUpalRBXq9x7kMSwIfCaMqv6VA6P'
       },
-      github: 'afe8467ab8dd11850e6d',
-      gitlab: '45929db1758cba74f0b0fa9b04895411e72ec00359bd94d6a4de33b1aa83078f',
-      bitbucket: 'mt2FzRGPNSFv55kGye'
+      github: 'Iv1.f01b6ae580b6cabe'
     }
   },
   'https://salte.ci': {
@@ -33,9 +29,7 @@ const configs = {
         audience: 'https://api.salte.ci',
         clientID: 'xTF6gsiNbajF0lBA5Jy6ecpCE6wAlc4Y'
       },
-      github: null,
-      gitlab: null,
-      bitbucket: null
+      github: 'Iv1.4989b75b50f468af'
     }
   }
 };
