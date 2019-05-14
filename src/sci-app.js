@@ -7,8 +7,6 @@ import { version } from '@salte-ci/package.json';
 
 import { AuthMixin } from '@salte-ci/src/mixins/sci-auth.js';
 
-import '@salte-ci/src/sci-navigation.js';
-
 @customElement('sci-app')
 class App extends AuthMixin(LitElement) {
   static get styles() {
@@ -17,27 +15,28 @@ class App extends AuthMixin(LitElement) {
         display: flex;
         flex-direction: column;
       }
+
+      salte-pages {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      salte-pages > * {
+        width: 100%;
+        max-width: 1000px;
+        padding: 10px;
+        box-sizing: border-box;
+      }
     `;
   }
 
   render() {
     return html`
-      <sci-navigation>
-        <a href="/">
-          <img style="width: 50px; height: 50px;" src="https://raw.githubusercontent.com/salte-ci/logos/master/images/logo/transparent.svg?sanitize=true">
-        </a>
-        <a href="/docs">Documentation</a>
-        ${this.provider('auth0').idToken.expired ? html`
-          <sci-button @click="${() => this.auth.login('auth0')}" class="ml-auto">Login</sci-button>
-        ` : html`
-          <a href="/account" class="ml-auto">Account</a>
-        `}
-      </sci-navigation>
-
       <salte-pages selected="${this.page}" fallback="404" @load="${this.load}">
         <sci-page-home page="home"></sci-page-home>
         <sci-page-repository page="repository"></sci-page-repository>
-        <sci-page-account page="account"></sci-page-account>
         <sci-page-404 page="404"></sci-page-404>
       </salte-pages>
     `;
@@ -71,11 +70,7 @@ class App extends AuthMixin(LitElement) {
     page('*', (context) => {
       const [_dummy, page] = context.path.match(/^\/([^/?]+)?/);
 
-      if (['github'].includes(page)) {
-        this.page = 'repository';
-      } else {
-        this.page = page || 'home';
-      }
+      this.page = page || 'home';
     });
     page();
   }
@@ -88,9 +83,6 @@ class App extends AuthMixin(LitElement) {
         break;
       case 'repository':
         promise = import('@salte-ci/src/pages/sci-page-repository.js');
-        break;
-      case 'account':
-        promise = import('@salte-ci/src/pages/sci-page-account.js');
         break;
       case '404':
         promise = import('@salte-ci/src/pages/sci-page-404.js');

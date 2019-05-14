@@ -11,23 +11,13 @@ class Repository extends PageMixin(LitElement) {
       :host {
         display: flex;
         flex-direction: column;
-        align-items: center;
-        max-width: 1000px;
-        margin: auto;
-        padding: 20px;
-      }
-
-      sci-terminal {
-        width: 100%;
       }
     `;
   }
 
   render() {
     return html`
-      <sci-terminal>
-        <div>$ npm ci</div>
-      </sci-terminal>
+      Repository
     `;
   }
 }
