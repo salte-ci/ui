@@ -3,7 +3,7 @@ import { LitElement, html, css, customElement } from 'lit-element';
 import { PageMixin } from '@salte-ci/src/mixins/sci-pages.js';
 
 @customElement('sci-page-branch')
-class Branch extends PageMixin(LitElement) {
+export class BranchPage extends PageMixin(LitElement) {
   static get styles() {
     return css`
       :host {
@@ -19,5 +19,3 @@ class Branch extends PageMixin(LitElement) {
     `;
   }
 }
-
-export default Branch;

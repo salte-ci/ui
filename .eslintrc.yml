@@ -8,6 +8,8 @@ parser: babel-eslint
 parserOptions:
   ecmaVersion: 8
   sourceType: module
+  ecmaFeatures:
+    legacyDecorators: true
 globals:
   Promise: true
   Polymer: true
