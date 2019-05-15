@@ -2,8 +2,8 @@ import { LitElement, html, css, customElement } from 'lit-element';
 
 import { PageMixin } from '@salte-ci/src/mixins/sci-pages.js';
 
-@customElement('sci-page-repository')
-class Repository extends PageMixin(LitElement) {
+@customElement('sci-page-dashboard')
+class Dashboard extends PageMixin(LitElement) {
   static get styles() {
     return css`
       :host {
@@ -15,9 +15,9 @@ class Repository extends PageMixin(LitElement) {
 
   render() {
     return html`
-      Repository
+      Dashboard
     `;
   }
 }
 
-export default Repository;
+export default Dashboard;

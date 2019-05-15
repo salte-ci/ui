@@ -36,7 +36,10 @@ class App extends AuthMixin(LitElement) {
     return html`
       <salte-pages selected="${this.page}" fallback="404" @load="${this.load}">
         <sci-page-home page="home"></sci-page-home>
+        <sci-page-dashboard page="dashboard"></sci-page-dashboard>
         <sci-page-repository page="repository"></sci-page-repository>
+        <sci-page-branch page="branch"></sci-page-branch>
+        <sci-page-build page="build"></sci-page-build>
         <sci-page-404 page="404"></sci-page-404>
       </salte-pages>
     `;
@@ -81,8 +84,17 @@ class App extends AuthMixin(LitElement) {
       case 'home':
         promise = import('@salte-ci/src/pages/sci-page-home.js');
         break;
+      case 'dashboard':
+        promise = import('@salte-ci/src/pages/sci-page-dashboard.js');
+        break;
       case 'repository':
         promise = import('@salte-ci/src/pages/sci-page-repository.js');
+        break;
+      case 'branch':
+        promise = import('@salte-ci/src/pages/sci-page-branch.js');
+        break;
+      case 'build':
+        promise = import('@salte-ci/src/pages/sci-page-build.js');
         break;
       case '404':
         promise = import('@salte-ci/src/pages/sci-page-404.js');
