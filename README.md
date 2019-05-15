@@ -8,9 +8,13 @@
 
 > Front-end of Salte CI!
 
+## Prerequisites
+
+- [NodeJS](https://nodejs.org) _don't use v12_
+
 ## Quick Start
 
 ```sh
 $ npm install
-$ npm start
+$ npm start serve
 ```
