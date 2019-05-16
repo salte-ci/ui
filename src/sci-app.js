@@ -15,7 +15,7 @@ export class App extends AuthMixin(LitElement) {
         display: flex;
         flex-direction: column;
 
-        --app-primary-color: #1B1D23;
+        --app-primary-color: #35373D;
         --app-secondary-color: #F5F6FA;
         --app-white-color: #FFFFFF;
         --app-accent-color: #EF5777;
@@ -53,6 +53,7 @@ export class App extends AuthMixin(LitElement) {
         <sci-page-repository page="repository"></sci-page-repository>
         <sci-page-branch page="branch"></sci-page-branch>
         <sci-page-build page="build"></sci-page-build>
+        <sci-page-stylesheet page="stylesheet"></sci-page-stylesheet>
         <sci-page-404 page="404"></sci-page-404>
       </salte-pages>
     `;
@@ -109,9 +110,13 @@ export class App extends AuthMixin(LitElement) {
       case 'build':
         promise = import('@salte-ci/src/pages/sci-page-build.js');
         break;
+      case 'stylesheet':
+        promise = import('@salte-ci/src/pages/sci-page-stylesheet.js');
+        break;
       case '404':
         promise = import('@salte-ci/src/pages/sci-page-404.js');
         break;
+      default: throw new Error(`Unknown Page. (${page})`);
     }
 
     promise.then(() => {
