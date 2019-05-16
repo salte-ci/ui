@@ -4,6 +4,7 @@ import { PageMixin } from '@salte-ci/src/mixins/sci-pages.js';
 
 import '../shared/sci-button.js';
 import '../shared/sci-toggle.js';
+import '../shared/sci-card.js';
 
 @customElement('sci-page-stylesheet')
 export class StylesheetPage extends PageMixin(LitElement) {
@@ -26,6 +27,15 @@ export class StylesheetPage extends PageMixin(LitElement) {
       .white {
         margin: 10px;
         background: var(--app-white-color);
+      }
+
+      .cards {
+        display: flex;
+      }
+
+      .cards > * {
+        flex: 1;
+        margin: 10px;
       }
     `;
   }
@@ -88,6 +98,12 @@ export class StylesheetPage extends PageMixin(LitElement) {
       <h2>Toggle</h2>
       <div class="grid white">
         <sci-toggle></sci-toggle>
+      </div>
+      <h2>Card</h2>
+      <div class="cards">
+        <sci-card header="Header">This is where content goes.</sci-card>
+        <sci-card header="Header">This is where content goes.</sci-card>
+        <sci-card>This is where the content goes.  Really, I am not kidding.  I just want to cause a line wrap.<sci-card theme="embed">This is some inner content.</sci-card></sci-card>
       </div>
     `;
   }
