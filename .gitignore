@@ -13,5 +13,5 @@ yarn-error.log
 dist/
 .cache/
 
-# Firebase
-.firebase/
+# Terraform
+.terraform/
