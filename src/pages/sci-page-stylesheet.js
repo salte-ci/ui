@@ -3,6 +3,7 @@ import { LitElement, html, css, customElement } from 'lit-element';
 import { PageMixin } from '@salte-ci/src/mixins/sci-pages.js';
 
 import '../shared/sci-button.js';
+import '../shared/sci-toggle.js';
 
 @customElement('sci-page-stylesheet')
 export class StylesheetPage extends PageMixin(LitElement) {
@@ -20,6 +21,11 @@ export class StylesheetPage extends PageMixin(LitElement) {
 
       .grid > * {
         margin: 5px;
+      }
+
+      .white {
+        margin: 10px;
+        background: var(--app-white-color);
       }
     `;
   }
@@ -78,6 +84,10 @@ export class StylesheetPage extends PageMixin(LitElement) {
         <sci-button target="_blank" size="large" rounded theme="github">GitHub</sci-button>
         <sci-button target="_blank" size="large" rounded theme="bitbucket">Bitbucket</sci-button>
         <sci-button target="_blank" size="large" rounded theme="gitlab">GitLab</sci-button>
+      </div>
+      <h2>Toggle</h2>
+      <div class="grid white">
+        <sci-toggle></sci-toggle>
       </div>
     `;
   }
