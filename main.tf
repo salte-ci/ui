@@ -1,6 +1,10 @@
 variable "DO_DOCKER_CA_CERT" {}
 variable "DO_DOCKER_CLIENT_CERT" {}
 variable "DO_DOCKER_CLIENT_KEY" {}
+variable "REGISTRY" {}
+variable "REGISTRY_USER" {}
+variable "REGISTRY_PASSWORD" {}
+variable "IMAGE" {}
 
 terraform {
   backend "s3" {
@@ -17,37 +21,42 @@ locals {
 
 # Configure the Docker provider
 provider "docker" {
-  host          = "tcp://manager.salte.io:2376/"
+  host = "tcp://manager.salte.io:2376/"
 
   ca_material   = "${base64decode(var.DO_DOCKER_CA_CERT)}"
   cert_material = "${base64decode(var.DO_DOCKER_CLIENT_CERT)}"
   key_material  = "${base64decode(var.DO_DOCKER_CLIENT_KEY)}"
+
+  registry_auth {
+    address  = "${var.REGISTRY}"
+    username = "${var.REGISTRY_USER}"
+    password = "${var.REGISTRY_PASSWORD}"
+  }
 }
 
 resource "docker_service" "default" {
   name = "${local.environment}-salte-ci"
 
+  labels {
+    "traefik.docker.network"       = "dmz"
+    "traefik.enable"               = "true"
+    "traefik.frontend.rule"        = "Host:${local.domain_name}"
+    "traefik.port"                 = 80
+    "traefik.protocol"             = "http"
+    "traefik.frontend.entryPoints" = "https"
+  }
+
   task_spec {
     container_spec {
-      image = "nginx:alpine"
-
-      labels {
-        "traefik.docker.network" = "dmz"
-        "traefik.enable" = "true"
-        "traefik.frontend.rule" = "Host:${local.domain_name}"
-        "traefik.port" = 80
-        "traefik.protocol" = "http"
-        "traefik.frontend.entryPoints" = "https"
-      }
+      image = "${var.IMAGE}"
     }
 
     restart_policy {
-      condition    = "any"
-      delay        = "5s"
+      condition = "any"
+      delay     = "5s"
     }
 
-    # networks     = ["${docker_network.default.name}"]
-    networks     = ["dmz"]
+    networks = ["dmz"]
   }
 
   mode {
@@ -55,9 +64,4 @@ resource "docker_service" "default" {
       replicas = 1
     }
   }
-}
-
-resource "docker_network" "default" {
-  name = "${replace(local.domain_name, ".", "-")}-dmz"
-  driver = "overlay"
 }

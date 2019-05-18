@@ -8,6 +8,7 @@ variables:
 stages:
   - install
   - build
+  - publish
   - deploy
 
 Install:
@@ -53,6 +54,22 @@ Build:
     paths:
       - dist/
 
+Publish Image:
+  stage: publish
+  image: docker:stable
+  services:
+    - docker:dind
+  script:
+    - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
+    - docker build -t "${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHA}" .
+    - docker push "${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHA}"
+    - docker logout ${CI_REGISTRY}
+  dependencies:
+    - Build
+  only:
+    - live
+    - alpha
+
 .deploy_template: &deploy
   stage: deploy
   image:
@@ -67,6 +84,10 @@ Deploy to Alpha:
   <<: *deploy
   variables:
     ENVIRONMENT: alpha
+    TF_VAR_REGISTRY: "$CI_REGISTRY"
+    TF_VAR_REGISTRY_USER: "$CI_REGISTRY_USER"
+    TF_VAR_REGISTRY_PASSWORD: "$CI_REGISTRY_PASSWORD"
+    TF_VAR_IMAGE: "${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHA}"
   environment:
     name: alpha
     url: https://alpha.salte.ci
@@ -77,6 +98,10 @@ Deploy to Live:
   <<: *deploy
   variables:
     ENVIRONMENT: live
+    # TODO: Change this to Docker Hub Once we Go Live...
+    TF_VAR_REGISTRY: "$CI_REGISTRY"
+    TF_VAR_REGISTRY_USER: "$CI_REGISTRY_USER"
+    TF_VAR_REGISTRY_PASSWORD: "$CI_REGISTRY_PASSWORD"
   environment:
     name: live
     url: https://salte.ci
