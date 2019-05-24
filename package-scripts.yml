@@ -1,12 +1,12 @@
 scripts:
+  default:
+    script: rollup -c rollup.serve.config.js --watch
+    description: Starts a server at http://localhost:8080
   lint:
     script: eslint src/**/*.js
     description: Checks for any formatting errors
-  serve:
-    script: cross-env NODE_ENVIRONMENT=development parcel index.html --port 8081
-    description: Starts a server at http://localhost:8081
   build:
-    script: rm -rf dist && parcel build index.html
+    script: rm -rf dist && rollup -c
     description: Build the Application
   report-coverage:
     script: coveralls < coverage/lcov.info

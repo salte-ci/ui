@@ -21,9 +21,13 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Salte CI">
 
-  <link href="https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto+Slab" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto+Slab:700" rel="stylesheet">
 
-  <script async src="./index.js"></script>
+  <script src="https://unpkg.com/systemjs@2.0.0/dist/s.min.js"></script>
+  <script>
+    System.import('/index.js');
+  </script>
+
   <style>
     body {
       margin: 0;

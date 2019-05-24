@@ -1,5 +1,3 @@
-import 'web-animations-js/web-animations-next-lite.min.js';
-
 export function PageMixin(superClass) {
   return class extends superClass {
     show(animate) {

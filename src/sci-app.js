@@ -3,9 +3,9 @@ import '@salte-io/salte-pages';
 
 import page from 'page';
 
-import { version } from '@salte-ci/package.json';
+import { version } from '../package.json';
 
-import { AuthMixin } from '@salte-ci/src/mixins/sci-auth.js';
+import { AuthMixin } from './mixins/sci-auth.js';
 
 @customElement('sci-app')
 export class App extends AuthMixin(LitElement) {
@@ -15,7 +15,7 @@ export class App extends AuthMixin(LitElement) {
         display: flex;
         flex-direction: column;
 
-        --app-primary-color: #35373D;
+        --app-primary-color: #1B1D23;
         --app-secondary-color: #F5F6FA;
         --app-white-color: #FFFFFF;
         --app-accent-color: #EF5777;
@@ -96,25 +96,25 @@ export class App extends AuthMixin(LitElement) {
     let promise = null;
     switch (page) {
       case 'home':
-        promise = import('@salte-ci/src/pages/sci-page-home.js');
+        promise = import('./pages/sci-page-home.js');
         break;
       case 'dashboard':
-        promise = import('@salte-ci/src/pages/sci-page-dashboard.js');
+        promise = import('./pages/sci-page-dashboard.js');
         break;
       case 'repository':
-        promise = import('@salte-ci/src/pages/sci-page-repository.js');
+        promise = import('./pages/sci-page-repository.js');
         break;
       case 'branch':
-        promise = import('@salte-ci/src/pages/sci-page-branch.js');
+        promise = import('./pages/sci-page-branch.js');
         break;
       case 'build':
-        promise = import('@salte-ci/src/pages/sci-page-build.js');
+        promise = import('./pages/sci-page-build.js');
         break;
       case 'stylesheet':
-        promise = import('@salte-ci/src/pages/sci-page-stylesheet.js');
+        promise = import('./pages/sci-page-stylesheet.js');
         break;
       case '404':
-        promise = import('@salte-ci/src/pages/sci-page-404.js');
+        promise = import('./pages/sci-page-404.js');
         break;
       default: throw new Error(`Unknown Page. (${page})`);
     }

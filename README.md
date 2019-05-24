@@ -16,5 +16,5 @@
 
 ```sh
 $ npm install
-$ npm start serve
+$ npm start
 ```

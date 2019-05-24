@@ -3,7 +3,7 @@ import { Auth0 } from '@salte-auth/auth0';
 import { GitHub } from '@salte-auth/github';
 import { Redirect } from '@salte-auth/redirect';
 
-import config from '@salte-ci/src/config.js';
+import { config } from '../config.js';
 
 const auth = new SalteAuth({
   providers: [

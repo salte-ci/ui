@@ -1,6 +1,6 @@
 import { LitElement, html, css, customElement } from 'lit-element';
 
-import { PageMixin } from '@salte-ci/src/mixins/sci-pages.js';
+import { PageMixin } from '../mixins/sci-pages.js';
 
 @customElement('sci-page-repository')
 export class RepositoryPage extends PageMixin(LitElement) {

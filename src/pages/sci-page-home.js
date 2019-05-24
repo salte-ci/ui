@@ -1,9 +1,10 @@
 import { LitElement, html, css, customElement } from 'lit-element';
 
-import { PageMixin } from '@salte-ci/src/mixins/sci-pages.js';
+import { AuthMixin } from '../mixins/sci-auth.js';
+import { PageMixin } from '../mixins/sci-pages.js';
 
 @customElement('sci-page-home')
-export class HomePage extends PageMixin(LitElement) {
+export class HomePage extends AuthMixin(PageMixin(LitElement)) {
   static get styles() {
     return css`
       :host {
