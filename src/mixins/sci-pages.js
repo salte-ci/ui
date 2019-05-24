@@ -8,7 +8,7 @@ export function PageMixin(superClass) {
         ], {
           duration: 1000,
           easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
-        }).finished;
+        });
       }
     }
 
@@ -20,9 +20,22 @@ export function PageMixin(superClass) {
         duration: 1000,
         easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
         fill: 'forwards'
-      }).finished.then((animation) => {
-        animation.cancel();
+      }).then((animation) => {
+        if (animation) animation.cancel();
       });
+    }
+
+    animate(...args) {
+      if (this.animate) {
+        const animation = super.animate(...args);
+
+        return new Promise((resolve, reject) => {
+          animation.onfinish = () => resolve(animation);
+          animation.oncancel = reject;
+        });
+      }
+
+      return Promise.resolve();
     }
   }
 }
