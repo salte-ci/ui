@@ -1,5 +1,7 @@
 import { LitElement, html, css, customElement } from 'lit-element';
 
+import './sci-line.js';
+
 @customElement('sci-toggle')
 export class Toggle extends LitElement {
   static get styles() {
@@ -40,22 +42,12 @@ export class Toggle extends LitElement {
         transition-property: left, transform;
       }
 
-      .line {
-        height: 2px;
-        border-radius: 1px;
-        display: flex;
-        background: var(--app-accent-color);
-        transition: 0.15s ease-in-out;
-        transition-property: background-color;
-      }
-
       :host([checked]) .thumbnail {
         left: 100%;
         transform: translateX(-100%);
       }
 
-      :host([checked]),
-      :host([checked]) .line {
+      :host([checked]) {
         background: var(--app-success-color);
       }
     `;
@@ -64,9 +56,9 @@ export class Toggle extends LitElement {
   render() {
     return html`
       <div class="thumbnail">
-        <div class="line"></div>
-        <div class="line"></div>
-        <div class="line"></div>
+        <sci-line theme="${this.checked ? 'success' : 'accent'}"></sci-line>
+        <sci-line theme="${this.checked ? 'success' : 'accent'}"></sci-line>
+        <sci-line theme="${this.checked ? 'success' : 'accent'}"></sci-line>
       </div>
     `;
   }
@@ -89,8 +81,10 @@ export class Toggle extends LitElement {
 
   static get properties() {
     return {
-      checked: { type: Boolean, reflect: true }
-
+      checked: {
+        type: Boolean,
+        reflect: true
+      }
     }
   }
 }

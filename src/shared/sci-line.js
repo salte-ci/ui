@@ -6,9 +6,29 @@ export class Line extends LitElement {
     return css`
       :host {
         height: 2px;
-        background: var(--app-accent-color);
-        margin: 10px 0px;
+        background: var(--sci-line-color);
+
+        transition: 0.15s ease-in-out;
+        transition-property: background-color;
       }
     `;
+  }
+
+  static get properties() {
+    return {
+      theme: String
+    };
+  }
+
+  constructor() {
+    super();
+
+    this.theme = 'accent';
+  }
+
+  updated(changedProperties) {
+    if (changedProperties.has('theme')) {
+      this.style.setProperty('--sci-line-color', `var(--app-${this.theme}-color)`);
+    }
   }
 }

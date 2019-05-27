@@ -38,6 +38,7 @@ export class Card extends LitElement {
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
+        background: var(--app-white-color);
       }
 
       :host([header]) {
@@ -50,6 +51,10 @@ export class Card extends LitElement {
         box-shadow: 0 0 5px 0px var(--app-darken-color) inset;
         border-top: 10px solid var(--app-accent-color);
         box-sizing: border-box;
+      }
+
+      sci-line {
+        margin: 10px 0px;
       }
     `;
   }

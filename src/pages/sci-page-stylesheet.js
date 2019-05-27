@@ -13,6 +13,10 @@ export class StylesheetPage extends PageMixin(LitElement) {
       :host {
         display: flex;
         flex-direction: column;
+        background: rgba(0,0,0,0.2);
+        padding: 20px;
+        border-radius: 6px;
+        margin: 20px auto;
       }
 
       .grid {
@@ -22,11 +26,6 @@ export class StylesheetPage extends PageMixin(LitElement) {
 
       .grid > * {
         margin: 5px;
-      }
-
-      .white {
-        margin: 10px;
-        background: var(--app-white-color);
       }
 
       .cards {
@@ -96,7 +95,7 @@ export class StylesheetPage extends PageMixin(LitElement) {
         <sci-button target="_blank" size="large" rounded theme="gitlab">GitLab</sci-button>
       </div>
       <h2>Toggle</h2>
-      <div class="grid white">
+      <div class="grid">
         <sci-toggle></sci-toggle>
       </div>
       <h2>Card</h2>
