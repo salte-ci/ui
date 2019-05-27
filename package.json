@@ -8,7 +8,9 @@
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
     "@salte-auth/auth0": "^1.0.0-rc.1",
+    "@salte-auth/bitbucket": "^1.0.0-rc.1",
     "@salte-auth/github": "^1.0.0-rc.1",
+    "@salte-auth/gitlab": "^1.0.0-rc.1",
     "@salte-auth/redirect": "^1.0.0-rc.6",
     "@salte-auth/salte-auth": "^3.0.0-rc.8",
     "@salte-io/salte-pages": "^1.0.1",

@@ -1,6 +1,8 @@
 import { SalteAuth } from '@salte-auth/salte-auth';
 import { Auth0 } from '@salte-auth/auth0';
+import { Bitbucket } from '@salte-auth/bitbucket';
 import { GitHub } from '@salte-auth/github';
+import { GitLab } from '@salte-auth/gitlab';
 import { Redirect } from '@salte-auth/redirect';
 
 import { config } from '../config.js';
@@ -11,31 +13,38 @@ const auth = new SalteAuth({
       url: 'https://salte.auth0.com',
       audience: config.providers.auth0.audience,
       clientID: config.providers.auth0.clientID,
-      responseType: 'id_token token'
+      responseType: 'id_token token',
+      scope: 'openid profile'
+    }),
+
+    new Bitbucket({
+      clientID: config.providers.bitbucket,
+      responseType: 'code'
     }),
 
     new GitHub({
       clientID: config.providers.github,
+      responseType: 'code'
+    }),
+
+    new GitLab({
+      clientID: config.providers.gitlab,
       responseType: 'code'
     })
   ],
 
   handlers: [
     new Redirect({
-      default: true
+      default: true,
+      navigate: 'history'
     })
   ]
 });
 
-export { auth };
-export function AuthMixin(superClass) {
-  return class extends superClass {
-    get auth() {
-      return auth;
-    }
+auth.on('login', (error, data) => {
+  if (error) console.error(error);
+  else console.log('provider', data);
+});
 
-    provider(name) {
-      return this.auth.provider(name);
-    }
-  }
-}
+export { auth };
+export const AuthMixin = auth.mixin;

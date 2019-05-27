@@ -6,6 +6,8 @@ import page from 'page';
 import { version } from '../package.json';
 
 import { AuthMixin } from './mixins/sci-auth.js';
+import './shared/sci-navigation.js';
+import './shared/sci-icon.js';
 
 @customElement('sci-app')
 export class App extends AuthMixin(LitElement) {
@@ -47,6 +49,20 @@ export class App extends AuthMixin(LitElement) {
 
   render() {
     return html`
+      <sci-navigation>
+        <sci-button theme="secondary" size="large" rounded href="/" icon="logo">
+          Salte CI
+        </sci-button>
+        ${this.auth.provider('auth0').idToken.expired ? html`
+          <sci-button theme="accent" size="large" @click="${() => this.auth.login('auth0')}">
+            Sign Up
+          </sci-button>
+        ` : html`
+          <sci-button theme="secondary" size="large" @click="${() => this.auth.logout('auth0')}" icon="${this.auth.provider('auth0').idToken.user.picture}">
+            ${this.auth.provider('auth0').idToken.user.name}
+          </sci-button>
+        `}
+      </sci-navigation>
       <salte-pages selected="${this.page}" fallback="404" @load="${this.load}">
         <sci-page-home page="home"></sci-page-home>
         <sci-page-dashboard page="dashboard"></sci-page-dashboard>

@@ -26,7 +26,7 @@ export function PageMixin(superClass) {
     }
 
     animate(...args) {
-      if (this.animate) {
+      if (super.animate) {
         const animation = super.animate(...args);
 
         return new Promise((resolve, reject) => {

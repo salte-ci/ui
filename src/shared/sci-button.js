@@ -1,12 +1,17 @@
 import { LitElement, html, css, customElement } from 'lit-element';
 import { ifDefined } from 'lit-html/directives/if-defined';
 
+import './sci-icon.js';
+
 @customElement('sci-button')
 export class Button extends LitElement {
   static get styles() {
     return css`
       :host {
         display: inline-flex;
+        height: 40px;
+        font-size: 15px;
+        font-weight: 300;
       }
 
       .button {
@@ -20,8 +25,12 @@ export class Button extends LitElement {
       }
 
       .content {
-        margin-bottom: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 2px;
         border-radius: inherit;
+        padding: 0 10px;
 
         color: var(--sci-button-color);
         background: var(--sci-button-background-color);
@@ -30,29 +39,55 @@ export class Button extends LitElement {
         transition-property: transform;
       }
 
+      sci-icon {
+        margin-right: 5px;
+      }
+
+      :host([size="large"]) sci-icon {
+        margin-right: 10px;
+      }
+
       :host(:active) .content {
-        transform: translateY(4px);
+        transform: translateY(2px);
       }
 
-      :host([size="small"]) .content {
-        padding: 7px 20px;
-        font-size: 14px;
-        font-weight: 300;
-      }
-
-      :host([size="large"]) .content {
-        padding: 10px 30px;
-        font-size: 26px;
+      :host([size="large"]) {
+        height: 50px;
+        font-size: 24px;
         font-weight: bold;
         font-family: 'Roboto Slab', serif;
       }
 
-      :host([size="small"][rounded]) .button {
-        border-radius: 19.5px;
+      :host([size="large"]) .content {
+        padding: 0 20px;
+      }
+
+      :host([size="large"][rounded]) .content {
+        padding: 0 23px;
+      }
+
+      :host([icon]) .content {
+        padding: 0 10px 0 5px;
+      }
+
+      :host([icon][rounded]) .content {
+        padding: 0 10px 0 5px;
+      }
+
+      :host([size="large"][icon]) .content {
+        padding: 0 15px 0 5px;
+      }
+
+      :host([size="large"][icon][rounded]) .content {
+        padding: 0 20px 0 5px;
+      }
+
+      :host([rounded]) .button {
+        border-radius: 20px;
       }
 
       :host([size="large"][rounded]) .button {
-        border-radius: 29.5px;
+        border-radius: 25px;
       }
 
       .shadow {
@@ -60,20 +95,23 @@ export class Button extends LitElement {
         top: 0;
         left: 0;
         right: 0;
-        bottom: 4px;
+        bottom: 2px;
         border-radius: inherit;
         box-shadow:
-          0 4px 0 var(--app-darken-color),
-          0 4px 0 var(--sci-button-background-color);
+          0 2px 0 var(--app-darken-color),
+          0 2px 0 var(--sci-button-background-color);
       }
     `;
   }
 
   render() {
     return html`
-      <a class="button" href="${ifDefined(this.href)}" target="${this.target}" tabindex="${this.tabindex}" role="${this.role}">
+      <a class="button" href="${ifDefined(this.href)}" target="${ifDefined(this.target)}" tabindex="${this.tabindex}" role="${this.role}">
         <div class="shadow"></div>
         <div class="content">
+          ${this.icon ? html`
+            <sci-icon icon="${this.icon}" size="${this.size}" ?rounded="${this.rounded}"></sci-icon>
+          ` : ''}
           <slot></slot>
         </div>
       </a>
@@ -86,6 +124,11 @@ export class Button extends LitElement {
       target: String,
       tabindex: String,
       role: String,
+
+      icon: {
+        type: String,
+        reflect: true
+      },
 
       size: {
         type: String,
