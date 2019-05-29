@@ -1,0 +1,71 @@
+variables:
+  AWS_ACCESS_KEY_ID: "$CI_ONLY_AWS_ACCESS_KEY"
+  AWS_SECRET_ACCESS_KEY: "$CI_ONLY_AWS_SECRET_ACCESS_KEY"
+  TF_VAR_DO_DOCKER_CA_CERT: $DO_DOCKER_CA_CERT
+  TF_VAR_DO_DOCKER_CLIENT_CERT: $DO_DOCKER_CLIENT_CERT
+  TF_VAR_DO_DOCKER_CLIENT_KEY: $DO_DOCKER_CLIENT_KEY
+
+stages:
+  - install
+  - build
+  - publish
+  - deploy
+
+Install:
+  image: node:lts-alpine
+  script:
+    - npm ci --production
+  cache:
+    - .npm/
+  stash:
+    - node_modules/
+
+Test:
+  image: node:lts-alpine
+  script:
+    - npm start lint
+  unstash:
+    - Install
+
+Build:
+  image: node:lts-alpine
+  script:
+    - npm start build
+  unstash:
+    - Install
+  stash:
+    - dist/
+
+Publish Image:
+  image: docker:stable
+  script:
+    - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
+    - docker build -t "${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHA}" .
+    - docker push "${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHA}"
+    - docker logout ${CI_REGISTRY}
+  unstash:
+    - Build
+  only:
+    - live
+    - alpha
+
+.deploy_template: &deploy
+  image: hashicorp/terraform:0.11.14
+  script:
+    - terraform init
+    - terraform workspace select $ENVIRONMENT || terraform workspace new $ENVIRONMENT
+    - terraform apply -auto-approve
+
+Deploy to Alpha:
+  <<: *deploy
+  variables:
+    ENVIRONMENT: alpha
+  only:
+    - alpha
+
+Deploy to Live:
+  <<: *deploy
+  variables:
+    ENVIRONMENT: live
+  only:
+    - live
