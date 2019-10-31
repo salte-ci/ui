@@ -5,8 +5,8 @@ import './sci-line.js';
 export class Card extends LitElement {
   constructor() {
     super();
-    this.header = "";
-    this.theme = "default";
+    this.header = null;
+    this.theme = 'default';
   }
 
   static get properties() {

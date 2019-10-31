@@ -16,19 +16,6 @@ export class App extends AuthMixin(LitElement) {
       :host {
         display: flex;
         flex-direction: column;
-
-        --app-primary-color: #1B1D23;
-        --app-secondary-color: #F5F6FA;
-        --app-white-color: #FFFFFF;
-        --app-accent-color: #EF5777;
-        --app-darken-color: rgba(0, 0, 0, 0.4);
-        --app-success-color: #5ED48D;
-        --app-warning-color: #D4A55E;
-        --app-danger-color: #D46A5E;
-
-        --app-github-color: #333333;
-        --app-bitbucket-color: #0052CC;
-        --app-gitlab-color: #554488;
       }
 
       salte-pages {

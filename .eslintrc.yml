@@ -43,5 +43,6 @@ settings:
   polyfills:
     - fetch
     - Promise
+    - Object.entries
 
 

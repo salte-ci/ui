@@ -6,6 +6,9 @@ import '../shared/sci-button.js';
 import '../shared/sci-toggle.js';
 import '../shared/sci-card.js';
 
+import { modal } from '../services/modal.js';
+import '../modals/sci-confirmation.js';
+
 @customElement('sci-page-stylesheet')
 export class StylesheetPage extends PageMixin(LitElement) {
   static get styles() {
@@ -103,6 +106,14 @@ export class StylesheetPage extends PageMixin(LitElement) {
         <sci-card header="Header">This is where content goes.</sci-card>
         <sci-card header="Header">This is where content goes.</sci-card>
         <sci-card>This is where the content goes.  Really, I am not kidding.  I just want to cause a line wrap.<sci-card theme="embed">This is some inner content.</sci-card></sci-card>
+      </div>
+      <h2>Modals</h2>
+      <div class="grid">
+        <sci-button @click="${() => {
+          modal({
+            component: 'sci-confirmation-modal'
+          }).then((value) => console.log(value)).catch((error) => console.error(error));
+        }}">Modals</sci-button>
       </div>
     `;
   }
