@@ -75,6 +75,14 @@ export class Modal extends ModalMixin(UniqueElementMixin(OriginalTargetMixin(Lit
         background: rgba(0, 0, 0, 0.4);
       }
 
+      sci-card {
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%, 0);
+        max-width: calc(100% - 40px);
+      }
+
       :host([size="small"]) sci-card {
         width: 400px;
       }
@@ -85,13 +93,6 @@ export class Modal extends ModalMixin(UniqueElementMixin(OriginalTargetMixin(Lit
 
       :host([size="large"]) sci-card {
         width: 800px;
-      }
-
-      sci-card {
-        position: absolute;
-        top: 30%;
-        left: 50%;
-        transform: translate(-50%, 0);
       }
     `;
   }

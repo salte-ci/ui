@@ -33,11 +33,13 @@ export class StylesheetPage extends PageMixin(LitElement) {
 
       .cards {
         display: flex;
+        flex-wrap: wrap;
       }
 
       .cards > * {
         flex: 1;
         margin: 10px;
+        min-width: 300px;
       }
     `;
   }
