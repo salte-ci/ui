@@ -1,0 +1,22 @@
+.card {
+  border-radius: 6px;
+  border-top: 10px solid;
+}
+
+.card[embed="false"] {
+  box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.4);
+  padding: 20px;
+}
+
+.card[embed="true"] {
+  box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.4) inset;
+  padding: 8px;
+}
+
+.divider {
+  margin: 10px 0;
+}
+
+.header {
+  text-align: center;
+}

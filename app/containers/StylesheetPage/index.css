@@ -1,0 +1,28 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  background: rgba(0,0,0,0.2);
+  padding: 10px;
+  border-radius: 6px;
+  margin: 20px auto;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.grid > * {
+  margin: 5px;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.cards > * {
+  flex: 1;
+  margin: 10px;
+  min-width: calc(33% - 60px);
+}

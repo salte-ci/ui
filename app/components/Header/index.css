@@ -1,0 +1,15 @@
+.header {
+  display: flex;
+  height: 60px;
+  box-sizing: border-box;
+  padding: 0px 5px;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1000px;
+  margin: auto;
+  flex: 1;
+}

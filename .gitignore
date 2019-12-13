@@ -11,7 +11,19 @@ yarn-error.log
 
 # ParcelJS
 dist/
+
+# ParcelJS 1.x
 .cache/
+
+# ParcelJS 2+
+.parcel-cache/
 
 # Terraform
 .terraform/
+
+# For some reason Parcel / PostCSS is generating this file. :(
+index.html.json
+**/*.css.json
+
+# Coverage
+coverage/

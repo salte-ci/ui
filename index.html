@@ -23,28 +23,8 @@
 
   <link href="https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto+Slab:700" rel="stylesheet">
 
-  <script src="https://unpkg.com/systemjs@2.0.0/dist/s.min.js"></script>
-  <script>
-    System.import('/index.js');
-  </script>
-
   <style>
-    html {
-      --app-primary-color: #1B1D23;
-      --app-secondary-color: #F5F6FA;
-      --app-white-color: #FFFFFF;
-      --app-accent-color: #EF5777;
-      --app-darken-color: rgba(0, 0, 0, 0.4);
-      --app-success-color: #5ED48D;
-      --app-warning-color: #D4A55E;
-      --app-danger-color: #D46A5E;
-
-      --app-github-color: #333333;
-      --app-bitbucket-color: #0052CC;
-      --app-gitlab-color: #554488;
-    }
-
-    body {
+    :global body {
       margin: 0;
       font-family: 'Roboto', 'Noto', sans-serif;
       line-height: 1.5;
@@ -53,24 +33,13 @@
       background-color: #F5F6FA;
       color: #35373D;
     }
-
-    body[unresolved] {
-      opacity: 1;
-    }
-
-    body[unresolved] sci-app {
-      opacity: 0;
-    }
-
-    sci-app {
-      transition: opacity ease-in-out 0.5s;
-      opacity: 1;
-    }
   </style>
 </head>
 
 <body unresolved>
-  <sci-app></sci-app>
+  <div id="app"></div>
+
+  <script src="./index.js"></script>
 </body>
 
 </html>
