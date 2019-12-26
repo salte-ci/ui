@@ -11,6 +11,10 @@ describe('<Modal />', () => {
     delete Modal.instance;
   });
 
+  afterEach(() => {
+    sinon.restore();
+  });
+
   describe('constructor', () => {
     it('should be a singleton', () => {
       mount(<Modal />);
@@ -18,8 +22,9 @@ describe('<Modal />', () => {
       expect(Modal.instance).not.equals(undefined);
     });
 
-    // TODO: Any way to prevent jest from throwing this error to the console?
     it('should ensure it stays a singleton', () => {
+      spyOn(console, 'error'); // NOTE: This is being used to silence the error from the console.
+
       mount(<Modal />);
 
       expect(() => mount(<Modal />)).throws('The modal container is already defined');

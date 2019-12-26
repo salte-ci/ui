@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { Switch, Route } from 'react-router-dom';
 
@@ -9,6 +9,7 @@ import { UpdateToken } from './actions';
 import { Header } from '../../components/Header';
 
 import { HomePage } from '../HomePage/Loadable';
+import { DashboardPage } from '../DashboardPage/Loadable';
 import { StylesheetPage } from '../StylesheetPage/Loadable';
 
 import styles from './index.css';
@@ -18,6 +19,7 @@ const logger = RootLogger.extend('App');
 
 export function App() {
   const dispatch = useDispatch();
+  const idToken = useSelector(state => state.auth.idTokens.auth0);
 
   useEffect(() => {
     const onAuth = (error, data) => {
@@ -40,10 +42,10 @@ export function App() {
       <Helmet titleTemplate="%s - React.js Boilerplate" defaultTitle="React.js Boilerplate">
         <meta name="description" content="A React.js Boilerplate application" />
       </Helmet>
-      <Header />
+      <Header idToken={idToken} />
       <div className={styles.pages}>
         <Switch>
-          <Route exact path="/" component={HomePage} />
+          <Route exact path="/" component={idToken.expired ? HomePage : DashboardPage} />
           <Route exact path="/stylesheet" component={StylesheetPage} />
         </Switch>
       </div>

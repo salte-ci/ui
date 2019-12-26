@@ -78,5 +78,11 @@ module.exports = {
     'react/jsx-props-no-spreading': 0,
     'require-yield': 0,
     'no-console': 2
-  }
+  },
+  overrides: [{
+    files: [ 'app/**/*.spec.js' ],
+    globals: {
+      spyOn: true
+    }
+  }]
 };

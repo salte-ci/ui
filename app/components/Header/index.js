@@ -1,6 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 
 import { auth } from '../../auth';
 
@@ -10,9 +10,7 @@ import { GetTheme } from '../../utils/theme';
 
 import styles from './index.css';
 
-export function Header() {
-  const idToken = useSelector(state => state.auth.idTokens.auth0);
-
+export function Header({ idToken }) {
   return (
     <header className={styles.header} style={{ backgroundColor: GetTheme('primary') }}>
       <div className={styles.content}>
@@ -37,3 +35,7 @@ export function Header() {
     </header>
   );
 }
+
+Header.propTypes = {
+  idToken: PropTypes.object.isRequired,
+};
