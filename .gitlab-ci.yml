@@ -59,7 +59,7 @@ Build:
     - apk add --no-cache python python-dev py-pip build-base
     - pip install awscli==1.16.303
     # Publish Artifact to S3 and Invalidate the CloudFront Cache
-    - aws s3 sync dist s3://salte-ci-$ENVIRONMENT
+    - aws s3 sync --delete dist s3://salte-ci-$ENVIRONMENT
     - aws cloudfront create-invalidation --distribution-id $(terraform output distribution_id) --paths /*
 
 Deploy to Alpha:
