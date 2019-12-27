@@ -16,7 +16,7 @@ export function Header() {
   return (
     <header className={styles.header} style={{ backgroundColor: GetTheme('primary') }}>
       <div className={styles.content}>
-        <Button type={Link} to="/" theme="secondary" icon="logo" rounded large>
+        <Button type={Link} to="/" theme="white" icon="logo" rounded large>
           Salte CI
         </Button>
         {idToken.expired ? (
