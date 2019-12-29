@@ -19,8 +19,9 @@
   margin-bottom: 2px;
   border-radius: inherit;
   padding: 0 10px;
+
   transition: 0.05s ease-in-out;
-  transition-property: transform;
+  transition-property: transform, color, background-color;
 }
 
 .shadow {
@@ -30,6 +31,9 @@
   right: 0;
   bottom: 2px;
   border-radius: inherit;
+
+  transition: 0.05s ease-in-out;
+  transition-property: box-shadow;
 }
 
 .button:not([disabled]):active > .content {

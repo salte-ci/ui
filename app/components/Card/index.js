@@ -9,8 +9,9 @@ import { GetTheme } from '../../utils/theme';
 import { ConcatClassNames } from '../../utils/class-names';
 import { MergeDeep } from '../../utils/merge';
 import { Grid } from '../Grid';
+import { FLEX_DIRECTION } from '../../utils/prop-type-values';
 
-export function Card({ children, className, embed, header, theme, style, ...extraProps }) {
+export function Card({ children, className, direction, embed, header, theme, style, ...extraProps }) {
   const [color, setColor] = useState(null);
   useEffect(() => {
     setColor(GetTheme(theme));
@@ -28,13 +29,14 @@ export function Card({ children, className, embed, header, theme, style, ...extr
       {...extraProps}
       id="card"
       className={ConcatClassNames(styles.card, className)}
-      direction="column"
+      direction={direction}
       embed={embed.toString()}
       style={MergeDeep(style || {}, {
         backgroundColor: GetTheme('secondary'),
         borderTopColor: color,
         paddingTop: padding,
-      })}>
+      })}
+      spacing={1}>
       {header && (
         <>
           <H3 id="header" align="center">
@@ -51,6 +53,7 @@ export function Card({ children, className, embed, header, theme, style, ...extr
 Card.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
+  direction: PropTypes.oneOf(FLEX_DIRECTION),
   embed: PropTypes.bool,
   header: PropTypes.string,
   style: PropTypes.object,
@@ -58,6 +61,7 @@ Card.propTypes = {
 };
 
 Card.defaultProps = {
+  direction: 'column',
   embed: false,
   theme: 'accent',
 };

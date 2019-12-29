@@ -16,6 +16,7 @@ describe('<Card />', () => {
     const component = mount(<Card />);
 
     expect(component.props()).equals({
+      direction: 'column',
       embed: false,
       theme: 'accent',
     });
@@ -73,6 +74,14 @@ describe('<Card />', () => {
 
       expect(component.find('Grid#card').prop('embed')).equals('false');
       expect(component.find('Grid#card').prop('style').paddingTop).equals('20px');
+    });
+  });
+
+  describe('prop(direction)', () => {
+    it('should support a direction of "row"', () => {
+      const component = mount(<Card direction="row" />);
+
+      expect(component.find('Grid#card').prop('direction')).equals('row');
     });
   });
 });

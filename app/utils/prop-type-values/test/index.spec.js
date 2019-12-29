@@ -11,7 +11,7 @@ describe('PropTypeValues', () => {
 
   describe('constant(ALIGN_ITEMS)', () => {
     it('should be defined with the given values', () => {
-      expect(ALIGN_ITEMS).equals(['start', 'center', 'end']);
+      expect(ALIGN_ITEMS).equals(['start', 'center', 'flex-end']);
     });
   });
 

@@ -23,7 +23,7 @@ Test:
   stage: build
   image: node:lts-alpine
   script:
-    - npm test
+    - npm run test:coverage
   dependencies:
     - Install
 

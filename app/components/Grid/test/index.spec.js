@@ -76,4 +76,20 @@ describe('<Grid />', () => {
       });
     });
   });
+
+  describe('prop(spacing)', () => {
+    it('should support providing a spacing value', () => {
+      const component = mount(<Grid spacing={0} />);
+
+      expect(component.find('#grid').prop('spacing')).equals(0);
+    });
+  });
+
+  describe('prop(type)', () => {
+    it('should support custom element types', () => {
+      const component = mount(<Grid type="span" />);
+
+      expect(component.find('#grid').type()).equals('span');
+    });
+  });
 });

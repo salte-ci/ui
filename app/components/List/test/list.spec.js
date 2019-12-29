@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { expect } from '@hapi/code';
 
 import { mount } from 'enzyme';
-import { List } from '../list';
+import { List } from '../index';
 import { MockUntestables } from '../../../utils/test/mock';
 
 describe('<List />', () => {

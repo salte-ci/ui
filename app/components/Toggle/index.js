@@ -8,11 +8,12 @@ import { Line } from '../Line';
 
 import styles from './index.css';
 
-export function Toggle({ checked, onClick, ...otherProps }) {
+export function Toggle({ checked, onClick, ...extraProps }) {
   const color = GetTheme(checked ? 'success' : 'accent');
 
   return (
     <div
+      {...extraProps}
       role="checkbox"
       tabIndex={0}
       onClick={onClick}
@@ -26,8 +27,7 @@ export function Toggle({ checked, onClick, ...otherProps }) {
         }),
       }}
       checked={checked}
-      aria-checked={Boolean(checked)}
-      {...otherProps}>
+      aria-checked={Boolean(checked)}>
       <div
         className={styles.thumbnail}
         style={{

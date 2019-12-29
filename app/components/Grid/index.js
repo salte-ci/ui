@@ -6,16 +6,28 @@ import { ConcatClassNames } from '../../utils/class-names';
 import { MergeDeep } from '../../utils/merge';
 import { ALIGN_ITEMS, FLEX_DIRECTION, JUSTIFY_CONTENT } from '../../utils/prop-type-values';
 
-export function Grid({ alignItems, justifyContent, children, className, direction, flex, style, ...extraProps }) {
+export function Grid({
+  alignItems,
+  justifyContent,
+  children,
+  className,
+  direction,
+  flex,
+  style,
+  spacing,
+  type: Type,
+  ...extraProps
+}) {
   return (
-    <div
+    <Type
       {...extraProps}
       id="grid"
       className={ConcatClassNames(styles.grid, className)}
       direction={direction}
-      style={MergeDeep({ alignItems, justifyContent, flex }, style)}>
+      style={MergeDeep({ alignItems, justifyContent, flex }, style)}
+      spacing={spacing}>
       {children}
-    </div>
+    </Type>
   );
 }
 
@@ -26,9 +38,13 @@ Grid.propTypes = {
   direction: PropTypes.oneOf(FLEX_DIRECTION),
   flex: PropTypes.number,
   justifyContent: PropTypes.oneOf(JUSTIFY_CONTENT),
+  spacing: PropTypes.oneOf([0, 1, 2]),
   style: PropTypes.object,
+  type: PropTypes.elementType,
 };
 
 Grid.defaultProps = {
   direction: 'row',
+  spacing: 2,
+  type: 'div',
 };
