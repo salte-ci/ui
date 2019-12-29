@@ -1,0 +1,8 @@
+.highlight > pre {
+  margin: 0;
+}
+
+.highlight > pre > .hljs {
+  padding: 0;
+  background: transparent;
+}

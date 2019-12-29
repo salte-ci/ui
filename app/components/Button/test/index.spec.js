@@ -8,6 +8,7 @@ import { Button } from '../index';
 import * as shadow from '../../../utils/shadow';
 import { MockIcons } from '../../../utils/test/mock';
 import { Icon } from '../../Icon';
+import { GetThemeAndComplementary } from '../../../utils/theme';
 
 describe('<Button />', () => {
   beforeEach(() => {
@@ -23,6 +24,7 @@ describe('<Button />', () => {
     const component = mount(<Button />);
 
     expect(component.props()).equals({
+      disabled: false,
       theme: 'primary',
       type: 'div',
       rounded: false,
@@ -75,6 +77,36 @@ describe('<Button />', () => {
 
       expect(component.prop('icon')).equals('bitbucket');
       expect(component.find(Icon).prop('name')).equals('bitbucket');
+    });
+  });
+
+  describe('prop(alignSelf)', () => {
+    it('should be a short-hand for the alignSelf style property', () => {
+      const component = mount(<Button alignSelf="center" />);
+
+      expect(component.find('[role="button"]').prop('style').alignSelf).equals('center');
+    });
+  });
+
+  describe('prop(disabled)', () => {
+    it('should support being disabled', () => {
+      const component = mount(<Button disabled />);
+
+      const [themeColor, complementaryColor] = GetThemeAndComplementary('disabled');
+      sinon.assert.calledWith(shadow.BoxShadows, ['darken', themeColor]);
+      expect(component.find('#content').prop('style').color).equals(complementaryColor);
+      expect(component.find('#content').prop('style').backgroundColor).equals(themeColor);
+    });
+
+    it('should ignore click events when disabled', () => {
+      const onClick = sinon.stub();
+      const component = mount(<Button disabled onClick={onClick} />);
+
+      sinon.assert.notCalled(onClick);
+
+      component.simulate('click');
+
+      sinon.assert.notCalled(onClick);
     });
   });
 });

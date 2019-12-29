@@ -1,6 +1,6 @@
 import { expect } from '@hapi/code';
 
-import { GetTheme, GetThemeAndComplementary } from './index';
+import { GetTheme, GetThemeAndComplementary } from '../index';
 
 describe('ThemeUtils', () => {
   describe('function(GetThemeAndComplementary)', () => {

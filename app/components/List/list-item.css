@@ -1,0 +1,14 @@
+.item {
+  position: relative;
+}
+
+.marker {
+  position: absolute;
+  user-select: none;
+  height: 16px;
+  width: 16px;
+  top: 12px;
+  font-size: 30px;
+  right: 100%;
+  transform: translate(-50%, -50%);
+}

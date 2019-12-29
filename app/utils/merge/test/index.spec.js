@@ -75,5 +75,40 @@ describe('MergeUtils', () => {
 
       expect(MergeDeep(target, undefined)).equals(target);
     });
+
+    it('should support null values', () => {
+      const target = {
+        hello: 'world',
+        hallo: 'welt',
+      };
+
+      const source = {
+        hallo: null,
+      };
+
+      const result = MergeDeep(target, source);
+
+      expect(result).equals({
+        hello: 'world',
+        hallo: null,
+      });
+    });
+
+    it('should support exclude undefined values', () => {
+      const target = {
+        hello: 'world',
+        guten: undefined,
+      };
+
+      const source = {
+        hallo: undefined,
+      };
+
+      const result = MergeDeep(target, source);
+
+      expect(result).equals({
+        hello: 'world',
+      });
+    });
   });
 });

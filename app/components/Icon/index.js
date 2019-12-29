@@ -12,7 +12,7 @@ export function Icon({ alt, className, color, name, large, theme, ...extraProps 
     return (
       <img
         {...extraProps}
-        className={ConcatClassNames([styles.icon, className])}
+        className={ConcatClassNames(styles.icon, className)}
         large={large.toString()}
         src={name}
         alt={alt}
@@ -27,7 +27,7 @@ export function Icon({ alt, className, color, name, large, theme, ...extraProps 
   return (
     <Element
       {...extraProps}
-      className={ConcatClassNames([styles.icon, className])}
+      className={ConcatClassNames(styles.icon, className)}
       large={large.toString()}
       style={{
         fill: color || GetComplementary(theme),

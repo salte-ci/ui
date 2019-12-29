@@ -1,0 +1,32 @@
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.grid[direction="column"] {
+  flex-direction: column;
+}
+
+.grid[direction="column"] > *:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+@media (min-width: 600px) {
+  .grid[direction="row"] {
+    flex-direction: row;
+  }
+
+  .grid[direction="row"] > *:not(:last-child) {
+    margin-right: 20px;
+  }
+}
+
+@media (max-width: 599px) {
+  .grid[direction="row"] {
+    flex-direction: column;
+  }
+
+  .grid[direction="row"] > *:not(:last-child) {
+    margin-bottom: 20px;
+  }
+}

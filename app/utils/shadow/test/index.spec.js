@@ -1,6 +1,6 @@
 import { expect } from '@hapi/code';
 
-import { BoxShadows, BoxShadow } from './index';
+import { BoxShadows, BoxShadow } from '../index';
 
 describe('ShadowUtils', () => {
   describe('function(BoxShadow)', () => {

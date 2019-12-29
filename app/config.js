@@ -59,6 +59,7 @@ export const config = Object.assign(configs[environment], {
     white: '#FFFFFF',
     accent: '#EF5777',
     darken: 'rgba(0, 0, 0, 0.4)',
+    disabled: 'rgba(0, 0, 0, 0.4)',
     success: '#5ED48D',
     warning: '#D4A55E',
     danger: '#D46A5E',

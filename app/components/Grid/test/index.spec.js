@@ -1,0 +1,79 @@
+import React from 'react';
+import { expect } from '@hapi/code';
+import { mount } from 'enzyme';
+
+import { Grid } from '../index';
+import { chance } from '../../../utils/test/mock';
+
+describe('<Grid />', () => {
+  it('should render the component', () => {
+    const component = mount(<Grid />);
+
+    expect(component.children().length).equals(1);
+  });
+
+  describe('prop(children)', () => {
+    it('should render children', () => {
+      const component = mount(<Grid>Hello World</Grid>);
+
+      expect(component.text()).equals('Hello World');
+    });
+  });
+
+  describe('prop(alignItems)', () => {
+    it('should be short-hand for the alignItems style', () => {
+      const component = mount(<Grid alignItems="center" />);
+
+      expect(component.find('#grid').prop('style').alignItems).equals('center');
+    });
+  });
+
+  describe('prop(justifyContent)', () => {
+    it('should be short-hand for the justifyContent style', () => {
+      const component = mount(<Grid justifyContent="center" />);
+
+      expect(component.find('#grid').prop('style').justifyContent).equals('center');
+    });
+  });
+
+  describe('prop(flex)', () => {
+    it('should be short-hand for the flex style', () => {
+      const component = mount(<Grid flex={1} />);
+
+      expect(component.find('#grid').prop('style').flex).equals(1);
+    });
+  });
+
+  describe('prop(className)', () => {
+    it('should be support custom classNames', () => {
+      const className = chance.string();
+      const component = mount(<Grid className={className} />);
+
+      expect(component.find('#grid').prop('className')).contains(className);
+    });
+  });
+
+  describe('prop(direction)', () => {
+    it('should support a direction of "row"', () => {
+      const component = mount(<Grid direction="row" />);
+
+      expect(component.find('#grid').prop('direction')).contains('row');
+    });
+
+    it('should support a direction of "column"', () => {
+      const component = mount(<Grid direction="column" />);
+
+      expect(component.find('#grid').prop('direction')).contains('column');
+    });
+  });
+
+  describe('prop(style)', () => {
+    it('should support a custom style', () => {
+      const component = mount(<Grid style={{ height: 100 }} />);
+
+      expect(component.find('#grid').prop('style')).equals({
+        height: 100,
+      });
+    });
+  });
+});

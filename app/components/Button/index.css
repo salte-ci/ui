@@ -13,6 +13,7 @@
 
 .content {
   display: flex;
+  flex: 1;
   align-items: center;
   justify-content: center;
   margin-bottom: 2px;
@@ -31,7 +32,7 @@
   border-radius: inherit;
 }
 
-.button:active > .content {
+.button:not([disabled]):active > .content {
   transform: translateY(2px);
 }
 
@@ -62,4 +63,8 @@
 .button[large="true"] .icon {
   margin-right: 10px;
   margin-left: -15px;
+}
+
+.button[disabled] {
+  cursor: not-allowed;
 }

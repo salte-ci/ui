@@ -7,8 +7,10 @@ import { Line } from '../Line';
 import styles from './index.css';
 import { GetTheme } from '../../utils/theme';
 import { ConcatClassNames } from '../../utils/class-names';
+import { MergeDeep } from '../../utils/merge';
+import { Grid } from '../Grid';
 
-export function Card({ children, className, embed, header, theme, ...extraProps }) {
+export function Card({ children, className, embed, header, theme, style, ...extraProps }) {
   const [color, setColor] = useState(null);
   useEffect(() => {
     setColor(GetTheme(theme));
@@ -22,22 +24,27 @@ export function Card({ children, className, embed, header, theme, ...extraProps 
   }
 
   return (
-    <div
+    <Grid
       {...extraProps}
       id="card"
-      className={ConcatClassNames([styles.card, className])}
+      className={ConcatClassNames(styles.card, className)}
+      direction="column"
       embed={embed.toString()}
-      style={{ backgroundColor: GetTheme('secondary'), borderTopColor: color, paddingTop: padding }}>
+      style={MergeDeep(style || {}, {
+        backgroundColor: GetTheme('secondary'),
+        borderTopColor: color,
+        paddingTop: padding,
+      })}>
       {header && (
         <>
-          <H3 id="header" className={styles.header}>
+          <H3 id="header" align="center">
             {header}
           </H3>
-          <Line id="divider" className={styles.divider} color={color} />
+          <Line id="divider" color={color} />
         </>
       )}
-      <div>{children}</div>
-    </div>
+      {children}
+    </Grid>
   );
 }
 
@@ -46,6 +53,7 @@ Card.propTypes = {
   className: PropTypes.string,
   embed: PropTypes.bool,
   header: PropTypes.string,
+  style: PropTypes.object,
   theme: PropTypes.string,
 };
 

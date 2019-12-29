@@ -11,6 +11,8 @@ export function GetIcons() {
       github: loadable(() => import('../../../images/icons/github.svg')),
       gitlab: loadable(() => import('../../../images/icons/gitlab.svg')),
       logo: loadable(() => import('../../../images/icons/logo.svg')),
+      infinite: loadable(() => import('../../../images/icons/infinite.svg')),
+      bullet: loadable(() => import('../../../images/icons/bullet.svg')),
     };
   }
 

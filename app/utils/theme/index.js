@@ -16,6 +16,7 @@ export function GetComplementary(theme) {
     case 'github':
     case 'bitbucket':
     case 'gitlab':
+    case 'disabled':
       return config.colors.secondary;
     case 'secondary':
     case 'white':

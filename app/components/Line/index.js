@@ -10,7 +10,7 @@ export function Line({ className, color, theme, ...extraProps }) {
     <div
       {...extraProps}
       id="line"
-      className={ConcatClassNames([styles.line, className])}
+      className={ConcatClassNames(styles.line, className)}
       style={{ backgroundColor: color || GetTheme(theme) }}
     />
   );

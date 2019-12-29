@@ -24,7 +24,7 @@ describe('<Card />', () => {
   it('should support providing extra props', () => {
     const component = mount(<Card hello="world">Hello World</Card>);
 
-    expect(component.find('#card').prop('hello')).equals('world');
+    expect(component.find('Grid#card').prop('hello')).equals('world');
   });
 
   describe('prop(children)', () => {
@@ -39,7 +39,7 @@ describe('<Card />', () => {
     it('should support providing a theme', () => {
       const component = mount(<Card theme="primary" />);
 
-      expect(component.find('#card').prop('style').borderTopColor).equals(GetTheme('primary'));
+      expect(component.find('Grid#card').prop('style').borderTopColor).equals(GetTheme('primary'));
     });
   });
 
@@ -49,7 +49,7 @@ describe('<Card />', () => {
 
       expect(component.exists('H3#header')).equals(true);
       expect(component.find('H3#header').text()).equals('Header');
-      expect(component.find('#card').prop('style').paddingTop).equals('10px');
+      expect(component.find('Grid#card').prop('style').paddingTop).equals('10px');
     });
 
     it('should support theming the header divider', () => {
@@ -64,15 +64,15 @@ describe('<Card />', () => {
     it('should support being embedded', () => {
       const component = mount(<Card embed />);
 
-      expect(component.find('#card').prop('embed')).equals('true');
-      expect(component.find('#card').prop('style').paddingTop).equals(null);
+      expect(component.find('Grid#card').prop('embed')).equals('true');
+      expect(component.find('Grid#card').prop('style').paddingTop).equals(null);
     });
 
     it('should support not being embedded', () => {
       const component = mount(<Card />);
 
-      expect(component.find('#card').prop('embed')).equals('false');
-      expect(component.find('#card').prop('style').paddingTop).equals('20px');
+      expect(component.find('Grid#card').prop('embed')).equals('false');
+      expect(component.find('Grid#card').prop('style').paddingTop).equals('20px');
     });
   });
 });

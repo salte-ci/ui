@@ -1,0 +1,22 @@
+# .salte-ci.yml
+Install:
+  CI:
+    image: node:lts-alpine
+    script:
+      - npm ci
+    stash:
+      - node_modules/
+
+  Deploy:
+    image: node:lts-alpine
+    script:
+      - npm ci --production
+    stash:
+      - node_modules/
+
+Test:
+  image: node:lts-alpine
+  script:
+    - npm start lint
+  unstash:
+    - Install.CI

@@ -2,8 +2,8 @@
 // This is purely to easily visualize each component, no point in testing...
 
 import React from 'react';
-import { H1 } from '../../components/H1';
 import { H2 } from '../../components/H2';
+import { H3 } from '../../components/H3';
 import { Button } from '../../components/Button';
 import { Toggle } from '../../components/Toggle';
 
@@ -12,7 +12,7 @@ import { Card } from '../../components/Card';
 
 import { modal } from '../../utils/modal';
 import { RootLogger } from '../../utils/logger';
-import { Actions } from '../../components/Actions';
+import { Grid } from '../../components/Grid';
 
 const logger = RootLogger.extend('stylesheet');
 
@@ -20,9 +20,9 @@ export default function() {
   const [checked, setChecked] = React.useState(false);
 
   return (
-    <div className={styles.page}>
-      <H1>Stylesheet</H1>
-      <H2>Buttons</H2>
+    <Grid direction="column" className={styles.page}>
+      <H2>Stylesheet</H2>
+      <H3>Buttons</H3>
       <div className={styles.grid}>
         <Button>Primary</Button>
         <Button theme="secondary">Secondary</Button>
@@ -35,7 +35,7 @@ export default function() {
         <Button theme="bitbucket">Bitbucket</Button>
         <Button theme="gitlab">GitLab</Button>
       </div>
-      <H2>Buttons (Rounded)</H2>
+      <H3>Buttons (Rounded)</H3>
       <div className={styles.grid}>
         <Button rounded>Primary</Button>
         <Button rounded theme="secondary">
@@ -66,7 +66,7 @@ export default function() {
           GitLab
         </Button>
       </div>
-      <H2>Buttons (Large)</H2>
+      <H3>Buttons (Large)</H3>
       <div className={styles.grid}>
         <Button large>Primary</Button>
         <Button large theme="secondary">
@@ -97,7 +97,7 @@ export default function() {
           GitLab
         </Button>
       </div>
-      <H2>Buttons (Large Rounded)</H2>
+      <H3>Buttons (Large Rounded)</H3>
       <div className={styles.grid}>
         <Button large rounded>
           Primary
@@ -130,7 +130,7 @@ export default function() {
           GitLab
         </Button>
       </div>
-      <H2>Buttons (Icons)</H2>
+      <H3>Buttons (Icons)</H3>
       <div className={styles.grid}>
         <Button icon="logo" theme="secondary">
           Salte CI
@@ -145,11 +145,11 @@ export default function() {
           Salte CI
         </Button>
       </div>
-      <H2>Toggle</H2>
+      <H3>Toggle</H3>
       <div className={styles.grid}>
         <Toggle checked={checked} onClick={() => setChecked(!checked)} />
       </div>
-      <H2>Card</H2>
+      <H3>Card</H3>
       <div className={styles.cards}>
         <Card>This is where content goes.</Card>
         <Card header="Header">This is where content goes.</Card>
@@ -158,21 +158,19 @@ export default function() {
           <Card embed>This is some inner content.</Card>
         </Card>
       </div>
-      <H2>Modals</H2>
+      <H3>Modals</H3>
       <div className={styles.grid}>
         <Button
           onClick={() => {
             modal({
               variant: 'medium',
               children: (
-                <>
-                  <Actions>
-                    <Button theme="accent" data-close>
-                      Confirm
-                    </Button>
-                    <Button data-cancel>Cancel</Button>
-                  </Actions>
-                </>
+                <Grid>
+                  <Button theme="accent" data-close>
+                    Confirm
+                  </Button>
+                  <Button data-cancel>Cancel</Button>
+                </Grid>
               ),
             })
               .then(() => logger('done!'))
@@ -181,6 +179,6 @@ export default function() {
           Modals
         </Button>
       </div>
-    </div>
+    </Grid>
   );
 }
