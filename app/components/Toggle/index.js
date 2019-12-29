@@ -1,15 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { config } from '../../config';
-import { GetTheme } from '../../utils/theme';
-import { BoxShadow, BoxShadows } from '../../utils/shadow';
+import { GetVariable } from '../../utils/theme';
 
 import { Line } from '../Line';
 
 import styles from './index.css';
 
 export function Toggle({ checked, onClick, ...extraProps }) {
-  const color = GetTheme(checked ? 'success' : 'accent');
+  const theme = checked ? 'success' : 'accent';
 
   return (
     <div
@@ -20,23 +18,14 @@ export function Toggle({ checked, onClick, ...extraProps }) {
       onKeyDown={onClick}
       className={styles.toggle}
       style={{
-        backgroundColor: color,
-        boxShadow: BoxShadow({
-          theme: 'darken',
-          inset: true,
-        }),
+        '--sci-toggle-color': GetVariable(theme),
       }}
       checked={checked}
       aria-checked={Boolean(checked)}>
-      <div
-        className={styles.thumbnail}
-        style={{
-          backgroundColor: config.colors.secondary,
-          boxShadow: BoxShadows(['darken', 'secondary']),
-        }}>
-        <Line color={color} />
-        <Line color={color} />
-        <Line color={color} />
+      <div className={styles.thumbnail}>
+        <Line theme={theme} />
+        <Line theme={theme} />
+        <Line theme={theme} />
       </div>
     </div>
   );

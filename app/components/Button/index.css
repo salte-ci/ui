@@ -19,6 +19,8 @@
   margin-bottom: 2px;
   border-radius: inherit;
   padding: 0 10px;
+  color: var(--sci-button-color);
+  background-color: var(--sci-button-background-color);
 
   transition: 0.05s ease-in-out;
   transition-property: transform, color, background-color;
@@ -31,6 +33,8 @@
   right: 0;
   bottom: 2px;
   border-radius: inherit;
+
+  box-shadow: 0px 2px 0px 0px var(--sci-darken-color), 0px 2px 0px 0px var(--sci-button-background-color);
 
   transition: 0.05s ease-in-out;
   transition-property: box-shadow;

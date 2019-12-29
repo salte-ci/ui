@@ -6,6 +6,11 @@
   height: 40px;
   cursor: pointer;
   outline: none;
+
+  box-shadow: 0px 2px 0px 0px var(--sci-darken-color) inset;
+
+  background: var(--sci-toggle-color);
+
   transition: 0.15s ease-in-out;
   transition-property: background-color;
 }
@@ -24,6 +29,9 @@
   left: 0;
   transition: 0.15s ease-in-out;
   transition-property: left, transform;
+
+  background-color: var(--sci-secondary-color);
+  box-shadow: 0px 2px 0px 0px var(--sci-darken-color), 0px 2px 0px 0px var(--sci-secondary-color);
 }
 
 /*

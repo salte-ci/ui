@@ -2,6 +2,8 @@
   width: 30px;
   height: 30px;
   border-radius: 6px;
+
+  fill: var(--sci-icon-color);
 }
 
 .icon[large="true"] {

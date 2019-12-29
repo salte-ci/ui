@@ -5,7 +5,7 @@ import { expect } from '@hapi/code';
 import { mount } from 'enzyme';
 import { Small } from '../index';
 import { MockUntestables } from '../../../utils/test/mock';
-import { GetTheme } from '../../../utils/theme';
+import { GetVariable } from '../../../utils/theme';
 
 describe('<Small />', () => {
   beforeEach(() => {
@@ -58,7 +58,9 @@ describe('<Small />', () => {
     it('should support providing a custom theme', () => {
       const component = mount(<Small theme="primary" />);
 
-      expect(component.find('#small').prop('style').color).equals(GetTheme('primary'));
+      const { '--sci-small-color': SmallColor } = component.find('#small').prop('style');
+
+      expect(SmallColor).equals(GetVariable('primary'));
     });
   });
 });

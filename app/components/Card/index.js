@@ -1,22 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { H3 } from '../H3';
 import { Line } from '../Line';
 
 import styles from './index.css';
-import { GetTheme } from '../../utils/theme';
 import { ConcatClassNames } from '../../utils/class-names';
 import { MergeDeep } from '../../utils/merge';
 import { Grid } from '../Grid';
 import { FLEX_DIRECTION } from '../../utils/prop-type-values';
+import { GetVariable } from '../../utils/theme';
 
 export function Card({ children, className, direction, embed, header, theme, style, ...extraProps }) {
-  const [color, setColor] = useState(null);
-  useEffect(() => {
-    setColor(GetTheme(theme));
-  }, [theme]);
-
   let padding = null;
   if (header) {
     padding = '10px';
@@ -32,8 +27,7 @@ export function Card({ children, className, direction, embed, header, theme, sty
       direction={direction}
       embed={embed.toString()}
       style={MergeDeep(style || {}, {
-        backgroundColor: GetTheme('secondary'),
-        borderTopColor: color,
+        '--sci-card-accent-color': GetVariable(theme),
         paddingTop: padding,
       })}
       spacing={1}>
@@ -42,7 +36,7 @@ export function Card({ children, className, direction, embed, header, theme, sty
           <H3 id="header" align="center">
             {header}
           </H3>
-          <Line id="divider" color={color} />
+          <Line id="divider" className={styles.divider} theme={theme} />
         </>
       )}
       {children}

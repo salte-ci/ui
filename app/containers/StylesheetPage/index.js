@@ -22,7 +22,7 @@ import styles from './index.css';
 
 import { modal } from '../../utils/modal';
 import { RootLogger } from '../../utils/logger';
-import { GetTheme } from '../../utils/theme';
+import { GetVariable, THEMES } from '../../utils/theme';
 
 const logger = RootLogger.extend('stylesheet');
 
@@ -44,111 +44,35 @@ const components = {
     <>
       <H4>Buttons</H4>
       <div className={styles.grid}>
-        <Button>Primary</Button>
-        <Button theme="secondary">Secondary</Button>
-        <Button theme="white">White</Button>
-        <Button theme="accent">Accent</Button>
-        <Button theme="success">Success</Button>
-        <Button theme="warning">Warning</Button>
-        <Button theme="danger">Danger</Button>
-        <Button theme="github">GitHub</Button>
-        <Button theme="bitbucket">Bitbucket</Button>
-        <Button theme="gitlab">GitLab</Button>
+        {THEMES.map(theme => (
+          <Button key={theme} theme={theme}>
+            {theme}
+          </Button>
+        ))}
       </div>
       <H4>Buttons (Rounded)</H4>
       <div className={styles.grid}>
-        <Button rounded>Primary</Button>
-        <Button rounded theme="secondary">
-          Secondary
-        </Button>
-        <Button rounded theme="white">
-          White
-        </Button>
-        <Button rounded theme="accent">
-          Accent
-        </Button>
-        <Button rounded theme="success">
-          Success
-        </Button>
-        <Button rounded theme="warning">
-          Warning
-        </Button>
-        <Button rounded theme="danger">
-          Danger
-        </Button>
-        <Button rounded theme="github">
-          GitHub
-        </Button>
-        <Button rounded theme="bitbucket">
-          Bitbucket
-        </Button>
-        <Button rounded theme="gitlab">
-          GitLab
-        </Button>
+        {THEMES.map(theme => (
+          <Button key={theme} rounded theme={theme}>
+            {theme}
+          </Button>
+        ))}
       </div>
       <H4>Buttons (Large)</H4>
       <div className={styles.grid}>
-        <Button large>Primary</Button>
-        <Button large theme="secondary">
-          Secondary
-        </Button>
-        <Button large theme="white">
-          White
-        </Button>
-        <Button large theme="accent">
-          Accent
-        </Button>
-        <Button large theme="success">
-          Success
-        </Button>
-        <Button large theme="warning">
-          Warning
-        </Button>
-        <Button large theme="danger">
-          Danger
-        </Button>
-        <Button large theme="github">
-          GitHub
-        </Button>
-        <Button large theme="bitbucket">
-          Bitbucket
-        </Button>
-        <Button large theme="gitlab">
-          GitLab
-        </Button>
+        {THEMES.map(theme => (
+          <Button key={theme} large theme={theme}>
+            {theme}
+          </Button>
+        ))}
       </div>
       <H4>Buttons (Large Rounded)</H4>
       <div className={styles.grid}>
-        <Button large rounded>
-          Primary
-        </Button>
-        <Button large rounded theme="secondary">
-          Secondary
-        </Button>
-        <Button large rounded theme="white">
-          White
-        </Button>
-        <Button large rounded theme="accent">
-          Accent
-        </Button>
-        <Button large rounded theme="success">
-          Success
-        </Button>
-        <Button large rounded theme="warning">
-          Warning
-        </Button>
-        <Button large rounded theme="danger">
-          Danger
-        </Button>
-        <Button large rounded theme="github">
-          GitHub
-        </Button>
-        <Button large rounded theme="bitbucket">
-          Bitbucket
-        </Button>
-        <Button large rounded theme="gitlab">
-          GitLab
-        </Button>
+        {THEMES.map(theme => (
+          <Button key={theme} large rounded theme={theme}>
+            {theme}
+          </Button>
+        ))}
       </div>
       <H4>Buttons (Icons)</H4>
       <div className={styles.grid}>
@@ -185,7 +109,7 @@ const components = {
   Highlight: () => (
     <>
       <Small>TODO: Why isn&apos;t this the correct color scheme.. ?</Small>
-      <Highlight language="yaml" style={{ borderRadius: 6, padding: 5, backgroundColor: GetTheme('primary') }}>
+      <Highlight language="yaml" style={{ borderRadius: 6, padding: 5, backgroundColor: GetVariable('primary') }}>
         {config}
       </Highlight>
     </>
@@ -233,7 +157,7 @@ export default function() {
       <H2>{`<${componentKey} />`}</H2>
       <Grid alignItems="start">
         <Grid className={styles.page} direction="column" flex={1}>
-          {Component && <Component>Hello World</Component>}
+          {Component ? <Component>Hello World</Component> : <Small>Please select a component.</Small>}
         </Grid>
         <Grid direction="column" className={styles.page} spacing={1}>
           {Object.keys(components).map(name => (

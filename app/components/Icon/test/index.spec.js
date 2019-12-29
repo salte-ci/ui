@@ -4,7 +4,7 @@ import { mount } from 'enzyme';
 import sinon from 'sinon';
 
 import * as Icons from '../../../utils/icons';
-import { GetComplementary } from '../../../utils/theme';
+import { GetVariable } from '../../../utils/theme';
 
 import { Icon } from '../index';
 
@@ -49,19 +49,13 @@ describe('<Icon />', () => {
     });
   });
 
-  describe('prop(color)', () => {
-    it('should allow passing a color', () => {
-      const component = mount(<Icon name="logo" color="red" />);
-
-      expect(component.find('#child').prop('style').fill).equals('red');
-    });
-  });
-
   describe('prop(theme)', () => {
     it('should allow passing a theme', () => {
       const component = mount(<Icon name="logo" theme="primary" />);
 
-      expect(component.find('#child').prop('style').fill).equals(GetComplementary('primary'));
+      const { '--sci-icon-color': IconColor } = component.find('#child').prop('style');
+
+      expect(IconColor).equals(GetVariable('primary'));
     });
   });
 

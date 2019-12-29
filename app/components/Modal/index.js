@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom';
 import { Card } from '../Card';
 
 import styles from './index.css';
-import { config } from '../../config';
 
 const container = document.createElement('div');
 container.id = 'modal-container';
@@ -99,8 +98,7 @@ export class Modal extends React.Component {
                 this.close(identifier);
               }
             }}
-            className={styles.backdrop}
-            style={{ backgroundColor: config.colors.darken }}>
+            className={styles.backdrop}>
             <Card className={styles.modal} variant={variant.toString()}>
               {children}
             </Card>

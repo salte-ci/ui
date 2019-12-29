@@ -3,7 +3,7 @@ import { expect } from '@hapi/code';
 import { mount } from 'enzyme';
 
 import { Line } from '../index';
-import { GetTheme } from '../../../utils/theme';
+import { GetVariable } from '../../../utils/theme';
 
 describe('<Line />', () => {
   it('should support providing extra props', () => {
@@ -20,19 +20,13 @@ describe('<Line />', () => {
     });
   });
 
-  describe('prop(color)', () => {
-    it('should support providing a color', () => {
-      const component = mount(<Line color="red" />);
-
-      expect(component.find('#line').prop('style').backgroundColor).equals('red');
-    });
-  });
-
   describe('prop(theme)', () => {
     it('should support providing a theme', () => {
       const component = mount(<Line theme="primary" />);
 
-      expect(component.find('#line').prop('style').backgroundColor).equals(GetTheme('primary'));
+      const { '--sci-line-color': LineColor } = component.find('#line').prop('style');
+
+      expect(LineColor).equals(GetVariable('primary'));
     });
   });
 });

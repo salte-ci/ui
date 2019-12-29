@@ -52,19 +52,4 @@ export const configs = {
   },
 };
 
-export const config = Object.assign(configs[environment], {
-  colors: {
-    primary: '#1B1D23',
-    secondary: '#F5F6FA',
-    white: '#FFFFFF',
-    accent: '#EF5777',
-    darken: 'rgba(0, 0, 0, 0.4)',
-    disabled: 'rgba(0, 0, 0, 0.4)',
-    success: '#5ED48D',
-    warning: '#D4A55E',
-    danger: '#D46A5E',
-    github: '#333333',
-    bitbucket: '#0052CC',
-    gitlab: '#554488',
-  },
-});
+export const config = configs[environment];
