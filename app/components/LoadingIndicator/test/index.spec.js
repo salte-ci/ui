@@ -14,16 +14,16 @@ describe('<LoadingIndicator />', () => {
   });
 
   describe('prop(loading)', () => {
-    it('should render if loading is true', () => {
+    it('should set the loading attribute to true', () => {
       const component = mount(<LoadingIndicator loading />);
 
-      expect(component.children().length).equals(1);
+      expect(component.find('#loading').prop('loading')).equals('true');
     });
 
-    it('should not render if loading is false', () => {
+    it('should set the loading attribute to false', () => {
       const component = mount(<LoadingIndicator loading={false} />);
 
-      expect(component.children().length).equals(0);
+      expect(component.find('#loading').prop('loading')).equals('false');
     });
   });
 });

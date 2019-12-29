@@ -20,12 +20,10 @@ export function MockUntestables() {
 export function MockState(overrides) {
   const state = {
     auth: {
-      idTokens: {
-        auth0: {
-          expired: chance.bool(),
-          user: {
-            picture: chance.url(),
-          },
+      auth0: {
+        expired: true,
+        user: {
+          picture: chance.url(),
         },
       },
     },

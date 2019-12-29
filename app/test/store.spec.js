@@ -13,13 +13,11 @@ describe('Store', () => {
     it('should support overriding state', () => {
       const store = configureStore({
         auth: {
-          idTokens: {
-            auth0: 'world',
-          },
+          auth0: 'world',
         },
       });
 
-      expect(store.getState().auth.idTokens).equals({
+      expect(store.getState().auth).equals({
         auth0: 'world',
       });
     });

@@ -7,7 +7,7 @@ import { MountWrapper } from '../../../utils/test/mount';
 import { App } from '../index';
 import { auth } from '../../../auth';
 import { MockUntestables, MockState } from '../../../utils/test/mock';
-import { UPDATE_TOKEN } from '../constants';
+import { UPDATE_TOKEN } from '../../../actions/auth/constants';
 import { DashboardPage } from '../../DashboardPage/Loadable';
 import { HomePage } from '../../HomePage/Loadable';
 
@@ -36,10 +36,8 @@ describe('<App />', () => {
         <App />,
         MockState({
           auth: {
-            idTokens: {
-              auth0: {
-                expired: true,
-              },
+            auth0: {
+              expired: true,
             },
           },
         }),
@@ -53,10 +51,8 @@ describe('<App />', () => {
         <App />,
         MockState({
           auth: {
-            idTokens: {
-              auth0: {
-                expired: false,
-              },
+            auth0: {
+              expired: false,
             },
           },
         }),

@@ -1,6 +1,15 @@
 .loadingIndicator {
   display: flex;
   color: black;
+  justify-content: center;
+
+  opacity: 0;
+  transition: 0.15s ease-in-out;
+  transition-property: opacity;
+}
+
+.loadingIndicator[loading="true"] {
+  opacity: 1;
 }
 
 .dot {

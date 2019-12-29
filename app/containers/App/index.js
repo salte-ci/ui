@@ -4,7 +4,7 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { Switch, Route } from 'react-router-dom';
 
 import { auth } from '../../auth';
-import { UpdateToken } from './actions';
+import { UpdateToken } from '../../actions/auth';
 
 import { Header } from '../../components/Header';
 
@@ -19,17 +19,13 @@ const logger = RootLogger.extend('App');
 
 export function App() {
   const dispatch = useDispatch();
-  const idToken = useSelector(state => state.auth.idTokens.auth0);
+  const idToken = useSelector(state => state.auth.auth0);
 
   useEffect(() => {
     const onAuth = (error, data) => {
       if (error) logger(error);
       else {
-        dispatch(
-          UpdateToken({
-            [data.provider]: auth.provider(data.provider).idToken,
-          }),
-        );
+        dispatch(UpdateToken(data.provider, auth.provider(data.provider).idToken));
       }
     };
 

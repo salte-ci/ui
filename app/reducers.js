@@ -4,7 +4,7 @@
 
 import { combineReducers } from 'redux';
 
-import { AuthReducer } from './containers/App/reducer';
+import { AuthReducer } from './actions/auth/reducer';
 
 /**
  * Merges the main reducer with the router state and dynamically injected reducers
