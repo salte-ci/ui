@@ -5,6 +5,9 @@
 import { combineReducers } from 'redux';
 
 import { AuthReducer } from './actions/auth/reducer';
+import { ErrorReducer } from './actions/error/reducer';
+import { LoadingReducer } from './actions/loading/reducer';
+import { OrganizationsReducer } from './actions/organizations/reducer';
 
 /**
  * Merges the main reducer with the router state and dynamically injected reducers
@@ -12,6 +15,9 @@ import { AuthReducer } from './actions/auth/reducer';
 export function createReducer(injectedReducers = {}) {
   const rootReducer = combineReducers({
     auth: AuthReducer,
+    error: ErrorReducer,
+    loading: LoadingReducer,
+    organizations: OrganizationsReducer,
     ...injectedReducers,
   });
 

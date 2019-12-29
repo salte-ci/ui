@@ -2,7 +2,7 @@ import { expect } from '@hapi/code';
 
 import { UPDATE_TOKEN } from '../constants';
 
-import { UpdateToken } from '../index';
+import { UpdateToken } from '../actions';
 
 describe('Actions(Auth)', () => {
   describe('function(UpdateToken)', () => {

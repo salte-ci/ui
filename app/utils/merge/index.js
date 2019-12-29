@@ -5,7 +5,7 @@ export function MergeDeep(target = {}, ...sources) {
     if (!source) return;
 
     Object.entries(source).forEach(([key, value]) => {
-      if (value && typeof value === 'object') {
+      if (value && typeof value === 'object' && !Array.isArray(value) && value.constructor === Object) {
         result[key] = MergeDeep(result[key], value);
       } else if (value !== undefined) {
         result[key] = value;

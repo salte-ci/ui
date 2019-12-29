@@ -50,6 +50,26 @@ describe('MergeUtils', () => {
       });
     });
 
+    it('should support merging arrays', () => {
+      const target = {
+        hello: 'world',
+        hallo: 'welt',
+        example: [],
+      };
+
+      const source = {
+        hallo: 'world',
+      };
+
+      const result = MergeDeep(target, source);
+
+      expect(result).equals({
+        hello: 'world',
+        hallo: 'world',
+        example: [],
+      });
+    });
+
     it('should support no sources being provided', () => {
       const target = {
         hello: 'world',
