@@ -4,7 +4,7 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { Switch, Route } from 'react-router-dom';
 
 import { auth } from '../../auth';
-import { UpdateToken } from '../../actions/auth';
+import { UpdateToken } from '../../actions/auth/actions';
 
 import { Header } from '../../components/Header';
 

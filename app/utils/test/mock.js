@@ -17,6 +17,12 @@ export function MockUntestables() {
   MockIcons();
 }
 
+const providers = {
+  bitbucket: 'Bitbucket',
+  github: 'GitHub',
+  gitlab: 'GitLab',
+};
+
 export function MockState(overrides) {
   const state = {
     auth: {
@@ -27,6 +33,27 @@ export function MockState(overrides) {
         },
       },
     },
+    loading: {
+      organizations: false,
+    },
+    error: {},
+    organizations: new Array(3).fill().map(() => {
+      const type = chance.pickone(['bitbucket', 'github', 'gitlab']);
+
+      return {
+        provider: {
+          key: type,
+          name: providers[type],
+          type,
+        },
+        icon: chance.url(),
+        key: chance.string(),
+        name: chance.string(),
+        repositoryCount: chance.integer(),
+        buildCount: chance.integer(),
+        url: chance.url(),
+      };
+    }),
   };
 
   return MergeDeep(state, overrides);

@@ -1,0 +1,8 @@
+.error {
+  border-radius: 6px;
+  padding: 10px;
+  line-height: 1;
+
+  background-color: var(--sci-danger-color);
+  color: var(--sci-secondary-color);
+}

@@ -6,7 +6,7 @@ import { MountWrapper } from '../../../utils/test/mount';
 
 import { App } from '../index';
 import { auth } from '../../../auth';
-import { MockUntestables, MockState } from '../../../utils/test/mock';
+import { MockUntestables } from '../../../utils/test/mock';
 import { UPDATE_TOKEN } from '../../../actions/auth/constants';
 import { DashboardPage } from '../../DashboardPage/Loadable';
 import { HomePage } from '../../HomePage/Loadable';
@@ -32,31 +32,25 @@ describe('<App />', () => {
 
   describe('state(auth.idTokens.auth0)', () => {
     it('should display the HomePage if the token is expired', () => {
-      const component = MountWrapper(
-        <App />,
-        MockState({
-          auth: {
-            auth0: {
-              expired: true,
-            },
+      const component = MountWrapper(<App />, {
+        auth: {
+          auth0: {
+            expired: true,
           },
-        }),
-      );
+        },
+      });
 
       expect(component.exists(HomePage)).equals(true);
     });
 
     it('should display the DashboardPage if the token is not expired', () => {
-      const component = MountWrapper(
-        <App />,
-        MockState({
-          auth: {
-            auth0: {
-              expired: false,
-            },
+      const component = MountWrapper(<App />, {
+        auth: {
+          auth0: {
+            expired: false,
           },
-        }),
-      );
+        },
+      });
 
       expect(component.exists(DashboardPage)).equals(true);
     });
