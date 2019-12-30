@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Icon } from '../Icon';
 
 import styles from './list-item.css';
-import { themes } from '../../utils/theme';
+import { THEMES } from '../../utils/theme';
 
 export function ListItem({ children, icon, theme, ...extraProps }) {
   return (
@@ -18,7 +18,7 @@ export function ListItem({ children, icon, theme, ...extraProps }) {
 ListItem.propTypes = {
   children: PropTypes.node,
   icon: PropTypes.string,
-  theme: PropTypes.oneOf(themes),
+  theme: PropTypes.oneOf(THEMES),
 };
 
 ListItem.defaultProps = {

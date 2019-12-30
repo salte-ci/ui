@@ -1,6 +1,7 @@
 .card {
   border-radius: 6px;
-  border-top: 10px solid;
+  border-top: 10px solid var(--sci-card-accent-color);
+  background-color: var(--sci-secondary-color);
 }
 
 .card[embed="false"] {
@@ -11,4 +12,8 @@
 .card[embed="true"] {
   box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.4) inset;
   padding: 8px;
+}
+
+.divider {
+  color: var(--sci-card-accent-color);
 }

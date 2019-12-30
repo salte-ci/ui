@@ -66,4 +66,7 @@
   border-bottom-left-radius: inherit;
   font-family: 'Roboto Mono', monospace;
   padding: 15px;
+
+  background-color: var(--sci-primary-color);
+  color: var(--sci-white-color);
 }

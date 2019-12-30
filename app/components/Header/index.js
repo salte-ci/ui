@@ -6,13 +6,11 @@ import { auth } from '../../auth';
 
 import { Button } from '../Button';
 
-import { GetTheme } from '../../utils/theme';
-
 import styles from './index.css';
 
 export function Header({ idToken }) {
   return (
-    <header className={styles.header} style={{ backgroundColor: GetTheme('primary') }}>
+    <header className={styles.header}>
       <div className={styles.content}>
         <Button type={Link} to="/" theme="white" icon="logo" rounded large>
           Salte CI

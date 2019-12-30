@@ -1,9 +1,20 @@
-import { config } from '../../config';
+export const THEMES = [
+  'primary',
+  'secondary',
+  'white',
+  'accent',
+  'success',
+  'warning',
+  'danger',
+  'github',
+  'bitbucket',
+  'gitlab',
+];
 
-export const themes = Object.keys(config.colors);
+export const ALL_THEMES = THEMES.concat(['darken', 'disabled']);
 
-export function GetTheme(theme) {
-  return config.colors[theme];
+export function GetVariable(theme) {
+  return `var(--sci-${theme}-color)`;
 }
 
 export function GetComplementary(theme) {
@@ -17,15 +28,11 @@ export function GetComplementary(theme) {
     case 'bitbucket':
     case 'gitlab':
     case 'disabled':
-      return config.colors.secondary;
+      return 'secondary';
     case 'secondary':
     case 'white':
-      return config.colors.primary;
+      return 'primary';
     default:
       throw new Error(`Unknown Theme. (${theme})`);
   }
-}
-
-export function GetThemeAndComplementary(theme) {
-  return [GetTheme(theme), GetComplementary(theme)];
 }

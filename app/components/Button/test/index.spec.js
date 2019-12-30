@@ -5,14 +5,12 @@ import sinon from 'sinon';
 
 import { Button } from '../index';
 
-import * as shadow from '../../../utils/shadow';
 import { MockIcons } from '../../../utils/test/mock';
 import { Icon } from '../../Icon';
-import { GetThemeAndComplementary } from '../../../utils/theme';
+import { GetVariable } from '../../../utils/theme';
 
 describe('<Button />', () => {
   beforeEach(() => {
-    sinon.stub(shadow, 'BoxShadows');
     MockIcons();
   });
 
@@ -33,12 +31,18 @@ describe('<Button />', () => {
   });
 
   describe('prop(theme)', () => {
-    it('should support multiple themes', () => {
+    it('should support other themes', () => {
       const component = mount(<Button theme="accent" />);
 
       expect(component.prop('theme')).equals('accent');
-      sinon.assert.calledWith(shadow.BoxShadows, ['darken', '#EF5777']);
-      expect(component.find('#content').prop('style').backgroundColor).equals('#EF5777');
+
+      const {
+        '--sci-button-color': ButtonColor,
+        '--sci-button-background-color': ButtonBackgroundColor,
+      } = component.find('[role="button"]').prop('style');
+
+      expect(ButtonColor).equals(GetVariable('secondary'));
+      expect(ButtonBackgroundColor).equals(GetVariable('accent'));
     });
   });
 
@@ -92,10 +96,15 @@ describe('<Button />', () => {
     it('should support being disabled', () => {
       const component = mount(<Button disabled />);
 
-      const [themeColor, complementaryColor] = GetThemeAndComplementary('disabled');
-      sinon.assert.calledWith(shadow.BoxShadows, ['darken', themeColor]);
-      expect(component.find('#content').prop('style').color).equals(complementaryColor);
-      expect(component.find('#content').prop('style').backgroundColor).equals(themeColor);
+      expect(component.find('[role="button"]').prop('disabled')).equals(true);
+
+      const {
+        '--sci-button-color': ButtonColor,
+        '--sci-button-background-color': ButtonBackgroundColor,
+      } = component.find('[role="button"]').prop('style');
+
+      expect(ButtonColor).equals(GetVariable('secondary'));
+      expect(ButtonBackgroundColor).equals(GetVariable('disabled'));
     });
 
     it('should ignore click events when disabled', () => {

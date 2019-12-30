@@ -1,29 +1,64 @@
 import { expect } from '@hapi/code';
 
-import { GetTheme, GetThemeAndComplementary } from '../index';
+import { GetVariable, GetComplementary } from '../index';
+import { chance } from '../../test/mock';
 
 describe('ThemeUtils', () => {
-  describe('function(GetThemeAndComplementary)', () => {
-    it('should support darker themes', () => {
-      expect(GetThemeAndComplementary('primary')).equals(['#1B1D23', '#F5F6FA']);
-    });
-
-    it('should support lighter themes', () => {
-      expect(GetThemeAndComplementary('secondary')).equals(['#F5F6FA', '#1B1D23']);
-    });
-
-    it('should throw an error for invalid themes', () => {
-      expect(() => GetThemeAndComplementary('unknown')).to.throw(Error, 'Unknown Theme. (unknown)');
+  describe('function(GetVariable)', () => {
+    it('should create a css variable', () => {
+      expect(GetVariable('primary')).equals('var(--sci-primary-color)');
     });
   });
 
-  describe('function(GetTheme)', () => {
-    it('should return a themes color', () => {
-      expect(GetTheme('primary')).equals('#1B1D23');
+  describe('function(GetComplementary)', () => {
+    it('should return "secondary" for "primary"', () => {
+      expect(GetComplementary('primary')).equals('secondary');
     });
 
-    it('should support invalid themes', () => {
-      expect(GetTheme('unknown')).equals(undefined);
+    it('should return "secondary" for "accent"', () => {
+      expect(GetComplementary('accent')).equals('secondary');
+    });
+
+    it('should return "secondary" for "success"', () => {
+      expect(GetComplementary('success')).equals('secondary');
+    });
+
+    it('should return "secondary" for "warning"', () => {
+      expect(GetComplementary('warning')).equals('secondary');
+    });
+
+    it('should return "secondary" for "danger"', () => {
+      expect(GetComplementary('danger')).equals('secondary');
+    });
+
+    it('should return "secondary" for "github"', () => {
+      expect(GetComplementary('github')).equals('secondary');
+    });
+
+    it('should return "secondary" for "bitbucket"', () => {
+      expect(GetComplementary('bitbucket')).equals('secondary');
+    });
+
+    it('should return "secondary" for "gitlab"', () => {
+      expect(GetComplementary('gitlab')).equals('secondary');
+    });
+
+    it('should return "secondary" for "disabled"', () => {
+      expect(GetComplementary('disabled')).equals('secondary');
+    });
+
+    it('should return "secondary" for "secondary"', () => {
+      expect(GetComplementary('secondary')).equals('primary');
+    });
+
+    it('should return "secondary" for "white"', () => {
+      expect(GetComplementary('white')).equals('primary');
+    });
+
+    it('should throw an error for unknown themes', () => {
+      const theme = chance.string();
+
+      expect(() => GetComplementary(theme)).throws(`Unknown Theme. (${theme})`);
     });
   });
 });

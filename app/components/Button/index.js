@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { ALIGN_SELF } from '../../utils/prop-type-values';
-import { GetThemeAndComplementary, themes } from '../../utils/theme';
-import { BoxShadows } from '../../utils/shadow';
+import { THEMES, GetComplementary, GetVariable } from '../../utils/theme';
 
 import styles from './index.css';
 import { Icon } from '../Icon';
@@ -19,22 +18,8 @@ export function Button({
   onClick,
   ...extraProps
 }) {
-  const [color, setColor] = useState(null);
-  const [backgroundColor, setBackgroundColor] = useState(null);
-
-  useEffect(() => {
-    if (disabled) {
-      const [themeColor, complementaryColor] = GetThemeAndComplementary('disabled');
-
-      setColor(complementaryColor);
-      setBackgroundColor(themeColor);
-    } else {
-      const [themeColor, complementaryColor] = GetThemeAndComplementary(theme);
-
-      setColor(complementaryColor);
-      setBackgroundColor(themeColor);
-    }
-  }, [disabled, theme]);
+  const finalTheme = disabled ? 'disabled' : theme;
+  const complementaryTheme = GetComplementary(finalTheme);
 
   return (
     <Type
@@ -44,19 +29,17 @@ export function Button({
       large={large.toString()}
       role="button"
       className={styles.button}
-      style={{ alignSelf }}
+      style={{
+        alignSelf,
+        '--sci-button-color': GetVariable(complementaryTheme),
+        '--sci-button-background-color': GetVariable(finalTheme),
+      }}
       onClick={e => {
         if (!disabled && onClick) onClick(e);
       }}>
-      <div
-        id="shadow"
-        className={styles.shadow}
-        style={{
-          boxShadow: BoxShadows(['darken', backgroundColor]),
-        }}
-      />
-      <div id="content" className={styles.content} style={{ color, backgroundColor }}>
-        {icon && <Icon className={styles.icon} name={icon} large={large} color={color} />}
+      <div id="shadow" className={styles.shadow} />
+      <div id="content" className={styles.content}>
+        {icon && <Icon className={styles.icon} name={icon} large={large} theme={complementaryTheme} />}
         {children}
       </div>
     </Type>
@@ -68,7 +51,7 @@ Button.propTypes = {
   children: PropTypes.node,
   disabled: PropTypes.bool,
   icon: PropTypes.string,
-  theme: PropTypes.oneOf(themes),
+  theme: PropTypes.oneOf(THEMES),
   type: PropTypes.elementType,
   rounded: PropTypes.bool,
   large: PropTypes.bool,

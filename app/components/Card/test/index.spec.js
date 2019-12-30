@@ -3,7 +3,7 @@ import { expect } from '@hapi/code';
 import { mount } from 'enzyme';
 
 import { Card } from '../index';
-import { GetTheme } from '../../../utils/theme';
+import { GetVariable } from '../../../utils/theme';
 
 describe('<Card />', () => {
   it('should render the component', () => {
@@ -40,7 +40,9 @@ describe('<Card />', () => {
     it('should support providing a theme', () => {
       const component = mount(<Card theme="primary" />);
 
-      expect(component.find('Grid#card').prop('style').borderTopColor).equals(GetTheme('primary'));
+      const { '--sci-card-accent-color': CardAccentColor } = component.find('Grid#card').prop('style');
+
+      expect(CardAccentColor).equals(GetVariable('primary'));
     });
   });
 
@@ -57,7 +59,7 @@ describe('<Card />', () => {
       const component = mount(<Card header="Header" theme="primary" />);
 
       expect(component.exists('Line#divider')).equals(true);
-      expect(component.find('Line#divider').prop('color')).equals(GetTheme('primary'));
+      expect(component.find('Line#divider').prop('theme')).equals('primary');
     });
   });
 

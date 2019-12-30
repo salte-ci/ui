@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import styles from './index.css';
-import { GetTheme } from '../../utils/theme';
 
 export function Terminal({ children }) {
   return (
@@ -12,10 +11,7 @@ export function Terminal({ children }) {
         <div className={styles.minimize} />
         <div className={styles.zoom} />
       </div>
-      <div
-        id="content"
-        className={styles.content}
-        style={{ backgroundColor: GetTheme('primary'), color: GetTheme('white') }}>
+      <div id="content" className={styles.content}>
         {children}
       </div>
     </div>

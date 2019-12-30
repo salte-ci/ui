@@ -1,4 +1,6 @@
 .small {
   font-style: italic;
   font-size: 14px;
+
+  color: var(--sci-small-color);
 }
