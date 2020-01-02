@@ -28,7 +28,7 @@
   box-sizing: border-box;
   left: 0;
   transition: 0.15s ease-in-out;
-  transition-property: left, transform;
+  transition-property: left;
 
   background-color: var(--sci-secondary-color);
   box-shadow: 0px 2px 0px 0px var(--sci-darken-color), 0px 2px 0px 0px var(--sci-secondary-color);
@@ -39,6 +39,6 @@
  * React doesn't like treating boolean attributes like booleans it seems.
  */
 .toggle[aria-checked="true"] > .thumbnail {
-  left: 100%;
-  transform: translateX(-100%);
+  /* Not a fan of this, since it seems arbitrary. However, this fixes an issue on Safari. */
+  left: calc(40%);
 }
