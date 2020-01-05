@@ -14,7 +14,7 @@ export function OrganizationCard({ organization }) {
   return (
     <Card direction="row">
       <img alt="Organization Icon" className={styles.icon} src={organization.icon} />
-      <Grid direction="column" flex={1} spacing={1}>
+      <Grid direction="column" flex={1} spacing={10}>
         <Grid alignItems="center">
           <H2>{organization.name}</H2>
           <H4>{organization.key}</H4>

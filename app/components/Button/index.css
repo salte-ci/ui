@@ -1,6 +1,5 @@
 .button {
   display: inline-flex;
-  height: 40px;
   font-size: 15px;
   font-weight: 300;
   position: relative;
@@ -9,70 +8,66 @@
   cursor: pointer;
   text-decoration: none;
   outline: none;
-}
 
-.content {
-  display: flex;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 2px;
-  border-radius: inherit;
-  padding: 0 10px;
-  color: var(--sci-button-color);
-  background-color: var(--sci-button-background-color);
+  height: var(--sci-button-height);
 
-  transition: 0.05s ease-in-out;
-  transition-property: transform, color, background-color;
-}
+  &[large="false"] {
+    --sci-button-height: 40px;
+    --sci-button-padding: 10px;
+  }
 
-.shadow {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 2px;
-  border-radius: inherit;
+  &[large="true"] {
+    font-size: 24px;
+    font-weight: bold;
+    font-family: 'Roboto Slab', serif;
 
-  box-shadow: 0px 2px 0px 0px var(--sci-darken-color), 0px 2px 0px 0px var(--sci-button-background-color);
+    --sci-button-height: 50px;
+    --sci-button-padding: 20px;
+  }
 
-  transition: 0.05s ease-in-out;
-  transition-property: box-shadow;
-}
+  &[rounded="true"] {
+    border-radius: calc(var(--sci-button-height) / 2);
+  }
 
-.button:not([disabled]):active > .content {
-  transform: translateY(2px);
-}
+  > .shadow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 2px;
+    border-radius: inherit;
 
-.button[large="true"] {
-  height: 50px;
-  font-size: 24px;
-  font-weight: bold;
-  font-family: 'Roboto Slab', serif;
-}
+    box-shadow: 0px 2px 0px 0px var(--sci-darken-color), 0px 2px 0px 0px var(--sci-button-background-color);
 
-.button[large="true"] > .content {
-  padding: 0 20px;
-}
+    transition: 0.05s ease-in-out;
+    transition-property: box-shadow;
+  }
 
-.button[rounded="true"] {
-  border-radius: 20px;
-}
+  > .content {
+    margin-bottom: 2px;
+    border-radius: inherit;
+    padding: 0 10px;
+    color: var(--sci-button-color);
+    background-color: var(--sci-button-background-color);
+    padding: 0 var(--sci-button-padding);
 
-.button[rounded="true"][large="true"] {
-  border-radius: 25px;
-}
+    transition: 0.05s ease-in-out;
+    transition-property: transform, color, background-color;
+  }
 
-.button[large="false"] .icon {
-  margin-right: 5px;
-  margin-left: -5px;
-}
+  &[icon="true"] > .content {
+    padding-left: 5px;
 
-.button[large="true"] .icon {
-  margin-right: 10px;
-  margin-left: -15px;
-}
+    > .icon:first-child:nth-last-child(1) {
+      margin-right: -15px;
+    }
+  }
 
-.button[disabled] {
-  cursor: not-allowed;
+  &:not([disabled]):active > .content {
+    transform: translateY(2px);
+  }
+
+  &[disabled] {
+    cursor: not-disabled;
+  }
 }

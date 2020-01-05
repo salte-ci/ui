@@ -20,5 +20,5 @@ export function ErrorState({ children, error }) {
 
 ErrorState.propTypes = {
   children: PropTypes.node.isRequired,
-  error: PropTypes.instanceOf(Error),
+  error: PropTypes.object,
 };

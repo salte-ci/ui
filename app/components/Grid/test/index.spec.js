@@ -72,16 +72,35 @@ describe('<Grid />', () => {
       const component = mount(<Grid style={{ height: 100 }} />);
 
       expect(component.find('#grid').prop('style')).equals({
+        '--sci-grid-spacing': '20px',
         height: 100,
       });
     });
   });
 
+  describe('prop(responsive)', () => {
+    it('should support being responsive', () => {
+      const component = mount(<Grid responsive />);
+
+      expect(component.find('#grid').prop('responsive')).equals('true');
+    });
+  });
+
   describe('prop(spacing)', () => {
     it('should support providing a spacing value', () => {
-      const component = mount(<Grid spacing={0} />);
+      const component = mount(<Grid spacing={10} />);
 
-      expect(component.find('#grid').prop('spacing')).equals(0);
+      const { '--sci-grid-spacing': spacing } = component.find('#grid').prop('style');
+
+      expect(spacing).equals('10px');
+    });
+
+    it('should support custom units', () => {
+      const component = mount(<Grid spacing="1em" />);
+
+      const { '--sci-grid-spacing': spacing } = component.find('#grid').prop('style');
+
+      expect(spacing).equals('1em');
     });
   });
 

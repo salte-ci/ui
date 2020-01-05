@@ -30,7 +30,7 @@ export function Card({ children, className, direction, embed, header, theme, sty
         '--sci-card-accent-color': GetVariable(theme),
         paddingTop: padding,
       })}
-      spacing={1}>
+      spacing={10}>
       {header && (
         <>
           <H3 id="header" align="center">

@@ -5,7 +5,7 @@ import { expect } from '@hapi/code';
 import { Header } from '../index';
 import { MountWrapper } from '../../../utils/test/mount';
 import { MergeDeep } from '../../../utils/merge';
-import { chance, MockIcons } from '../../../utils/test/mock';
+import { chance, MockUntestables } from '../../../utils/test/mock';
 import { auth } from '../../../auth';
 
 describe('<Header />', () => {
@@ -24,7 +24,8 @@ describe('<Header />', () => {
   };
 
   beforeEach(() => {
-    MockIcons();
+    MockUntestables();
+
     sinon.stub(auth, 'login');
     sinon.stub(auth, 'logout');
   });
@@ -61,7 +62,7 @@ describe('<Header />', () => {
       expect(component.exists('#sign-out')).equals(true);
       expect(component.exists('#sign-up')).equals(false);
 
-      expect(component.find('Button#sign-out').text()).equals(component.prop('idToken').user.name);
+      expect(component.exists('Button#sign-out')).equals(true);
     });
   });
 

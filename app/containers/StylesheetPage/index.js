@@ -159,7 +159,7 @@ export default function() {
         <Grid className={styles.page} direction="column" flex={1}>
           {Component ? <Component>Hello World</Component> : <Small>Please select a component.</Small>}
         </Grid>
-        <Grid direction="column" className={styles.page} spacing={1}>
+        <Grid direction="column" className={styles.page} spacing={10}>
           {Object.keys(components).map(name => (
             <Button
               key={name}

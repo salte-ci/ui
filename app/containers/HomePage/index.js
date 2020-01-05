@@ -23,7 +23,7 @@ export default function() {
       <Terminal>
         <Highlight language="yaml">{config}</Highlight>
       </Terminal>
-      <Grid>
+      <Grid responsive>
         <Card header="Free" style={{ flex: 1, minHeight: 400 }}>
           <List style={{ flex: 1 }}>
             <ListItem icon="infinite">Unlimited private runners</ListItem>

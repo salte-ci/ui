@@ -30,6 +30,26 @@ describe('<Button />', () => {
     });
   });
 
+  describe('prop(children)', () => {
+    it('should support providing children elements', () => {
+      const component = mount(
+        <Button>
+          <div>Hello World</div>
+        </Button>,
+      );
+
+      expect(component.text()).equals('Hello World');
+      expect(component.exists('[test-id="wrapper"]')).equals(false);
+    });
+
+    it('should automatically wrap text nodes', () => {
+      const component = mount(<Button>Hello World</Button>);
+
+      expect(component.text()).equals('Hello World');
+      expect(component.exists('[test-id="wrapper"]')).equals(true);
+    });
+  });
+
   describe('prop(theme)', () => {
     it('should support other themes', () => {
       const component = mount(<Button theme="accent" />);

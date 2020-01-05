@@ -5,6 +5,7 @@ import { THEMES, GetComplementary, GetVariable } from '../../utils/theme';
 
 import styles from './index.css';
 import { Icon } from '../Icon';
+import { Grid } from '../Grid';
 
 export function Button({
   alignSelf,
@@ -27,6 +28,7 @@ export function Button({
       disabled={disabled}
       rounded={rounded.toString()}
       large={large.toString()}
+      icon={Boolean(icon).toString()}
       role="button"
       className={styles.button}
       style={{
@@ -38,10 +40,10 @@ export function Button({
         if (!disabled && onClick) onClick(e);
       }}>
       <div id="shadow" className={styles.shadow} />
-      <div id="content" className={styles.content}>
+      <Grid id="content" className={styles.content} alignItems="center" justifyContent="center" flex={1} spacing={10}>
         {icon && <Icon className={styles.icon} name={icon} large={large} theme={complementaryTheme} />}
-        {children}
-      </div>
+        {typeof children === 'string' ? <div test-id="wrapper">{children}</div> : children}
+      </Grid>
     </Type>
   );
 }

@@ -7,6 +7,7 @@ import { auth } from '../../auth';
 import { Button } from '../Button';
 
 import styles from './index.css';
+import { MediaQuery } from '../MediaQuery';
 
 export function Header({ idToken }) {
   return (
@@ -26,7 +27,9 @@ export function Header({ idToken }) {
             large
             icon={idToken.user.picture}
             onClick={() => auth.logout('auth0')}>
-            {idToken.user.name}
+            <MediaQuery desktop>
+              <div>{idToken.user.name}</div>
+            </MediaQuery>
           </Button>
         )}
       </div>

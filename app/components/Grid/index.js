@@ -13,19 +13,27 @@ export function Grid({
   className,
   direction,
   flex,
+  responsive,
   style,
   spacing,
   type: Type,
   ...extraProps
 }) {
+  const internalStyle = {
+    '--sci-grid-spacing': typeof spacing === 'number' ? `${spacing}px` : spacing,
+    alignItems,
+    justifyContent,
+    flex,
+  };
+
   return (
     <Type
       {...extraProps}
       id="grid"
       className={ConcatClassNames(styles.grid, className)}
       direction={direction}
-      style={MergeDeep({ alignItems, justifyContent, flex }, style)}
-      spacing={spacing}>
+      responsive={responsive.toString()}
+      style={MergeDeep(internalStyle, style)}>
       {children}
     </Type>
   );
@@ -36,15 +44,17 @@ Grid.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   direction: PropTypes.oneOf(FLEX_DIRECTION),
+  responsive: PropTypes.bool,
   flex: PropTypes.number,
   justifyContent: PropTypes.oneOf(JUSTIFY_CONTENT),
-  spacing: PropTypes.oneOf([0, 1, 2]),
+  spacing: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   style: PropTypes.object,
   type: PropTypes.elementType,
 };
 
 Grid.defaultProps = {
   direction: 'row',
-  spacing: 2,
+  responsive: false,
+  spacing: 20,
   type: 'div',
 };
