@@ -20,10 +20,13 @@ export function Grid({
   ...extraProps
 }) {
   const internalStyle = {
+    flex,
+  };
+
+  const innerStyle = {
     '--sci-grid-spacing': typeof spacing === 'number' ? `${spacing}px` : spacing,
     alignItems,
     justifyContent,
-    flex,
   };
 
   return (
@@ -34,7 +37,9 @@ export function Grid({
       direction={direction}
       responsive={responsive.toString()}
       style={MergeDeep(internalStyle, style)}>
-      {children}
+      <div tid="inner-grid" className={styles.innerGrid} style={innerStyle}>
+        {children}
+      </div>
     </Type>
   );
 }

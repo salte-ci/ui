@@ -13,7 +13,6 @@ import { HomePage } from '../../HomePage/Loadable';
 
 const chance = Chance();
 
-// TODO: Write tests
 describe('<App />', () => {
   beforeEach(() => {
     MockUntestables();

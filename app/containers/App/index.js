@@ -35,8 +35,8 @@ export function App() {
 
   return (
     <HelmetProvider>
-      <Helmet titleTemplate="%s - React.js Boilerplate" defaultTitle="React.js Boilerplate">
-        <meta name="description" content="A React.js Boilerplate application" />
+      <Helmet titleTemplate="%s - Salte CI" defaultTitle="Salte CI">
+        <meta name="description" content="The simplest and most versatile build platform in existence." />
       </Helmet>
       <Header idToken={idToken} />
       <div className={styles.pages}>

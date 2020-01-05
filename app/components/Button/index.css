@@ -5,7 +5,6 @@
   position: relative;
   border-radius: 6px;
   user-select: none;
-  cursor: pointer;
   text-decoration: none;
   outline: none;
 
@@ -63,8 +62,12 @@
     }
   }
 
-  &:not([disabled]):active > .content {
-    transform: translateY(2px);
+  &:not([disabled]) {
+    cursor: pointer;
+
+    &:active > .content {
+      transform: translateY(2px);
+    }
   }
 
   &[disabled] {

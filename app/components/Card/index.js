@@ -11,7 +11,7 @@ import { Grid } from '../Grid';
 import { FLEX_DIRECTION } from '../../utils/prop-type-values';
 import { GetVariable } from '../../utils/theme';
 
-export function Card({ children, className, direction, embed, header, theme, style, ...extraProps }) {
+export function Card({ children, className, direction, embed, header, loading, theme, style, onClick, ...extraProps }) {
   let padding = null;
   if (header) {
     padding = '10px';
@@ -20,27 +20,39 @@ export function Card({ children, className, direction, embed, header, theme, sty
   }
 
   return (
-    <Grid
+    <div
       {...extraProps}
       id="card"
       className={ConcatClassNames(styles.card, className)}
-      direction={direction}
       embed={embed.toString()}
+      loading={loading.toString()}
       style={MergeDeep(style || {}, {
         '--sci-card-accent-color': GetVariable(theme),
         paddingTop: padding,
-      })}
-      spacing={10}>
-      {header && (
-        <>
-          <H3 id="header" align="center">
-            {header}
-          </H3>
-          <Line id="divider" className={styles.divider} theme={theme} />
-        </>
+      })}>
+      {onClick && (
+        <div
+          className={styles.hover}
+          aria-label="Card"
+          role="button"
+          tid="card-click-handler"
+          tabIndex="0"
+          onClick={onClick}
+          onKeyDown={onClick}
+        />
       )}
-      {children}
-    </Grid>
+      <Grid tid="layout" direction={direction} spacing={10} flex={1} style={{ height: '100%' }}>
+        {header && (
+          <>
+            <H3 id="header" align="center">
+              {header}
+            </H3>
+            <Line id="divider" className={styles.divider} theme={theme} />
+          </>
+        )}
+        {children}
+      </Grid>
+    </div>
   );
 }
 
@@ -50,12 +62,15 @@ Card.propTypes = {
   direction: PropTypes.oneOf(FLEX_DIRECTION),
   embed: PropTypes.bool,
   header: PropTypes.string,
+  loading: PropTypes.bool,
   style: PropTypes.object,
   theme: PropTypes.string,
+  onClick: PropTypes.func,
 };
 
 Card.defaultProps = {
   direction: 'column',
   embed: false,
+  loading: false,
   theme: 'accent',
 };

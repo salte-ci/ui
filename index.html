@@ -21,7 +21,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Salte CI">
 
-  <link href="https://fonts.googleapis.com/css?family=Roboto+Mono|Roboto+Slab:700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400|Roboto+Mono:400,700|Roboto+Slab:700" rel="stylesheet">
 
   <style>
     :root {
@@ -29,6 +29,7 @@
       --sci-secondary-color: #F5F6FA;
       --sci-white-color: #FFFFFF;
       --sci-accent-color: #EF5777;
+      --sci-lighten-color: rgba(255, 255, 255, 0.4);
       --sci-darken-color: rgba(0, 0, 0, 0.4);
       --sci-disabled-color: rgba(0, 0, 0, 0.4);
       --sci-success-color: #5ED48D;
@@ -45,8 +46,8 @@
       line-height: 1.5;
       height: 100%;
       min-height: 100vh;
-      background-color: #F5F6FA;
-      color: #35373D;
+      background-color: var(--sci-secondary-color);
+      color: var(--sci-primary-color);
     }
   </style>
 </head>
