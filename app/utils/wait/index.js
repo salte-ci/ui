@@ -1,3 +1,3 @@
-export function WaitForTime(time = 2000) {
+export function WaitForTime(time = 1000) {
   return new Promise(resolve => setTimeout(resolve, time));
 }

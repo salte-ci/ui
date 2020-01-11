@@ -12,7 +12,7 @@ import { OrganizationCard } from '../../components/OrganizationCard';
 export default function() {
   const dispatch = useDispatch();
   const organizations = useSelector(state => state.organizations);
-  const loading = useSelector(state => state.loading.organizations);
+  const loading = useSelector(state => Boolean(state.loading.organizations));
   const error = useSelector(state => state.error.organizations);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function() {
       ) : (
         <ErrorState error={error}>
           {organizations.map(organization => (
-            <OrganizationCard key={`${organization.provider.key}@${organization.key}`} organization={organization} />
+            <OrganizationCard key={organization.id} organization={organization} />
           ))}
         </ErrorState>
       )}

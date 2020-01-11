@@ -23,6 +23,7 @@ import styles from './index.css';
 import { modal } from '../../utils/modal';
 import { RootLogger } from '../../utils/logger';
 import { GetVariable, THEMES } from '../../utils/theme';
+import { Accordion } from '../../components/Accordion';
 
 const logger = RootLogger.extend('stylesheet');
 
@@ -143,6 +144,20 @@ const components = {
       </Button>
     </Grid>
   ),
+  Accordion: () => {
+    const [opened, setOpened] = useState(false);
+
+    return (
+      <Grid direction="column">
+        <Grid>
+          <Button theme={opened ? 'accent' : 'secondary'} onClick={() => setOpened(!opened)}>
+            {opened ? 'Close' : 'Open'} Accordion
+          </Button>
+        </Grid>
+        <Accordion opened={opened}>Accordion Content</Accordion>
+      </Grid>
+    );
+  },
 };
 
 export default function() {

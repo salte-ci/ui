@@ -1,6 +1,13 @@
 .h4 {
+  color: inherit;
   font-family: 'Roboto Mono', monospace;
+  font-weight: bold;
   font-size: 16px;
   line-height: 0.9;
   margin: 0;
+  text-decoration: none;
+}
+
+a.h4:hover {
+  text-decoration: underline;
 }

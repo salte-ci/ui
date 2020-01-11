@@ -10,7 +10,7 @@ describe('Repository(Organizations)', () => {
     it('should return a list of organizations', async () => {
       const organizations = await GetOrganizationsForUser();
 
-      expect(organizations.length).equals(3);
+      expect(organizations).array();
     });
 
     it('should throw an error if the location.search includes "error"', async () => {

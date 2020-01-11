@@ -2,8 +2,6 @@ import React from 'react';
 import sinon from 'sinon';
 import { Chance } from 'chance';
 
-import { MergeDeep } from '../merge';
-
 import * as Icons from '../icons';
 
 export const chance = Chance();
@@ -16,12 +14,6 @@ export function MockIcons() {
 export function MockUntestables() {
   MockIcons();
 }
-
-const providers = {
-  bitbucket: 'Bitbucket',
-  github: 'GitHub',
-  gitlab: 'GitLab',
-};
 
 export function MockState(overrides) {
   const state = {
@@ -37,24 +29,66 @@ export function MockState(overrides) {
       organizations: false,
     },
     error: {},
-    organizations: new Array(3).fill().map(() => {
-      const type = chance.pickone(['bitbucket', 'github', 'gitlab']);
-
-      return {
-        provider: {
-          key: type,
-          name: providers[type],
-          type,
-        },
-        icon: chance.url(),
-        key: chance.string(),
-        name: chance.string(),
-        repositoryCount: chance.integer(),
-        buildCount: chance.integer(),
-        url: chance.url(),
-      };
-    }),
+    organizations: GenerateArray(3, index => MockOrganization({ id: index + 1 })),
   };
 
-  return MergeDeep(state, overrides);
+  state.repositories = state.organizations.reduce((output, organization) => {
+    // eslint-disable-next-line no-param-reassign
+    output[organization.id] = GenerateArray(3, index =>
+      MockRepository({
+        id: index + 1,
+        organizationID: organization.id,
+      }),
+    );
+    return output;
+  }, {});
+
+  return {
+    ...state,
+    ...overrides,
+  };
+}
+
+export function MockOrganization(overrides) {
+  const name = chance.word();
+  const key = `salte-${name}`;
+  const repositoryCount = chance.integer({ min: 1, max: 4 });
+
+  return {
+    id: chance.integer(),
+    provider: {
+      key: 'github',
+      name: 'GitHub',
+      type: 'github',
+    },
+    icon: chance.pickone([
+      'https://avatars2.githubusercontent.com/u/49458560?s=200&v=4',
+      'https://avatars3.githubusercontent.com/u/13248138?s=200&v=4',
+    ]),
+    key,
+    name: `Salte ${name}`,
+    repositoryCount,
+    buildCount: chance.integer({ min: repositoryCount, max: repositoryCount * 10 }),
+    url: `https://github.com/${key}`,
+    ...overrides,
+  };
+}
+
+export function MockRepository(overrides) {
+  const key = `salte-${chance.word()}/${chance.word()}`;
+
+  return {
+    id: chance.integer(),
+    organizationID: chance.integer(),
+    key,
+    buildCount: chance.integer({ min: 1, max: 4 }),
+    url: `https://github.com/${key}`,
+    ...overrides,
+  };
+}
+
+export function GenerateArray(size, mapper) {
+  return Array(size)
+    .fill()
+    .map((_, index) => mapper(index));
 }

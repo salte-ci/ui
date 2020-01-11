@@ -5,11 +5,16 @@ import { mount } from 'enzyme';
 import sinon from 'sinon';
 import { configureStore } from '../../store';
 import { MockState } from './mock';
+import { MergeDeep } from '../merge';
 
-export function MountWrapper(children, overrides, dispatch = sinon.stub()) {
+export function MountWrapperWithCustomState(children, state, dispatch = sinon.stub()) {
   return mount(
-    <Provider store={configureStore(MockState(overrides), dispatch)}>
+    <Provider store={configureStore(state, dispatch)}>
       <HashRouter>{children}</HashRouter>
     </Provider>,
-  ).find(children.type);
+  );
+}
+
+export function MountWrapper(children, overrides, dispatch = sinon.stub()) {
+  return MountWrapperWithCustomState(children, MergeDeep(MockState(), overrides), dispatch);
 }
