@@ -111,7 +111,7 @@ describe('<Card />', () => {
     it('should support not being clickable', () => {
       const component = mount(<Card />);
 
-      expect(component.find('#card').prop('onClick')).equals(undefined);
+      expect(component.exists('[role="button"]')).equals(false);
     });
   });
 });

@@ -33,8 +33,8 @@ describe('Actions(Repositories)', () => {
       const expectedOrganizationID = chance.string();
 
       const repositories = [chance.string()];
-      sinon.stub(Repository, 'GetRepositoriesForOrganization').callsFake(async uid => {
-        expect(uid).equals(expectedOrganizationID);
+      sinon.stub(Repository, 'GetRepositoriesForOrganization').callsFake(async organizationID => {
+        expect(organizationID).equals(expectedOrganizationID);
 
         sinon.assert.calledThrice(dispatch);
         sinon.assert.calledWithExactly(dispatch, UpdateError(`repositories:${expectedOrganizationID}`, null));
@@ -57,8 +57,8 @@ describe('Actions(Repositories)', () => {
 
       const error = new Error('Whoops');
 
-      sinon.stub(Repository, 'GetRepositoriesForOrganization').callsFake(async uid => {
-        expect(uid).equals(expectedOrganizationID);
+      sinon.stub(Repository, 'GetRepositoriesForOrganization').callsFake(async organizationID => {
+        expect(organizationID).equals(expectedOrganizationID);
 
         sinon.assert.calledThrice(dispatch);
         sinon.assert.calledWithExactly(dispatch, UpdateError(`repositories:${expectedOrganizationID}`, null));

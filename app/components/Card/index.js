@@ -26,7 +26,7 @@ export function Card({ children, className, direction, embed, header, loading, t
       className={ConcatClassNames(styles.card, className)}
       embed={embed.toString()}
       loading={loading.toString()}
-      style={MergeDeep(style || {}, {
+      style={MergeDeep(style, {
         '--sci-card-accent-color': GetVariable(theme),
         paddingTop: padding,
       })}>
