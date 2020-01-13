@@ -1,7 +1,3 @@
-/* istanbul ignore file */
-// Impossible to test at the moment since we have to require the file multiple times.
-// May make sense to create wrapper functions purely for testing.
-
 import * as WindowUtils from './utils/window';
 
 export const environments = {
@@ -52,6 +48,23 @@ export const configs = {
   },
 };
 
-export const config = configs[environment];
+export const LOCAL_KEY = 'salte.ci.local';
 
-export const ENDPOINTS = environment === 'alpha' ? [config.url, 'http://localhost:8080'] : [config.url];
+export function UpdateLocal(local) {
+  localStorage.setItem(LOCAL_KEY, local);
+  WindowUtils.reload();
+}
+
+export function GetLocal(env) {
+  return env === 'alpha' && localStorage.getItem(LOCAL_KEY) === 'true';
+}
+
+export function GetEndpoints(env) {
+  return env === 'alpha' ? [config.url, 'http://localhost:8080'] : [config.url];
+}
+
+export const config = Object.assign(configs[environment], {
+  local: GetLocal(environment),
+});
+
+export const ENDPOINTS = GetEndpoints(environment);

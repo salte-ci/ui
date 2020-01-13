@@ -2,11 +2,14 @@ import React from 'react';
 import sinon from 'sinon';
 import { expect } from '@hapi/code';
 
+import * as Config from '../../../config';
+
 import { Header } from '../index';
 import { MountWrapper } from '../../../utils/test/mount';
 import { MergeDeep } from '../../../utils/merge';
 import { chance, MockUntestables } from '../../../utils/test/mock';
 import { auth } from '../../../auth';
+import { Toggle } from '../../Toggle';
 
 describe('<Header />', () => {
   const RenderComponent = overrides => {
@@ -38,6 +41,36 @@ describe('<Header />', () => {
     const component = RenderComponent();
 
     expect(component.children().length).equals(1);
+  });
+
+  describe('config(environment)', () => {
+    it('should render a toggle if the environment is "alpha"', () => {
+      sinon.stub(Config, 'environment').get(() => 'alpha');
+
+      const component = RenderComponent();
+
+      expect(component.exists(Toggle)).equals(true);
+    });
+
+    it('should call "UpdateLocal" when the Toggle is clicked', () => {
+      sinon.stub(Config, 'environment').get(() => 'alpha');
+      sinon.stub(Config, 'UpdateLocal');
+
+      const component = RenderComponent();
+
+      component.find(Toggle).simulate('click');
+
+      sinon.assert.calledOnce(Config.UpdateLocal);
+      sinon.assert.calledWithExactly(Config.UpdateLocal, true);
+    });
+
+    it('should not render a toggle if the environment is not "alpha"', () => {
+      sinon.stub(Config, 'environment').get(() => 'live');
+
+      const component = RenderComponent();
+
+      expect(component.exists(Toggle)).equals(false);
+    });
   });
 
   describe('state(idToken)', () => {

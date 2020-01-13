@@ -8,10 +8,6 @@
 }
 
 .content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   max-width: 800px;
   margin: auto;
-  flex: 1;
 }

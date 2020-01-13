@@ -8,14 +8,19 @@ import { Button } from '../Button';
 
 import styles from './index.css';
 import { MediaQuery } from '../MediaQuery';
+import { Toggle } from '../Toggle';
+import { config, environment, UpdateLocal } from '../../config';
+import { Grid } from '../Grid';
 
 export function Header({ idToken }) {
   return (
     <header className={styles.header}>
-      <div className={styles.content}>
+      <Grid className={styles.content} alignItems="center" flex={1}>
         <Button type={Link} to="/" theme="white" icon="logo" rounded large>
           Salte CI
         </Button>
+        <div style={{ flex: 1 }} />
+        {environment === 'alpha' && <Toggle checked={config.local} onClick={() => UpdateLocal(!config.local)} />}
         {idToken.expired ? (
           <Button id="sign-up" theme="accent" large onClick={() => auth.login('auth0')}>
             Sign Up
@@ -32,7 +37,7 @@ export function Header({ idToken }) {
             </MediaQuery>
           </Button>
         )}
-      </div>
+      </Grid>
     </header>
   );
 }

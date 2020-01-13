@@ -1,6 +1,7 @@
 import { expect } from '@hapi/code';
+import sinon from 'sinon';
 
-import { origin, search } from '../index';
+import { origin, search, reload } from '../index';
 import { chance } from '../../test/mock';
 
 describe('WindowUtils', () => {
@@ -21,6 +22,18 @@ describe('WindowUtils', () => {
       };
 
       expect(search(location)).equals(location.search);
+    });
+  });
+
+  describe('func(reload)', () => {
+    it('should reload the page', () => {
+      const location = {
+        reload: sinon.stub(),
+      };
+
+      reload(location);
+
+      sinon.assert.calledOnce(location.reload);
     });
   });
 });
