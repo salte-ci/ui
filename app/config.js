@@ -53,3 +53,5 @@ export const configs = {
 };
 
 export const config = configs[environment];
+
+export const ENDPOINTS = environment === 'alpha' ? [config.url, 'http://localhost:8080'] : [config.url];

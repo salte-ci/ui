@@ -5,7 +5,7 @@ import { GitHub } from '@salte-auth/github';
 import { GitLab } from '@salte-auth/gitlab';
 import { Redirect } from '@salte-auth/redirect';
 
-import { config } from './config';
+import { config, ENDPOINTS } from './config';
 
 export const auth = new SalteAuth({
   providers: [
@@ -15,6 +15,8 @@ export const auth = new SalteAuth({
       clientID: config.providers.auth0.clientID,
       responseType: 'id_token token',
       scope: 'openid profile',
+
+      endpoints: ENDPOINTS,
     }),
 
     new Bitbucket({
