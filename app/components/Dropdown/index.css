@@ -1,0 +1,66 @@
+.menu {
+  display: inline-flex;
+
+  > .toggle {
+    outline: none;
+  }
+
+  > .dropdown {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    z-index: 9999;
+    top: 100%;
+    margin-top: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: var(--sci-secondary-color);
+    box-shadow: 0 5px 20px 0px rgba(0, 0, 0, 0.4);
+    width: 200px;
+    max-width: calc(100% - 20px);
+
+    transition: 0.15s ease-in-out;
+    transition-property: opacity, transform;
+
+    &[opened="false"] {
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+
+    &[opened="opacity"] {
+      opacity: 1;
+    }
+  }
+}
+
+.item {
+  position: relative;
+  cursor: pointer;
+  padding: 10px;
+  user-select: none;
+  color: inherit;
+  text-decoration: none;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--sci-primary-color);
+
+    opacity: 0;
+    transition: 0.15s ease-in-out;
+    transition-property: opacity;
+  }
+
+  &:hover:before {
+    opacity: 0.1;
+  }
+
+  &:active:before {
+    opacity: 0.2;
+  }
+}

@@ -6,12 +6,14 @@ import fs from 'fs';
 
 import React, { useState } from 'react';
 
+import { Link } from 'react-router-dom';
 import { H1 } from '../../components/H1';
 import { H2 } from '../../components/H2';
 import { H3 } from '../../components/H3';
 import { H4 } from '../../components/H4';
 import { Small } from '../../components/Small';
 import { Button } from '../../components/Button';
+import { Dropdown } from '../../components/Dropdown';
 import { Toggle } from '../../components/Toggle';
 import { Grid } from '../../components/Grid';
 import { Highlight } from '../../components/Highlight';
@@ -91,6 +93,28 @@ const components = {
         </Button>
       </div>
     </>
+  ),
+  Dropdown: () => (
+    <Grid>
+      <Dropdown toggle="Left">
+        <Dropdown.Item type={Link} to="/stylesheet?component=Dropdown">
+          Link
+        </Dropdown.Item>
+        <Dropdown.Item>Basic Item</Dropdown.Item>
+      </Dropdown>
+      <Dropdown alignment="center" toggle="Center">
+        <Dropdown.Item type={Link} to="/stylesheet?component=Dropdown">
+          Link
+        </Dropdown.Item>
+        <Dropdown.Item>Basic Item</Dropdown.Item>
+      </Dropdown>
+      <Dropdown alignment="right" toggle="Right">
+        <Dropdown.Item type={Link} to="/stylesheet?component=Dropdown">
+          Link
+        </Dropdown.Item>
+        <Dropdown.Item>Basic Item</Dropdown.Item>
+      </Dropdown>
+    </Grid>
   ),
   Toggle: () => {
     const [checked, setChecked] = useState(false);

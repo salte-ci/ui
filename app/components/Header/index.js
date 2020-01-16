@@ -11,6 +11,7 @@ import { MediaQuery } from '../MediaQuery';
 import { Toggle } from '../Toggle';
 import { config, environment, UpdateLocal } from '../../config';
 import { Grid } from '../Grid';
+import { Dropdown } from '../Dropdown';
 
 export function Header({ idToken }) {
   return (
@@ -26,16 +27,22 @@ export function Header({ idToken }) {
             Sign Up
           </Button>
         ) : (
-          <Button
-            id="sign-out"
-            theme="secondary"
-            large
-            icon={idToken.user.picture}
-            onClick={() => auth.logout('auth0')}>
-            <MediaQuery desktop>
-              <div>{idToken.user.name}</div>
-            </MediaQuery>
-          </Button>
+          <Dropdown
+            alignment="right"
+            toggle={
+              <Button theme="secondary" large icon={idToken.user.picture}>
+                <MediaQuery desktop>
+                  <div>{idToken.user.name}</div>
+                </MediaQuery>
+              </Button>
+            }>
+            <Dropdown.Item id="settings" type={Link} to="/">
+              Account Settings
+            </Dropdown.Item>
+            <Dropdown.Item id="sign-out" onClick={() => auth.logout('auth0')}>
+              Sign Out
+            </Dropdown.Item>
+          </Dropdown>
         )}
       </Grid>
     </header>

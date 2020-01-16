@@ -94,8 +94,6 @@ describe('<Header />', () => {
 
       expect(component.exists('#sign-out')).equals(true);
       expect(component.exists('#sign-up')).equals(false);
-
-      expect(component.exists('Button#sign-out')).equals(true);
     });
   });
 
@@ -125,7 +123,10 @@ describe('<Header />', () => {
 
       sinon.assert.notCalled(auth.logout);
 
-      component.find('Button#sign-out').simulate('click');
+      component
+        .find('#sign-out')
+        .hostNodes()
+        .simulate('click');
 
       sinon.assert.calledOnce(auth.logout);
     });
