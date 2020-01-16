@@ -30,7 +30,7 @@ export function Header({ idToken }) {
           <Dropdown
             alignment="right"
             toggle={
-              <Button theme="secondary" large icon={idToken.user.picture}>
+              <Button theme="white" large icon={idToken.user.picture}>
                 <MediaQuery desktop>
                   <div>{idToken.user.name}</div>
                 </MediaQuery>
