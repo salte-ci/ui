@@ -1,24 +1,71 @@
-export function origin($location = window.location) {
+export function origin(
+  /* istanbul ignore next */
+  $location = window.location,
+) {
   return $location.origin;
 }
 
-export function search($location = window.location) {
+export function search(
+  /* istanbul ignore next */
+  $location = window.location,
+) {
   return $location.search;
 }
 
-/* istanbul ignore next-line */
-export function reload($location = window.location) {
+export function reload(
+  /* istanbul ignore next */
+  $location = window.location,
+) {
   return $location.reload();
 }
 
-export function innerWidth($window = window) {
+export function innerWidth(
+  /* istanbul ignore next */
+  $window = window,
+) {
   return $window.innerWidth;
 }
 
-export function addEventListener(type, listener, options, $window = window) {
+export function addEventListener(
+  type,
+  listener,
+  options,
+  /* istanbul ignore next */
+  $window = window,
+) {
   $window.addEventListener(type, listener, options);
 }
 
-export function removeEventListener(type, listener, $window = window) {
+export function removeEventListener(
+  type,
+  listener,
+  /* istanbul ignore next */
+  $window = window,
+) {
   $window.removeEventListener(type, listener);
+}
+
+export function setTimeout(
+  handler,
+  timeout,
+  /* istanbul ignore next */
+  $window = window,
+) {
+  return $window.setTimeout(handler, timeout);
+}
+
+export function clearTimeout(
+  handler,
+  /* istanbul ignore next */
+  $window = window,
+) {
+  $window.clearTimeout(handler);
+}
+
+export function requestAnimationFrame(
+  callback,
+  /* istanbul ignore next */
+  $window = window,
+) {
+  return $window.requestAnimationFrame(callback);
 }
