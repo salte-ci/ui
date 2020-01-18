@@ -11,9 +11,9 @@ import { OrganizationCard } from '../../components/OrganizationCard';
 
 export default function() {
   const dispatch = useDispatch();
-  const organizations = useSelector(state => state.organizations);
-  const loading = useSelector(state => Boolean(state.loading.organizations));
-  const error = useSelector(state => state.error.organizations);
+  const organizations = useSelector((state) => state.organizations);
+  const loading = useSelector((state) => Boolean(state.loading.organizations));
+  const error = useSelector((state) => state.error.organizations);
 
   useEffect(() => {
     dispatch(GetOrganizationsForUser());
@@ -26,8 +26,11 @@ export default function() {
         <LoadingIndicator loading={loading} />
       ) : (
         <ErrorState error={error}>
-          {organizations.map(organization => (
-            <OrganizationCard key={organization.id} organization={organization} />
+          {organizations.map((organization) => (
+            <OrganizationCard
+              key={organization.id}
+              organization={organization}
+            />
           ))}
         </ErrorState>
       )}

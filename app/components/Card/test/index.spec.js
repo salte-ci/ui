@@ -43,7 +43,9 @@ describe('<Card />', () => {
     it('should support providing a theme', () => {
       const component = mount(<Card theme="primary" />);
 
-      const { '--sci-card-accent-color': CardAccentColor } = component.find('#card').prop('style');
+      const { '--sci-card-accent-color': CardAccentColor } = component
+        .find('#card')
+        .prop('style');
 
       expect(CardAccentColor).equals(GetVariable('primary'));
     });
@@ -86,7 +88,9 @@ describe('<Card />', () => {
     it('should support a direction of "row"', () => {
       const component = mount(<Card direction="row" />);
 
-      expect(component.find('Grid[tid="layout"]').prop('direction')).equals('row');
+      expect(component.find('Grid[tid="layout"]').prop('direction')).equals(
+        'row',
+      );
     });
   });
 

@@ -36,7 +36,7 @@ describe('EventUtils', () => {
 
       expect(listeners.length).equals(1);
 
-      listeners.forEach(listener => listener());
+      listeners.forEach((listener) => listener());
 
       expect(listeners.length).equals(0);
 

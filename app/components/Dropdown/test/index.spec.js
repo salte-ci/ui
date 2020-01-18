@@ -8,7 +8,7 @@ import { chance } from '../../../utils/test/mock';
 import * as WindowUtils from '../../../utils/window';
 
 describe('<Dropdown />', () => {
-  const RenderComponent = overrides => {
+  const RenderComponent = (overrides) => {
     const props = {
       toggle: 'Toggle',
       ...overrides,
@@ -154,19 +154,21 @@ describe('<Dropdown />', () => {
     it('should stay open if the dropdown was clicked', async () => {
       const component = RenderComponent();
 
-      const promise = new Promise(resolve => {
-        sinon.stub(WindowUtils, 'addEventListener').callsFake((type, listener) => {
-          if (type !== 'click') return;
+      const promise = new Promise((resolve) => {
+        sinon
+          .stub(WindowUtils, 'addEventListener')
+          .callsFake((type, listener) => {
+            if (type !== 'click') return;
 
-          const path = [];
-          sinon.stub(path, 'includes').returns(true);
+            const path = [];
+            sinon.stub(path, 'includes').returns(true);
 
-          listener({
-            path,
+            listener({
+              path,
+            });
+
+            resolve();
           });
-
-          resolve();
-        });
       });
 
       component.find('[tid="toggle"]').simulate('click');
@@ -179,16 +181,18 @@ describe('<Dropdown />', () => {
     it('should automatically close if anything other then the dropdown was clicked', async () => {
       const component = RenderComponent();
 
-      const promise = new Promise(resolve => {
-        sinon.stub(WindowUtils, 'addEventListener').callsFake((type, listener) => {
-          if (type !== 'click') return;
+      const promise = new Promise((resolve) => {
+        sinon
+          .stub(WindowUtils, 'addEventListener')
+          .callsFake((type, listener) => {
+            if (type !== 'click') return;
 
-          listener({
-            path: [],
+            listener({
+              path: [],
+            });
+
+            resolve();
           });
-
-          resolve();
-        });
       });
 
       component.find('[tid="toggle"]').simulate('click');

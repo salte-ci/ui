@@ -16,7 +16,10 @@ describe('Repository(Organizations)', () => {
     it('should throw an error if the location.search includes "error"', async () => {
       sinon.stub(WindowUtils, 'search').returns('error');
 
-      await expect(GetOrganizationsForUser()).rejects(Error, 'Failed to retrieve organizations for user.');
+      await expect(GetOrganizationsForUser()).rejects(
+        Error,
+        'Failed to retrieve organizations for user.',
+      );
     });
   });
 });

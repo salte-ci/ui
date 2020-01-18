@@ -108,7 +108,9 @@ describe('<Button />', () => {
     it('should be a short-hand for the alignSelf style property', () => {
       const component = mount(<Button alignSelf="center" />);
 
-      expect(component.find('[role="button"]').prop('style').alignSelf).equals('center');
+      expect(component.find('[role="button"]').prop('style').alignSelf).equals(
+        'center',
+      );
     });
   });
 

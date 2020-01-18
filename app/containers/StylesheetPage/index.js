@@ -47,7 +47,7 @@ const components = {
     <>
       <H4>Buttons</H4>
       <div className={styles.grid}>
-        {THEMES.map(theme => (
+        {THEMES.map((theme) => (
           <Button key={theme} theme={theme}>
             {theme}
           </Button>
@@ -55,7 +55,7 @@ const components = {
       </div>
       <H4>Buttons (Rounded)</H4>
       <div className={styles.grid}>
-        {THEMES.map(theme => (
+        {THEMES.map((theme) => (
           <Button key={theme} rounded theme={theme}>
             {theme}
           </Button>
@@ -63,7 +63,7 @@ const components = {
       </div>
       <H4>Buttons (Large)</H4>
       <div className={styles.grid}>
-        {THEMES.map(theme => (
+        {THEMES.map((theme) => (
           <Button key={theme} large theme={theme}>
             {theme}
           </Button>
@@ -71,7 +71,7 @@ const components = {
       </div>
       <H4>Buttons (Large Rounded)</H4>
       <div className={styles.grid}>
-        {THEMES.map(theme => (
+        {THEMES.map((theme) => (
           <Button key={theme} large rounded theme={theme}>
             {theme}
           </Button>
@@ -126,7 +126,10 @@ const components = {
       <Card>This is where content goes.</Card>
       <Card header="Header">This is where content goes.</Card>
       <Card>
-        <div>This is where the content goes. Really, I am not kidding. I just want to cause a line wrap.</div>
+        <div>
+          This is where the content goes. Really, I am not kidding. I just want
+          to cause a line wrap.
+        </div>
         <Card embed>This is some inner content.</Card>
       </Card>
     </>
@@ -134,7 +137,14 @@ const components = {
   Highlight: () => (
     <>
       <Small>TODO: Why isn&apos;t this the correct color scheme.. ?</Small>
-      <Highlight language="yaml" style={{ borderRadius: 6, padding: 5, backgroundColor: GetVariable('primary') }}>
+      <Highlight
+        language="yaml"
+        style={{
+          borderRadius: 6,
+          padding: 5,
+          backgroundColor: GetVariable('primary'),
+        }}
+      >
         {config}
       </Highlight>
     </>
@@ -162,8 +172,9 @@ const components = {
             ),
           })
             .then(() => logger('done!'))
-            .catch(error => logger(error));
-        }}>
+            .catch((error) => logger(error));
+        }}
+      >
         Open Modal
       </Button>
     </Grid>
@@ -174,7 +185,10 @@ const components = {
     return (
       <Grid direction="column">
         <Grid>
-          <Button theme={opened ? 'accent' : 'secondary'} onClick={() => setOpened(!opened)}>
+          <Button
+            theme={opened ? 'accent' : 'secondary'}
+            onClick={() => setOpened(!opened)}
+          >
             {opened ? 'Close' : 'Open'} Accordion
           </Button>
         </Grid>
@@ -186,7 +200,9 @@ const components = {
 
 export default function() {
   const searchParams = new URLSearchParams(window.location.search);
-  const [componentKey, setComponentKey] = useState(searchParams.get('component'));
+  const [componentKey, setComponentKey] = useState(
+    searchParams.get('component'),
+  );
 
   const Component = components[componentKey];
 
@@ -196,10 +212,14 @@ export default function() {
       <H2>{`<${componentKey} />`}</H2>
       <Grid alignItems="start">
         <Grid className={styles.page} direction="column" flex={1}>
-          {Component ? <Component>Hello World</Component> : <Small>Please select a component.</Small>}
+          {Component ? (
+            <Component>Hello World</Component>
+          ) : (
+            <Small>Please select a component.</Small>
+          )}
         </Grid>
         <Grid direction="column" className={styles.page} spacing={10}>
-          {Object.keys(components).map(name => (
+          {Object.keys(components).map((name) => (
             <Button
               key={name}
               theme={componentKey === name ? 'accent' : 'secondary'}
@@ -209,7 +229,8 @@ export default function() {
                 window.history.pushState(null, null, url.toString());
                 // TODO: Update Search Param
                 setComponentKey(name);
-              }}>
+              }}
+            >
               {name}
             </Button>
           ))}

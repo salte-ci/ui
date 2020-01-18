@@ -1,6 +1,13 @@
 import { expect } from '@hapi/code';
 
-import { TEXT_ALIGN, ALIGN_ITEMS, ALIGN_SELF, FLEX_DIRECTION, JUSTIFY_CONTENT, LANGUAGES } from '../index';
+import {
+  TEXT_ALIGN,
+  ALIGN_ITEMS,
+  ALIGN_SELF,
+  FLEX_DIRECTION,
+  JUSTIFY_CONTENT,
+  LANGUAGES,
+} from '../index';
 
 describe('PropTypeValues', () => {
   describe('constant(TEXT_ALIGN)', () => {
@@ -29,7 +36,14 @@ describe('PropTypeValues', () => {
 
   describe('constant(JUSTIFY_CONTENT)', () => {
     it('should be defined with the given values', () => {
-      expect(JUSTIFY_CONTENT).equals(['start', 'center', 'end', 'space-around', 'space-between', 'space-evenly']);
+      expect(JUSTIFY_CONTENT).equals([
+        'start',
+        'center',
+        'end',
+        'space-around',
+        'space-between',
+        'space-evenly',
+      ]);
     });
   });
 

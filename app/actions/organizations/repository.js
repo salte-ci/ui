@@ -10,7 +10,7 @@ export async function GetOrganizationsForUser() {
     throw new Error('Failed to retrieve organizations for user.');
   }
 
-  return GenerateArray(chance.integer({ min: 1, max: 10 }), index =>
+  return GenerateArray(chance.integer({ min: 1, max: 10 }), (index) =>
     MockOrganization({
       id: index + 1,
     }),

@@ -8,7 +8,10 @@ describe('Reducer(Organizations)', () => {
   describe('event(UPDATE_ORGANIZATIONS)', () => {
     it('should update the organizations', () => {
       const organizations = [chance.string()];
-      const state = OrganizationsReducer(undefined, UpdateOrganizations(organizations));
+      const state = OrganizationsReducer(
+        undefined,
+        UpdateOrganizations(organizations),
+      );
 
       expect(state).equals(organizations);
     });

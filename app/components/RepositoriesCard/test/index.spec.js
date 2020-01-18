@@ -3,7 +3,12 @@ import sinon from 'sinon';
 import { expect } from '@hapi/code';
 
 import { MountWrapper } from '../../../utils/test/mount';
-import { MockUntestables, MockRepository, MockOrganization, GenerateArray } from '../../../utils/test/mock';
+import {
+  MockUntestables,
+  MockRepository,
+  MockOrganization,
+  GenerateArray,
+} from '../../../utils/test/mock';
 import { RepositoriesCard } from '../index';
 import { Line } from '../../Line';
 
@@ -13,7 +18,7 @@ describe('<RepositoriesCard />', () => {
 
     const props = {
       organization,
-      repositories: GenerateArray(3, index =>
+      repositories: GenerateArray(3, (index) =>
         MockRepository({
           id: index,
           organizationID: organization.id,

@@ -11,7 +11,9 @@ import { ConcatClassNames } from '../../utils/class-names';
 export function Highlight({ children, language, ...extraProps }) {
   return (
     <div {...extraProps} className={styles.highlight}>
-      <Syntax className={ConcatClassNames(styles.hljs, language)}>{children}</Syntax>
+      <Syntax className={ConcatClassNames(styles.hljs, language)}>
+        {children}
+      </Syntax>
     </div>
   );
 }

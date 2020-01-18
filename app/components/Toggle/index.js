@@ -21,7 +21,8 @@ export function Toggle({ checked, onClick, ...extraProps }) {
         '--sci-toggle-color': GetVariable(theme),
       }}
       checked={checked}
-      aria-checked={Boolean(checked)}>
+      aria-checked={Boolean(checked)}
+    >
       <div className={styles.thumbnail}>
         <Line theme={theme} />
         <Line theme={theme} />

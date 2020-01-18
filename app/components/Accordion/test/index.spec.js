@@ -9,7 +9,7 @@ import * as RenderUtils from '../../../utils/render';
 import * as EventUtils from '../../../utils/events';
 
 describe('<Accordion />', () => {
-  const RenderComponent = overrides => {
+  const RenderComponent = (overrides) => {
     const props = {
       children: chance.string(),
       ...overrides,
@@ -19,8 +19,10 @@ describe('<Accordion />', () => {
   };
 
   beforeEach(() => {
-    sinon.stub(RenderUtils, 'OnNextRender').callsFake(callback => callback());
-    sinon.stub(EventUtils, 'once').callsFake((target, type, callback) => callback());
+    sinon.stub(RenderUtils, 'OnNextRender').callsFake((callback) => callback());
+    sinon
+      .stub(EventUtils, 'once')
+      .callsFake((target, type, callback) => callback());
   });
 
   afterEach(() => {

@@ -13,7 +13,9 @@ describe('<Toggle />', () => {
     it('should support being checked', () => {
       const component = mount(<Toggle checked />);
 
-      const { style, checked, 'aria-checked': ariaChecked } = component.find('[role="checkbox"]').props();
+      const { style, checked, 'aria-checked': ariaChecked } = component
+        .find('[role="checkbox"]')
+        .props();
 
       const { '--sci-toggle-color': ToggleColor } = style;
       expect(ToggleColor).equals(GetVariable('success'));
@@ -23,7 +25,7 @@ describe('<Toggle />', () => {
       const lines = component.find(Line);
       expect(lines.length).equals(3);
 
-      lines.forEach(line => {
+      lines.forEach((line) => {
         expect(line.prop('theme')).equals('success');
       });
     });
@@ -31,7 +33,9 @@ describe('<Toggle />', () => {
     it('should support not being checked', () => {
       const component = mount(<Toggle />);
 
-      const { style, checked, 'aria-checked': ariaChecked } = component.find('[role="checkbox"]').props();
+      const { style, checked, 'aria-checked': ariaChecked } = component
+        .find('[role="checkbox"]')
+        .props();
 
       const { '--sci-toggle-color': ToggleColor } = style;
       expect(ToggleColor).equals(GetVariable('accent'));
@@ -41,7 +45,7 @@ describe('<Toggle />', () => {
       const lines = component.find(Line);
       expect(lines.length).equals(3);
 
-      lines.forEach(line => {
+      lines.forEach((line) => {
         expect(line.prop('theme')).equals('accent');
       });
     });

@@ -11,7 +11,18 @@ import { Grid } from '../Grid';
 import { FLEX_DIRECTION } from '../../utils/prop-type-values';
 import { GetVariable } from '../../utils/theme';
 
-export function Card({ children, className, direction, embed, header, loading, theme, style, onClick, ...extraProps }) {
+export function Card({
+  children,
+  className,
+  direction,
+  embed,
+  header,
+  loading,
+  theme,
+  style,
+  onClick,
+  ...extraProps
+}) {
   let padding = null;
   if (header) {
     padding = '10px';
@@ -29,7 +40,8 @@ export function Card({ children, className, direction, embed, header, loading, t
       style={MergeDeep(style, {
         '--sci-card-accent-color': GetVariable(theme),
         paddingTop: padding,
-      })}>
+      })}
+    >
       {onClick && (
         <div
           className={styles.hover}
@@ -41,7 +53,13 @@ export function Card({ children, className, direction, embed, header, loading, t
           onKeyDown={onClick}
         />
       )}
-      <Grid tid="layout" direction={direction} spacing={10} flex={1} style={{ height: '100%' }}>
+      <Grid
+        tid="layout"
+        direction={direction}
+        spacing={10}
+        flex={1}
+        style={{ height: '100%' }}
+      >
         {header && (
           <>
             <H3 id="header" align="center">

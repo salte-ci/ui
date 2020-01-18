@@ -24,7 +24,9 @@ describe('<Grid />', () => {
     it('should be short-hand for the alignItems style', () => {
       const component = mount(<Grid alignItems="center" />);
 
-      expect(component.find('[tid="inner-grid"]').prop('style').alignItems).equals('center');
+      expect(
+        component.find('[tid="inner-grid"]').prop('style').alignItems,
+      ).equals('center');
     });
   });
 
@@ -32,7 +34,9 @@ describe('<Grid />', () => {
     it('should be short-hand for the justifyContent style', () => {
       const component = mount(<Grid justifyContent="center" />);
 
-      expect(component.find('[tid="inner-grid"]').prop('style').justifyContent).equals('center');
+      expect(
+        component.find('[tid="inner-grid"]').prop('style').justifyContent,
+      ).equals('center');
     });
   });
 
@@ -89,7 +93,9 @@ describe('<Grid />', () => {
     it('should support providing a spacing value', () => {
       const component = mount(<Grid spacing={10} />);
 
-      const { '--sci-grid-spacing': spacing } = component.find('[tid="inner-grid"]').prop('style');
+      const { '--sci-grid-spacing': spacing } = component
+        .find('[tid="inner-grid"]')
+        .prop('style');
 
       expect(spacing).equals('10px');
     });
@@ -97,7 +103,9 @@ describe('<Grid />', () => {
     it('should support custom units', () => {
       const component = mount(<Grid spacing="1em" />);
 
-      const { '--sci-grid-spacing': spacing } = component.find('[tid="inner-grid"]').prop('style');
+      const { '--sci-grid-spacing': spacing } = component
+        .find('[tid="inner-grid"]')
+        .prop('style');
 
       expect(spacing).equals('1em');
     });

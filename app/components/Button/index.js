@@ -36,13 +36,32 @@ export function Button({
         '--sci-button-color': GetVariable(complementaryTheme),
         '--sci-button-background-color': GetVariable(finalTheme),
       }}
-      onClick={e => {
+      onClick={(e) => {
         if (!disabled && onClick) onClick(e);
-      }}>
+      }}
+    >
       <div id="shadow" className={styles.shadow} />
-      <Grid id="content" className={styles.content} alignItems="center" justifyContent="center" flex={1} spacing={10}>
-        {icon && <Icon className={styles.icon} name={icon} large={large} theme={complementaryTheme} />}
-        {typeof children === 'string' ? <div test-id="wrapper">{children}</div> : children}
+      <Grid
+        id="content"
+        className={styles.content}
+        alignItems="center"
+        justifyContent="center"
+        flex={1}
+        spacing={10}
+      >
+        {icon && (
+          <Icon
+            className={styles.icon}
+            name={icon}
+            large={large}
+            theme={complementaryTheme}
+          />
+        )}
+        {typeof children === 'string' ? (
+          <div test-id="wrapper">{children}</div>
+        ) : (
+          children
+        )}
       </Grid>
     </Type>
   );

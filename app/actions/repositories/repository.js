@@ -10,7 +10,7 @@ export async function GetRepositoriesForOrganization(organizationID) {
     throw new Error('Failed to retrieve repositories for organization.');
   }
 
-  return GenerateArray(chance.integer({ min: 1, max: 4 }), index =>
+  return GenerateArray(chance.integer({ min: 1, max: 4 }), (index) =>
     MockRepository({
       id: index + 1,
       organizationID,

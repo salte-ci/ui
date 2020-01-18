@@ -20,9 +20,15 @@ const REPOSITORIES = Symbol('REPOSITORIES');
 export function OrganizationCard({ organization, ...extraProps }) {
   const dispatch = useDispatch();
   const [page, setPage] = useState(null);
-  const repositories = useSelector(state => state.repositories[organization.id]);
-  const loading = useSelector(state => Boolean(state.loading[`repositories:${organization.id}`]));
-  const error = useSelector(state => state.error[`repositories:${organization.id}`]);
+  const repositories = useSelector(
+    (state) => state.repositories[organization.id],
+  );
+  const loading = useSelector((state) =>
+    Boolean(state.loading[`repositories:${organization.id}`]),
+  );
+  const error = useSelector(
+    (state) => state.error[`repositories:${organization.id}`],
+  );
 
   return (
     <Card
@@ -35,9 +41,14 @@ export function OrganizationCard({ organization, ...extraProps }) {
         if (!repositories) {
           dispatch(GetRepositoriesForOrganization(organization.id));
         }
-      }}>
+      }}
+    >
       <Grid direction="row">
-        <img alt="Organization Icon" className={styles.icon} src={organization.icon} />
+        <img
+          alt="Organization Icon"
+          className={styles.icon}
+          src={organization.icon}
+        />
         <Grid direction="column" flex={1} spacing={10}>
           <Grid alignItems="center">
             <H2>{organization.name}</H2>
@@ -48,7 +59,8 @@ export function OrganizationCard({ organization, ...extraProps }) {
               href={organization.url}
               target="_blank"
               theme={organization.provider.type}
-              icon={organization.provider.type}>
+              icon={organization.provider.type}
+            >
               {organization.provider.name}
             </Button>
             <Button disabled>Settings</Button>
@@ -62,7 +74,10 @@ export function OrganizationCard({ organization, ...extraProps }) {
       {repositories && (
         <ErrorState error={error}>
           <Accordion opened={!loading && page === REPOSITORIES}>
-            <RepositoriesCard organization={organization} repositories={repositories} />
+            <RepositoriesCard
+              organization={organization}
+              repositories={repositories}
+            />
           </Accordion>
         </ErrorState>
       )}

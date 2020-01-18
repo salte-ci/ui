@@ -24,7 +24,9 @@ describe('<Line />', () => {
     it('should support providing a theme', () => {
       const component = mount(<Line theme="primary" />);
 
-      const { '--sci-line-color': LineColor } = component.find('#line').prop('style');
+      const { '--sci-line-color': LineColor } = component
+        .find('#line')
+        .prop('style');
 
       expect(LineColor).equals(GetVariable('primary'));
     });

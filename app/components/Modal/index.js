@@ -43,8 +43,11 @@ export class Modal extends React.Component {
     if (index !== -1) return Promise.reject(new Error('Already exists...'));
 
     return new Promise((resolve, reject) => {
-      this.setState(prevState => ({
-        modals: [...prevState.modals, { ...props, resolve, reject, identifier }],
+      this.setState((prevState) => ({
+        modals: [
+          ...prevState.modals,
+          { ...props, resolve, reject, identifier },
+        ],
       }));
     });
   }
@@ -68,42 +71,59 @@ export class Modal extends React.Component {
     const { reject } = this.state.modals[index];
     this.remove(index);
 
-    reject(reason || new Error('Modal was closed or no error message was provided.'));
+    reject(
+      reason || new Error('Modal was closed or no error message was provided.'),
+    );
   }
 
   remove(index) {
-    this.setState(prevState => {
+    this.setState((prevState) => {
       prevState.modals.splice(index, 1);
       return { modals: prevState.modals };
     });
   }
 
   find(identifier) {
-    return this.state.modals.findIndex(modal => modal.identifier === identifier);
+    return this.state.modals.findIndex(
+      (modal) => modal.identifier === identifier,
+    );
   }
 
   render() {
     return (
       <>
-        {this.state.modals.map(({ resolve, reject, children, identifier, variant = 'medium', ...extraProps }) => (
-          // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-          <div
-            {...extraProps}
-            id="backdrop"
-            key={identifier}
-            onClick={event => {
-              if (event.target.dataset.cancel || event.target === event.currentTarget) {
-                this.cancel(identifier);
-              } else if (event.target.dataset.close) {
-                this.close(identifier);
-              }
-            }}
-            className={styles.backdrop}>
-            <Card className={styles.modal} variant={variant.toString()}>
-              {children}
-            </Card>
-          </div>
-        ))}
+        {this.state.modals.map(
+          ({
+            resolve,
+            reject,
+            children,
+            identifier,
+            variant = 'medium',
+            ...extraProps
+          }) => (
+            // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+            <div
+              {...extraProps}
+              id="backdrop"
+              key={identifier}
+              onClick={(event) => {
+                if (
+                  event.target.dataset.cancel ||
+                  event.target === event.currentTarget
+                ) {
+                  this.cancel(identifier);
+                } else if (event.target.dataset.close) {
+                  this.close(identifier);
+                }
+              }}
+              className={styles.backdrop}
+            >
+              <Card className={styles.modal} variant={variant.toString()}>
+                {children}
+              </Card>
+            </div>
+          ),
+        )}
       </>
     );
   }

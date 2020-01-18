@@ -61,7 +61,12 @@ describe('WindowUtils', () => {
       WindowUtils.addEventListener(type, listener, options, window);
 
       sinon.assert.calledOnce(window.addEventListener);
-      sinon.assert.calledWithExactly(window.addEventListener, type, listener, options);
+      sinon.assert.calledWithExactly(
+        window.addEventListener,
+        type,
+        listener,
+        options,
+      );
     });
   });
 
@@ -76,7 +81,11 @@ describe('WindowUtils', () => {
       WindowUtils.removeEventListener(type, listener, window);
 
       sinon.assert.calledOnce(window.removeEventListener);
-      sinon.assert.calledWithExactly(window.removeEventListener, type, listener);
+      sinon.assert.calledWithExactly(
+        window.removeEventListener,
+        type,
+        listener,
+      );
     });
   });
 

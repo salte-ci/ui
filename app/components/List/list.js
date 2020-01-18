@@ -7,7 +7,13 @@ import styles from './list.css';
 
 export function List({ children, ...extraProps }) {
   return (
-    <Grid {...extraProps} type="ul" className={styles.list} direction="column" spacing={0}>
+    <Grid
+      {...extraProps}
+      type="ul"
+      className={styles.list}
+      direction="column"
+      spacing={0}
+    >
       {children}
     </Grid>
   );

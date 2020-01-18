@@ -24,7 +24,7 @@ describe('ModalUtils', () => {
       const response = new Error('failure!');
       sinon.stub(Modal, 'open').rejects(response);
 
-      const result = await modal().catch(e => e);
+      const result = await modal().catch((e) => e);
 
       expect(result).equals(response);
     });

@@ -6,7 +6,13 @@ import { Button } from '../Button';
 import styles from './index.css';
 import * as WindowUtils from '../../utils/window';
 
-export function Dropdown({ alignment, buffer, children, toggle, ...extraProps }) {
+export function Dropdown({
+  alignment,
+  buffer,
+  children,
+  toggle,
+  ...extraProps
+}) {
   const toggleRef = useRef();
   const dropdownRef = useRef();
   const [style, setStyle] = useState(null);
@@ -15,14 +21,19 @@ export function Dropdown({ alignment, buffer, children, toggle, ...extraProps })
   const toggleOpened = () => setOpened(!opened);
 
   useEffect(() => {
-    const onGlobalClick = e => {
+    const onGlobalClick = (e) => {
       if (e.path.includes(dropdownRef.current)) return;
 
       setOpened(false);
     };
 
     const reposition = () => {
-      const { left: x, top: y, width, height } = toggleRef.current.getBoundingClientRect();
+      const {
+        left: x,
+        top: y,
+        width,
+        height,
+      } = toggleRef.current.getBoundingClientRect();
 
       let left = x;
 
@@ -32,7 +43,10 @@ export function Dropdown({ alignment, buffer, children, toggle, ...extraProps })
         left += width / 2 - dropdownRef.current.clientWidth / 2;
       }
 
-      left = Math.min(WindowUtils.innerWidth() - dropdownRef.current.clientWidth - buffer, left);
+      left = Math.min(
+        WindowUtils.innerWidth() - dropdownRef.current.clientWidth - buffer,
+        left,
+      );
       left = Math.max(buffer, left);
 
       setStyle({
@@ -68,7 +82,8 @@ export function Dropdown({ alignment, buffer, children, toggle, ...extraProps })
         role="button"
         tabIndex="0"
         onClick={toggleOpened}
-        onKeyDown={toggleOpened}>
+        onKeyDown={toggleOpened}
+      >
         {typeof toggle === 'string' ? (
           <Button className={styles.toggle} theme="secondary">
             {toggle}
@@ -88,7 +103,8 @@ export function Dropdown({ alignment, buffer, children, toggle, ...extraProps })
         onKeyDown={close}
         tabIndex="0"
         ref={dropdownRef}
-        style={style}>
+        style={style}
+      >
         {children}
       </div>
     </div>

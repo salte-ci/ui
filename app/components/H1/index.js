@@ -8,7 +8,11 @@ import { TEXT_ALIGN } from '../../utils/prop-type-values';
 
 export function H1({ align, children, className, ...extraProps }) {
   return (
-    <h1 {...extraProps} className={ConcatClassNames(styles.h1, className)} style={{ textAlign: align }}>
+    <h1
+      {...extraProps}
+      className={ConcatClassNames(styles.h1, className)}
+      style={{ textAlign: align }}
+    >
       {children}
     </h1>
   );

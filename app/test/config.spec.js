@@ -43,11 +43,16 @@ describe('Config', () => {
 
   describe('func(GetEndpoints)', () => {
     it('should append localhost for the "alpha" environment', () => {
-      expect(Config.GetEndpoints('alpha')).equals(['https://api.alpha.salte.ci', 'http://localhost:8080']);
+      expect(Config.GetEndpoints('alpha')).equals([
+        'https://api.alpha.salte.ci',
+        'http://localhost:8080',
+      ]);
     });
 
     it('should not append localhost for any other environment', () => {
-      expect(Config.GetEndpoints('live')).equals(['https://api.alpha.salte.ci']);
+      expect(Config.GetEndpoints('live')).equals([
+        'https://api.alpha.salte.ci',
+      ]);
     });
   });
 });

@@ -12,7 +12,7 @@ import { auth } from '../../../auth';
 import { Toggle } from '../../Toggle';
 
 describe('<Header />', () => {
-  const RenderComponent = overrides => {
+  const RenderComponent = (overrides) => {
     const props = {
       idToken: {
         expired: true,

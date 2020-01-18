@@ -7,7 +7,7 @@ import * as Icons from '../icons';
 export const chance = Chance();
 
 export function MockIcons() {
-  sinon.stub(Icons, 'GetIcon').callsFake(icon => () => <div>{icon}.svg</div>);
+  sinon.stub(Icons, 'GetIcon').callsFake((icon) => () => <div>{icon}.svg</div>);
 }
 
 // We should attempt to eliminate this at some point
@@ -29,12 +29,14 @@ export function MockState(overrides) {
       organizations: false,
     },
     error: {},
-    organizations: GenerateArray(3, index => MockOrganization({ id: index + 1 })),
+    organizations: GenerateArray(3, (index) =>
+      MockOrganization({ id: index + 1 }),
+    ),
   };
 
   state.repositories = state.organizations.reduce((output, organization) => {
     // eslint-disable-next-line no-param-reassign
-    output[organization.id] = GenerateArray(3, index =>
+    output[organization.id] = GenerateArray(3, (index) =>
       MockRepository({
         id: index + 1,
         organizationID: organization.id,
@@ -68,7 +70,10 @@ export function MockOrganization(overrides) {
     key,
     name: `Salte ${name}`,
     repositoryCount,
-    buildCount: chance.integer({ min: repositoryCount, max: repositoryCount * 10 }),
+    buildCount: chance.integer({
+      min: repositoryCount,
+      max: repositoryCount * 10,
+    }),
     url: `https://github.com/${key}`,
     ...overrides,
   };

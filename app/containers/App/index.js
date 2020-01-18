@@ -19,13 +19,15 @@ const logger = RootLogger.extend('App');
 
 export function App() {
   const dispatch = useDispatch();
-  const idToken = useSelector(state => state.auth.auth0);
+  const idToken = useSelector((state) => state.auth.auth0);
 
   useEffect(() => {
     const onAuth = (error, data) => {
       if (error) logger(error);
       else {
-        dispatch(UpdateToken(data.provider, auth.provider(data.provider).idToken));
+        dispatch(
+          UpdateToken(data.provider, auth.provider(data.provider).idToken),
+        );
       }
     };
 
@@ -36,12 +38,19 @@ export function App() {
   return (
     <HelmetProvider>
       <Helmet titleTemplate="%s - Salte CI" defaultTitle="Salte CI">
-        <meta name="description" content="The simplest and most versatile build platform in existence." />
+        <meta
+          name="description"
+          content="The simplest and most versatile build platform in existence."
+        />
       </Helmet>
       <Header idToken={idToken} />
       <div className={styles.pages}>
         <Switch>
-          <Route exact path="/" component={idToken.expired ? HomePage : DashboardPage} />
+          <Route
+            exact
+            path="/"
+            component={idToken.expired ? HomePage : DashboardPage}
+          />
           <Route exact path="/stylesheet" component={StylesheetPage} />
         </Switch>
       </div>

@@ -27,7 +27,9 @@ describe('<Modal />', () => {
 
       mount(<Modal />);
 
-      expect(() => mount(<Modal />)).throws('The modal container is already defined');
+      expect(() => mount(<Modal />)).throws(
+        'The modal container is already defined',
+      );
     });
   });
 

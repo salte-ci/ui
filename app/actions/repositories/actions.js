@@ -13,13 +13,15 @@ export function UpdateRepositories(organizationID, repositories) {
 }
 
 export function GetRepositoriesForOrganization(organizationID) {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       dispatch(UpdateError(`repositories:${organizationID}`, null));
       dispatch(UpdateRepositories(organizationID, []));
       dispatch(UpdateLoading(`repositories:${organizationID}`, true));
 
-      const repositories = await Repository.GetRepositoriesForOrganization(organizationID);
+      const repositories = await Repository.GetRepositoriesForOrganization(
+        organizationID,
+      );
 
       dispatch(UpdateRepositories(organizationID, repositories));
     } catch (error) {

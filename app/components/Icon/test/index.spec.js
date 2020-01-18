@@ -10,9 +10,9 @@ import { Icon } from '../index';
 
 describe('<Icon />', () => {
   beforeEach(() => {
-    sinon.stub(Icons, 'GetIcon').callsFake(name => {
+    sinon.stub(Icons, 'GetIcon').callsFake((name) => {
       if (['logo'].includes(name)) {
-        return props => (
+        return (props) => (
           <div {...props} id="child">
             {name}
           </div>
@@ -53,7 +53,9 @@ describe('<Icon />', () => {
     it('should allow passing a theme', () => {
       const component = mount(<Icon name="logo" theme="primary" />);
 
-      const { '--sci-icon-color': IconColor } = component.find('#child').prop('style');
+      const { '--sci-icon-color': IconColor } = component
+        .find('#child')
+        .prop('style');
 
       expect(IconColor).equals(GetVariable('primary'));
     });

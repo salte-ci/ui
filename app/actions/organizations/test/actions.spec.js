@@ -30,22 +30,36 @@ describe('Actions(Organizations)', () => {
       const expectedUid = chance.string();
 
       const organizations = [chance.string()];
-      sinon.stub(Repository, 'GetOrganizationsForUser').callsFake(async uid => {
-        expect(uid).equals(expectedUid);
+      sinon
+        .stub(Repository, 'GetOrganizationsForUser')
+        .callsFake(async (uid) => {
+          expect(uid).equals(expectedUid);
 
-        sinon.assert.calledThrice(dispatch);
-        sinon.assert.calledWithExactly(dispatch, UpdateError('organizations', null));
-        sinon.assert.calledWithExactly(dispatch, UpdateOrganizations([]));
-        sinon.assert.calledWithExactly(dispatch, UpdateLoading('organizations', true));
+          sinon.assert.calledThrice(dispatch);
+          sinon.assert.calledWithExactly(
+            dispatch,
+            UpdateError('organizations', null),
+          );
+          sinon.assert.calledWithExactly(dispatch, UpdateOrganizations([]));
+          sinon.assert.calledWithExactly(
+            dispatch,
+            UpdateLoading('organizations', true),
+          );
 
-        return organizations;
-      });
+          return organizations;
+        });
 
       await GetOrganizationsForUser(expectedUid)(dispatch);
 
       sinon.assert.callCount(dispatch, 5);
-      sinon.assert.calledWithExactly(dispatch, UpdateOrganizations(organizations));
-      sinon.assert.calledWithExactly(dispatch, UpdateLoading('organizations', false));
+      sinon.assert.calledWithExactly(
+        dispatch,
+        UpdateOrganizations(organizations),
+      );
+      sinon.assert.calledWithExactly(
+        dispatch,
+        UpdateLoading('organizations', false),
+      );
     });
 
     it('should support failures to retrieve the organizations', async () => {
@@ -54,22 +68,36 @@ describe('Actions(Organizations)', () => {
 
       const error = new Error('Whoops');
 
-      sinon.stub(Repository, 'GetOrganizationsForUser').callsFake(async uid => {
-        expect(uid).equals(expectedUid);
+      sinon
+        .stub(Repository, 'GetOrganizationsForUser')
+        .callsFake(async (uid) => {
+          expect(uid).equals(expectedUid);
 
-        sinon.assert.calledThrice(dispatch);
-        sinon.assert.calledWithExactly(dispatch, UpdateError('organizations', null));
-        sinon.assert.calledWithExactly(dispatch, UpdateOrganizations([]));
-        sinon.assert.calledWithExactly(dispatch, UpdateLoading('organizations', true));
+          sinon.assert.calledThrice(dispatch);
+          sinon.assert.calledWithExactly(
+            dispatch,
+            UpdateError('organizations', null),
+          );
+          sinon.assert.calledWithExactly(dispatch, UpdateOrganizations([]));
+          sinon.assert.calledWithExactly(
+            dispatch,
+            UpdateLoading('organizations', true),
+          );
 
-        throw error;
-      });
+          throw error;
+        });
 
       await GetOrganizationsForUser(expectedUid)(dispatch);
 
       sinon.assert.callCount(dispatch, 5);
-      sinon.assert.calledWithExactly(dispatch, UpdateError('organizations', error));
-      sinon.assert.calledWithExactly(dispatch, UpdateLoading('organizations', false));
+      sinon.assert.calledWithExactly(
+        dispatch,
+        UpdateError('organizations', error),
+      );
+      sinon.assert.calledWithExactly(
+        dispatch,
+        UpdateLoading('organizations', false),
+      );
     });
   });
 });

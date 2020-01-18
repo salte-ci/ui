@@ -27,7 +27,9 @@ export default function() {
         <Card header="Free" style={{ flex: 1, minHeight: 400 }}>
           <List style={{ flex: 1 }}>
             <ListItem icon="infinite">Unlimited private runners</ListItem>
-            <ListItem icon="infinite">Unlimited public and private projects</ListItem>
+            <ListItem icon="infinite">
+              Unlimited public and private projects
+            </ListItem>
             <ListItem>Community support</ListItem>
           </List>
           <Button alignSelf="center" theme="accent">
@@ -42,7 +44,9 @@ export default function() {
           <Button alignSelf="center" theme="accent" disabled>
             Provide Feedback
           </Button>
-          <Small align="center">This tier includes all the functionality in the free tier</Small>
+          <Small align="center">
+            This tier includes all the functionality in the free tier
+          </Small>
         </Card>
       </Grid>
     </Grid>

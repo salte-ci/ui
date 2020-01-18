@@ -7,7 +7,11 @@ import { configureStore } from '../../store';
 import { MockState } from './mock';
 import { MergeDeep } from '../merge';
 
-export function MountWrapperWithCustomState(children, state, dispatch = sinon.stub()) {
+export function MountWrapperWithCustomState(
+  children,
+  state,
+  dispatch = sinon.stub(),
+) {
   return mount(
     <Provider store={configureStore(state, dispatch)}>
       <HashRouter>{children}</HashRouter>
@@ -16,5 +20,9 @@ export function MountWrapperWithCustomState(children, state, dispatch = sinon.st
 }
 
 export function MountWrapper(children, overrides, dispatch = sinon.stub()) {
-  return MountWrapperWithCustomState(children, MergeDeep(MockState(), overrides), dispatch);
+  return MountWrapperWithCustomState(
+    children,
+    MergeDeep(MockState(), overrides),
+    dispatch,
+  );
 }

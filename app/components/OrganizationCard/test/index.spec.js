@@ -17,7 +17,11 @@ describe('<OrganizationCard />', () => {
       ...propOverrides,
     };
 
-    return MountWrapperWithCustomState(<OrganizationCard {...props} />, state, dispatch);
+    return MountWrapperWithCustomState(
+      <OrganizationCard {...props} />,
+      state,
+      dispatch,
+    );
   }
 
   beforeEach(() => {

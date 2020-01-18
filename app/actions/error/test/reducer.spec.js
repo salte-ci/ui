@@ -9,7 +9,10 @@ describe('Reducer(Error)', () => {
     it('should set the error value in state for the given key', () => {
       const error = new Error(chance.string());
 
-      const updatedState = ErrorReducer(undefined, UpdateError('organizations', error));
+      const updatedState = ErrorReducer(
+        undefined,
+        UpdateError('organizations', error),
+      );
 
       expect(updatedState).equals({
         organizations: error,

@@ -11,7 +11,7 @@ export function UpdateOrganizations(organizations) {
 }
 
 export function GetOrganizationsForUser(uid) {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
       dispatch(UpdateError('organizations', null));
       dispatch(UpdateOrganizations([]));

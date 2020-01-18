@@ -33,22 +33,39 @@ describe('Actions(Repositories)', () => {
       const expectedOrganizationID = chance.string();
 
       const repositories = [chance.string()];
-      sinon.stub(Repository, 'GetRepositoriesForOrganization').callsFake(async organizationID => {
-        expect(organizationID).equals(expectedOrganizationID);
+      sinon
+        .stub(Repository, 'GetRepositoriesForOrganization')
+        .callsFake(async (organizationID) => {
+          expect(organizationID).equals(expectedOrganizationID);
 
-        sinon.assert.calledThrice(dispatch);
-        sinon.assert.calledWithExactly(dispatch, UpdateError(`repositories:${expectedOrganizationID}`, null));
-        sinon.assert.calledWithExactly(dispatch, UpdateRepositories(expectedOrganizationID, []));
-        sinon.assert.calledWithExactly(dispatch, UpdateLoading(`repositories:${expectedOrganizationID}`, true));
+          sinon.assert.calledThrice(dispatch);
+          sinon.assert.calledWithExactly(
+            dispatch,
+            UpdateError(`repositories:${expectedOrganizationID}`, null),
+          );
+          sinon.assert.calledWithExactly(
+            dispatch,
+            UpdateRepositories(expectedOrganizationID, []),
+          );
+          sinon.assert.calledWithExactly(
+            dispatch,
+            UpdateLoading(`repositories:${expectedOrganizationID}`, true),
+          );
 
-        return repositories;
-      });
+          return repositories;
+        });
 
       await GetRepositoriesForOrganization(expectedOrganizationID)(dispatch);
 
       sinon.assert.callCount(dispatch, 5);
-      sinon.assert.calledWithExactly(dispatch, UpdateRepositories(expectedOrganizationID, repositories));
-      sinon.assert.calledWithExactly(dispatch, UpdateLoading(`repositories:${expectedOrganizationID}`, false));
+      sinon.assert.calledWithExactly(
+        dispatch,
+        UpdateRepositories(expectedOrganizationID, repositories),
+      );
+      sinon.assert.calledWithExactly(
+        dispatch,
+        UpdateLoading(`repositories:${expectedOrganizationID}`, false),
+      );
     });
 
     it('should support failures to retrieve the repositories', async () => {
@@ -57,22 +74,39 @@ describe('Actions(Repositories)', () => {
 
       const error = new Error('Whoops');
 
-      sinon.stub(Repository, 'GetRepositoriesForOrganization').callsFake(async organizationID => {
-        expect(organizationID).equals(expectedOrganizationID);
+      sinon
+        .stub(Repository, 'GetRepositoriesForOrganization')
+        .callsFake(async (organizationID) => {
+          expect(organizationID).equals(expectedOrganizationID);
 
-        sinon.assert.calledThrice(dispatch);
-        sinon.assert.calledWithExactly(dispatch, UpdateError(`repositories:${expectedOrganizationID}`, null));
-        sinon.assert.calledWithExactly(dispatch, UpdateRepositories(expectedOrganizationID, []));
-        sinon.assert.calledWithExactly(dispatch, UpdateLoading(`repositories:${expectedOrganizationID}`, true));
+          sinon.assert.calledThrice(dispatch);
+          sinon.assert.calledWithExactly(
+            dispatch,
+            UpdateError(`repositories:${expectedOrganizationID}`, null),
+          );
+          sinon.assert.calledWithExactly(
+            dispatch,
+            UpdateRepositories(expectedOrganizationID, []),
+          );
+          sinon.assert.calledWithExactly(
+            dispatch,
+            UpdateLoading(`repositories:${expectedOrganizationID}`, true),
+          );
 
-        throw error;
-      });
+          throw error;
+        });
 
       await GetRepositoriesForOrganization(expectedOrganizationID)(dispatch);
 
       sinon.assert.callCount(dispatch, 5);
-      sinon.assert.calledWithExactly(dispatch, UpdateError(`repositories:${expectedOrganizationID}`, error));
-      sinon.assert.calledWithExactly(dispatch, UpdateLoading(`repositories:${expectedOrganizationID}`, false));
+      sinon.assert.calledWithExactly(
+        dispatch,
+        UpdateError(`repositories:${expectedOrganizationID}`, error),
+      );
+      sinon.assert.calledWithExactly(
+        dispatch,
+        UpdateLoading(`repositories:${expectedOrganizationID}`, false),
+      );
     });
   });
 });

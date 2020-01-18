@@ -9,19 +9,27 @@ describe('ClassNamesUtils', () => {
     });
 
     it('should support a multiple classes', () => {
-      expect(ConcatClassNames('my-class', 'other-class')).equals('my-class other-class');
+      expect(ConcatClassNames('my-class', 'other-class')).equals(
+        'my-class other-class',
+      );
     });
 
     it('should ignore undefined values', () => {
-      expect(ConcatClassNames('my-class', undefined, 'other-class')).equals('my-class other-class');
+      expect(ConcatClassNames('my-class', undefined, 'other-class')).equals(
+        'my-class other-class',
+      );
     });
 
     it('should ignore null values', () => {
-      expect(ConcatClassNames('my-class', null, 'other-class')).equals('my-class other-class');
+      expect(ConcatClassNames('my-class', null, 'other-class')).equals(
+        'my-class other-class',
+      );
     });
 
     it('should ignore false values', () => {
-      expect(ConcatClassNames('my-class', false, 'other-class')).equals('my-class other-class');
+      expect(ConcatClassNames('my-class', false, 'other-class')).equals(
+        'my-class other-class',
+      );
     });
   });
 });

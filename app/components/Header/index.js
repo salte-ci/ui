@@ -21,9 +21,19 @@ export function Header({ idToken }) {
           Salte CI
         </Button>
         <div style={{ flex: 1 }} />
-        {environment === 'alpha' && <Toggle checked={config.local} onClick={() => UpdateLocal(!config.local)} />}
+        {environment === 'alpha' && (
+          <Toggle
+            checked={config.local}
+            onClick={() => UpdateLocal(!config.local)}
+          />
+        )}
         {idToken.expired ? (
-          <Button id="sign-up" theme="accent" large onClick={() => auth.login('auth0')}>
+          <Button
+            id="sign-up"
+            theme="accent"
+            large
+            onClick={() => auth.login('auth0')}
+          >
             Sign Up
           </Button>
         ) : (
@@ -35,7 +45,8 @@ export function Header({ idToken }) {
                   <div>{idToken.user.name}</div>
                 </MediaQuery>
               </Button>
-            }>
+            }
+          >
             <Dropdown.Item id="settings" type={Link} to="/">
               Account Settings
             </Dropdown.Item>

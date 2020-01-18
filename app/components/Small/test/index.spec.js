@@ -58,7 +58,9 @@ describe('<Small />', () => {
     it('should support providing a custom theme', () => {
       const component = mount(<Small theme="primary" />);
 
-      const { '--sci-small-color': SmallColor } = component.find('#small').prop('style');
+      const { '--sci-small-color': SmallColor } = component
+        .find('#small')
+        .prop('style');
 
       expect(SmallColor).equals(GetVariable('primary'));
     });

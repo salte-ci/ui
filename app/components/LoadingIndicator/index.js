@@ -5,7 +5,12 @@ import styles from './index.css';
 
 export function LoadingIndicator({ loading, ...extraProps }) {
   return (
-    <div {...extraProps} id="loading" className={styles.loadingIndicator} loading={loading.toString()}>
+    <div
+      {...extraProps}
+      id="loading"
+      className={styles.loadingIndicator}
+      loading={loading.toString()}
+    >
       <div className={styles.dot} />
       <div className={styles.dot} />
       <div className={styles.dot} />

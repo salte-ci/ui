@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 import styles from './index.css';
 import { ConcatClassNames } from '../../utils/class-names';
 import { MergeDeep } from '../../utils/merge';
-import { ALIGN_ITEMS, FLEX_DIRECTION, JUSTIFY_CONTENT } from '../../utils/prop-type-values';
+import {
+  ALIGN_ITEMS,
+  FLEX_DIRECTION,
+  JUSTIFY_CONTENT,
+} from '../../utils/prop-type-values';
 
 export function Grid({
   alignItems,
@@ -24,7 +28,8 @@ export function Grid({
   };
 
   const innerStyle = {
-    '--sci-grid-spacing': typeof spacing === 'number' ? `${spacing}px` : spacing,
+    '--sci-grid-spacing':
+      typeof spacing === 'number' ? `${spacing}px` : spacing,
     alignItems,
     justifyContent,
   };
@@ -36,7 +41,8 @@ export function Grid({
       className={ConcatClassNames(styles.grid, className)}
       direction={direction}
       responsive={responsive.toString()}
-      style={MergeDeep(internalStyle, style)}>
+      style={MergeDeep(internalStyle, style)}
+    >
       <div tid="inner-grid" className={styles.innerGrid} style={innerStyle}>
         {children}
       </div>

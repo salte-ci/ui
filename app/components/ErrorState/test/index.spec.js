@@ -54,7 +54,9 @@ describe('<ErrorState />', () => {
         </ErrorState>,
       );
 
-      expect(component.find('H2#header').text()).equals('Internal Server Error');
+      expect(component.find('H2#header').text()).equals(
+        'Internal Server Error',
+      );
       expect(component.find('#message').text()).equals('Internal Server Error');
     });
 

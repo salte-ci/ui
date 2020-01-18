@@ -11,7 +11,10 @@ if (localhost) {
 }
 
 Raven.config('https://b8f036ced5554aff9442688709954e7f@sentry.io/1404350', {
-  whitelistUrls: [/https?:\/\/(www\.)?salte\.ci/, /https?:\/\/alpha\.salte\.ci/],
+  whitelistUrls: [
+    /https?:\/\/(www\.)?salte\.ci/,
+    /https?:\/\/alpha\.salte\.ci/,
+  ],
   release: version,
   environment,
 }).install();
@@ -24,7 +27,7 @@ Raven.context(() => {
     .then(() => {
       logger('Rockets have reached orbit! 🌕');
     })
-    .catch(error => {
+    .catch((error) => {
       logger('Failed to reach orbit! 🔥', error);
     });
 });

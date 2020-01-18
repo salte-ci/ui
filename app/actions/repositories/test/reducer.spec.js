@@ -9,7 +9,10 @@ describe('Reducer(Organizations)', () => {
     it('should update the repositories', () => {
       const organizationID = chance.string();
       const repositories = [chance.string()];
-      const state = RepositoriesReducer(undefined, UpdateRepositories(organizationID, repositories));
+      const state = RepositoriesReducer(
+        undefined,
+        UpdateRepositories(organizationID, repositories),
+      );
 
       expect(state).equals({
         [organizationID]: repositories,

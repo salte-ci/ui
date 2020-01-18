@@ -25,7 +25,8 @@ export function RepositoriesCard({ organization, repositories }) {
                 href={repository.url}
                 target="_blank"
                 theme={organization.provider.type}
-                icon={organization.provider.type}>
+                icon={organization.provider.type}
+              >
                 {organization.provider.name}
               </Button>
               <Button disabled>Settings</Button>

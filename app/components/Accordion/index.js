@@ -48,7 +48,12 @@ export function Accordion({ children, opened }) {
   if (!visible && !opened) return null;
 
   return (
-    <div className={styles.accordion} ref={accordionRef} opened={opened.toString()} style={{ maxHeight }}>
+    <div
+      className={styles.accordion}
+      ref={accordionRef}
+      opened={opened.toString()}
+      style={{ maxHeight }}
+    >
       {children}
     </div>
   );

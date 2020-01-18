@@ -18,7 +18,8 @@ export function Small({ align, children, style, theme, ...extraProps }) {
           textAlign: align,
         },
         style,
-      )}>
+      )}
+    >
       {children}
     </div>
   );
