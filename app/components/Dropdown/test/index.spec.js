@@ -5,7 +5,7 @@ import { mount } from 'enzyme';
 
 import { Dropdown } from '../index';
 import { chance } from '../../../utils/test/mock';
-import * as WindowUtils from '../../../utils/window';
+import * as Window from '../../../utils/window';
 
 describe('<Dropdown />', () => {
   const RenderComponent = (overrides) => {
@@ -105,70 +105,68 @@ describe('<Dropdown />', () => {
     });
 
     it('should register event listeners upon being opened', () => {
-      sinon.stub(WindowUtils, 'addEventListener');
-      sinon.stub(WindowUtils, 'removeEventListener');
+      sinon.stub(Window, 'addEventListener');
+      sinon.stub(Window, 'removeEventListener');
 
       const component = RenderComponent();
 
-      sinon.assert.notCalled(WindowUtils.addEventListener);
+      sinon.assert.notCalled(Window.addEventListener);
 
       component.find('[tid="toggle"]').simulate('click');
 
-      sinon.assert.callCount(WindowUtils.addEventListener, 3);
-      sinon.assert.calledWith(WindowUtils.addEventListener, 'click');
-      sinon.assert.calledWith(WindowUtils.addEventListener, 'resize');
-      sinon.assert.calledWith(WindowUtils.addEventListener, 'scroll');
+      sinon.assert.callCount(Window.addEventListener, 3);
+      sinon.assert.calledWith(Window.addEventListener, 'click');
+      sinon.assert.calledWith(Window.addEventListener, 'resize');
+      sinon.assert.calledWith(Window.addEventListener, 'scroll');
     });
 
     it('should unregister event listeners when opened is changed', () => {
-      sinon.stub(WindowUtils, 'addEventListener');
-      sinon.stub(WindowUtils, 'removeEventListener');
+      sinon.stub(Window, 'addEventListener');
+      sinon.stub(Window, 'removeEventListener');
 
       const component = RenderComponent();
 
-      sinon.assert.notCalled(WindowUtils.removeEventListener);
+      sinon.assert.notCalled(Window.removeEventListener);
 
       component.find('[tid="toggle"]').simulate('click');
 
-      sinon.assert.callCount(WindowUtils.removeEventListener, 3);
-      sinon.assert.calledWith(WindowUtils.removeEventListener, 'click');
-      sinon.assert.calledWith(WindowUtils.removeEventListener, 'resize');
-      sinon.assert.calledWith(WindowUtils.removeEventListener, 'scroll');
+      sinon.assert.callCount(Window.removeEventListener, 3);
+      sinon.assert.calledWith(Window.removeEventListener, 'click');
+      sinon.assert.calledWith(Window.removeEventListener, 'resize');
+      sinon.assert.calledWith(Window.removeEventListener, 'scroll');
     });
 
     it('should unregister event listeners when unmounted', () => {
-      sinon.stub(WindowUtils, 'removeEventListener');
+      sinon.stub(Window, 'removeEventListener');
 
       const component = RenderComponent();
 
-      sinon.assert.notCalled(WindowUtils.removeEventListener);
+      sinon.assert.notCalled(Window.removeEventListener);
 
       component.unmount();
 
-      sinon.assert.callCount(WindowUtils.removeEventListener, 3);
-      sinon.assert.calledWith(WindowUtils.removeEventListener, 'click');
-      sinon.assert.calledWith(WindowUtils.removeEventListener, 'resize');
-      sinon.assert.calledWith(WindowUtils.removeEventListener, 'scroll');
+      sinon.assert.callCount(Window.removeEventListener, 3);
+      sinon.assert.calledWith(Window.removeEventListener, 'click');
+      sinon.assert.calledWith(Window.removeEventListener, 'resize');
+      sinon.assert.calledWith(Window.removeEventListener, 'scroll');
     });
 
     it('should stay open if the dropdown was clicked', async () => {
       const component = RenderComponent();
 
       const promise = new Promise((resolve) => {
-        sinon
-          .stub(WindowUtils, 'addEventListener')
-          .callsFake((type, listener) => {
-            if (type !== 'click') return;
+        sinon.stub(Window, 'addEventListener').callsFake((type, listener) => {
+          if (type !== 'click') return;
 
-            const path = [];
-            sinon.stub(path, 'includes').returns(true);
+          const path = [];
+          sinon.stub(path, 'includes').returns(true);
 
-            listener({
-              path,
-            });
-
-            resolve();
+          listener({
+            path,
           });
+
+          resolve();
+        });
       });
 
       component.find('[tid="toggle"]').simulate('click');
@@ -182,17 +180,15 @@ describe('<Dropdown />', () => {
       const component = RenderComponent();
 
       const promise = new Promise((resolve) => {
-        sinon
-          .stub(WindowUtils, 'addEventListener')
-          .callsFake((type, listener) => {
-            if (type !== 'click') return;
+        sinon.stub(Window, 'addEventListener').callsFake((type, listener) => {
+          if (type !== 'click') return;
 
-            listener({
-              path: [],
-            });
-
-            resolve();
+          listener({
+            path: [],
           });
+
+          resolve();
+        });
       });
 
       component.find('[tid="toggle"]').simulate('click');

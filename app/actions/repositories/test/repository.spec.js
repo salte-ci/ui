@@ -1,7 +1,7 @@
 import { expect } from '@hapi/code';
 import sinon from 'sinon';
 
-import * as WindowUtils from '../../../utils/window';
+import * as Window from '../../../utils/window';
 
 import { GetRepositoriesForOrganization } from '../repository';
 
@@ -14,7 +14,7 @@ describe('Repository(Repositories)', () => {
     });
 
     it('should throw an error if the location.search includes "error"', async () => {
-      sinon.stub(WindowUtils, 'search').returns('error');
+      sinon.stub(Window, 'search').returns('error');
 
       await expect(GetRepositoriesForOrganization()).rejects(
         Error,

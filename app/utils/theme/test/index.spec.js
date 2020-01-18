@@ -3,7 +3,7 @@ import { expect } from '@hapi/code';
 import { GetVariable, GetComplementary } from '../index';
 import { chance } from '../../test/mock';
 
-describe('ThemeUtils', () => {
+describe('Utils(Theme)', () => {
   describe('function(GetVariable)', () => {
     it('should create a css variable', () => {
       expect(GetVariable('primary')).equals('var(--sci-primary-color)');

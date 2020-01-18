@@ -5,7 +5,7 @@ import { Modal } from '../../../components/Modal';
 
 import { modal } from '../index';
 
-describe('ModalUtils', () => {
+describe('Utils(Modal)', () => {
   afterEach(() => {
     sinon.restore();
   });

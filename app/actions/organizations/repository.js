@@ -1,12 +1,12 @@
 import { WaitForTime } from '../../utils/wait';
 
-import * as WindowUtils from '../../utils/window';
+import * as Window from '../../utils/window';
 import { chance, MockOrganization, GenerateArray } from '../../utils/test/mock';
 
 export async function GetOrganizationsForUser() {
   await WaitForTime();
 
-  if (WindowUtils.search().includes('error')) {
+  if (Window.search().includes('error')) {
     throw new Error('Failed to retrieve organizations for user.');
   }
 

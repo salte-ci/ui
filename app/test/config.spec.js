@@ -1,6 +1,6 @@
 import { expect } from '@hapi/code';
 import sinon from 'sinon';
-import * as WindowUtils from '../utils/window';
+import * as Window from '../utils/window';
 
 import * as Config from '../config';
 
@@ -11,13 +11,13 @@ describe('Config', () => {
 
   describe('func(UpdateLocal)', () => {
     it('should update the key in localStorage', () => {
-      sinon.stub(WindowUtils, 'reload');
+      sinon.stub(Window, 'reload');
       expect(localStorage.getItem(Config.LOCAL_KEY)).equals(null);
 
       Config.UpdateLocal(true);
 
       expect(localStorage.getItem(Config.LOCAL_KEY)).equals('true');
-      sinon.assert.calledOnce(WindowUtils.reload);
+      sinon.assert.calledOnce(Window.reload);
     });
   });
 

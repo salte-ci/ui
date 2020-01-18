@@ -2,7 +2,7 @@ import { expect } from '@hapi/code';
 
 import { ConcatClassNames } from './index';
 
-describe('ClassNamesUtils', () => {
+describe('Utils(ClassNames)', () => {
   describe('function(ConcatClassNames)', () => {
     it('should support a single class', () => {
       expect(ConcatClassNames('my-class')).equals('my-class');

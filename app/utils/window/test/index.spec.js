@@ -1,17 +1,17 @@
 import { expect } from '@hapi/code';
 import sinon from 'sinon';
 
-import * as WindowUtils from '../index';
+import * as Window from '../index';
 import { chance } from '../../test/mock';
 
-describe('WindowUtils', () => {
+describe('Utils(Window)', () => {
   describe('func(origin)', () => {
     it('should return the origin', () => {
       const location = {
         origin: chance.url(),
       };
 
-      expect(WindowUtils.origin(location)).equals(location.origin);
+      expect(Window.origin(location)).equals(location.origin);
     });
   });
 
@@ -21,7 +21,7 @@ describe('WindowUtils', () => {
         search: chance.url(),
       };
 
-      expect(WindowUtils.search(location)).equals(location.search);
+      expect(Window.search(location)).equals(location.search);
     });
   });
 
@@ -31,7 +31,7 @@ describe('WindowUtils', () => {
         reload: sinon.stub(),
       };
 
-      WindowUtils.reload(location);
+      Window.reload(location);
 
       sinon.assert.calledOnce(location.reload);
     });
@@ -43,7 +43,7 @@ describe('WindowUtils', () => {
         innerWidth: chance.integer(),
       };
 
-      expect(WindowUtils.innerWidth(window)).equals(window.innerWidth);
+      expect(Window.innerWidth(window)).equals(window.innerWidth);
     });
   });
 
@@ -58,7 +58,7 @@ describe('WindowUtils', () => {
         addEventListener: sinon.stub(),
       };
 
-      WindowUtils.addEventListener(type, listener, options, window);
+      Window.addEventListener(type, listener, options, window);
 
       sinon.assert.calledOnce(window.addEventListener);
       sinon.assert.calledWithExactly(
@@ -78,7 +78,7 @@ describe('WindowUtils', () => {
         removeEventListener: sinon.stub(),
       };
 
-      WindowUtils.removeEventListener(type, listener, window);
+      Window.removeEventListener(type, listener, window);
 
       sinon.assert.calledOnce(window.removeEventListener);
       sinon.assert.calledWithExactly(
@@ -98,7 +98,7 @@ describe('WindowUtils', () => {
         setTimeout: sinon.stub().returns(expectedHandle),
       };
 
-      const handle = WindowUtils.setTimeout(handler, timeout, window);
+      const handle = Window.setTimeout(handler, timeout, window);
 
       expect(handle).equals(expectedHandle);
       sinon.assert.calledOnce(window.setTimeout);
@@ -114,7 +114,7 @@ describe('WindowUtils', () => {
         clearTimeout: sinon.stub().returns(expectedHandle),
       };
 
-      WindowUtils.clearTimeout(handle, window);
+      Window.clearTimeout(handle, window);
 
       sinon.assert.calledOnce(window.clearTimeout);
       sinon.assert.calledWithExactly(window.clearTimeout, handle);
@@ -129,7 +129,7 @@ describe('WindowUtils', () => {
         requestAnimationFrame: sinon.stub().returns(expectedHandle),
       };
 
-      WindowUtils.requestAnimationFrame(callback, window);
+      Window.requestAnimationFrame(callback, window);
 
       sinon.assert.calledOnce(window.requestAnimationFrame);
       sinon.assert.calledWithExactly(window.requestAnimationFrame, callback);

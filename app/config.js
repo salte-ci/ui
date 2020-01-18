@@ -1,4 +1,4 @@
-import * as WindowUtils from './utils/window';
+import * as Window from './utils/window';
 
 export const environments = {
   'https://salte.ci': 'live',
@@ -6,8 +6,8 @@ export const environments = {
   'https://local.salte.ci': 'local',
 };
 
-export const localhost = WindowUtils.origin().includes('localhost');
-export const environment = environments[WindowUtils.origin()] || 'alpha';
+export const localhost = Window.origin().includes('localhost');
+export const environment = environments[Window.origin()] || 'alpha';
 
 export const configs = {
   live: {
@@ -55,7 +55,7 @@ export const LOCAL_KEY = 'salte.ci.local';
 
 export function UpdateLocal(local) {
   localStorage.setItem(LOCAL_KEY, local);
-  WindowUtils.reload();
+  Window.reload();
 }
 
 export function GetLocal(env) {

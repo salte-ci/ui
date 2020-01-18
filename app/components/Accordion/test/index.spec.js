@@ -5,8 +5,8 @@ import { mount } from 'enzyme';
 
 import { Accordion } from '../index';
 import { chance } from '../../../utils/test/mock';
-import * as RenderUtils from '../../../utils/render';
-import * as EventUtils from '../../../utils/events';
+import * as Render from '../../../utils/render';
+import * as Events from '../../../utils/events';
 
 describe('<Accordion />', () => {
   const RenderComponent = (overrides) => {
@@ -19,9 +19,9 @@ describe('<Accordion />', () => {
   };
 
   beforeEach(() => {
-    sinon.stub(RenderUtils, 'OnNextRender').callsFake((callback) => callback());
+    sinon.stub(Render, 'OnNextRender').callsFake((callback) => callback());
     sinon
-      .stub(EventUtils, 'once')
+      .stub(Events, 'once')
       .callsFake((target, type, callback) => callback());
   });
 
@@ -56,8 +56,8 @@ describe('<Accordion />', () => {
       });
 
       expect(component.children().length).equals(1);
-      sinon.assert.notCalled(RenderUtils.OnNextRender);
-      sinon.assert.calledOnce(EventUtils.once);
+      sinon.assert.notCalled(Render.OnNextRender);
+      sinon.assert.calledOnce(Events.once);
     });
 
     it('should animate closed from a opened state', () => {
@@ -70,8 +70,8 @@ describe('<Accordion />', () => {
       });
 
       expect(component.children().length).equals(1);
-      sinon.assert.calledOnce(RenderUtils.OnNextRender);
-      sinon.assert.calledOnce(EventUtils.once);
+      sinon.assert.calledOnce(Render.OnNextRender);
+      sinon.assert.calledOnce(Events.once);
     });
   });
 });

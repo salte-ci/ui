@@ -1,7 +1,7 @@
-import * as WindowUtils from '../window';
+import * as Window from '../window';
 
 export function OnNextRender(callback) {
-  WindowUtils.requestAnimationFrame(() => {
-    WindowUtils.setTimeout(() => callback());
+  Window.requestAnimationFrame(() => {
+    Window.setTimeout(() => callback());
   });
 }

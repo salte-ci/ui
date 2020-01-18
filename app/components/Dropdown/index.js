@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Button } from '../Button';
 
 import styles from './index.css';
-import * as WindowUtils from '../../utils/window';
+import * as Window from '../../utils/window';
 
 export function Dropdown({
   alignment,
@@ -44,7 +44,7 @@ export function Dropdown({
       }
 
       left = Math.min(
-        WindowUtils.innerWidth() - dropdownRef.current.clientWidth - buffer,
+        Window.innerWidth() - dropdownRef.current.clientWidth - buffer,
         left,
       );
       left = Math.max(buffer, left);
@@ -56,20 +56,20 @@ export function Dropdown({
     };
 
     if (opened) {
-      WindowUtils.addEventListener('click', onGlobalClick);
-      WindowUtils.addEventListener('resize', reposition, {
+      Window.addEventListener('click', onGlobalClick);
+      Window.addEventListener('resize', reposition, {
         passive: true,
       });
-      WindowUtils.addEventListener('scroll', reposition, {
+      Window.addEventListener('scroll', reposition, {
         passive: true,
       });
       reposition();
     }
 
     return () => {
-      WindowUtils.removeEventListener('click', onGlobalClick);
-      WindowUtils.removeEventListener('resize', reposition);
-      WindowUtils.removeEventListener('scroll', reposition);
+      Window.removeEventListener('click', onGlobalClick);
+      Window.removeEventListener('resize', reposition);
+      Window.removeEventListener('scroll', reposition);
     };
   }, [opened]);
 

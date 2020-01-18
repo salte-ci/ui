@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import styles from './index.css';
-import * as EventUtils from '../../utils/events';
-import * as RenderUtils from '../../utils/render';
+import * as Events from '../../utils/events';
+import * as Render from '../../utils/render';
 
 export function Accordion({ children, opened }) {
   const accordionRef = useRef();
@@ -15,7 +15,7 @@ export function Accordion({ children, opened }) {
       setVisible(true);
       setMaxHeight(accordionRef.current.scrollHeight);
 
-      EventUtils.once(
+      Events.once(
         accordionRef.current,
         'transitionend',
         () => {
@@ -28,10 +28,10 @@ export function Accordion({ children, opened }) {
     } else if (!opened && visible) {
       setMaxHeight(accordionRef.current.scrollHeight);
 
-      RenderUtils.OnNextRender(() => {
+      Render.OnNextRender(() => {
         setMaxHeight(0);
 
-        EventUtils.once(
+        Events.once(
           accordionRef.current,
           'transitionend',
           () => {

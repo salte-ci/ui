@@ -2,7 +2,7 @@ import { expect } from '@hapi/code';
 
 import { MergeDeep } from '../index';
 
-describe('MergeUtils', () => {
+describe('Utils(Merge)', () => {
   describe('func(MergeDeep)', () => {
     it('should support merging', () => {
       const target = {

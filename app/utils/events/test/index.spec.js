@@ -5,7 +5,7 @@ import { chance } from '../../test/mock';
 
 import { once } from '../index';
 
-describe('EventUtils', () => {
+describe('Utils(Events)', () => {
   describe('func(once)', () => {
     it('should register an event listener that is only invoked once', () => {
       const expectedType = chance.string();

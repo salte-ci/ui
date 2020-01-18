@@ -1,16 +1,16 @@
 import { expect } from '@hapi/code';
 import sinon from 'sinon';
-import * as MediaQueryUtils from '../index';
+import * as MediaQuery from '../index';
 import { chance } from '../../test/mock';
 
-describe('MediaQueryUtils', () => {
+describe('Utils(MediaQuery)', () => {
   afterEach(() => {
     sinon.restore();
   });
 
   describe('function(query)', () => {
     it('should return a "MediaQueryList"', () => {
-      expect(MediaQueryUtils.query(chance.string())).exists();
+      expect(MediaQuery.query(chance.string())).exists();
     });
   });
 
@@ -20,7 +20,7 @@ describe('MediaQueryUtils', () => {
       const listener = sinon.stub();
 
       sinon.stub(window, 'matchMedia').returns({ addEventListener });
-      MediaQueryUtils.on(chance.string(), listener);
+      MediaQuery.on(chance.string(), listener);
 
       sinon.assert.calledOnce(addEventListener);
       sinon.assert.calledWithExactly(addEventListener, 'change', listener, {
@@ -35,7 +35,7 @@ describe('MediaQueryUtils', () => {
       const listener = sinon.stub();
 
       sinon.stub(window, 'matchMedia').returns({ removeEventListener });
-      MediaQueryUtils.off(chance.string(), listener);
+      MediaQuery.off(chance.string(), listener);
 
       sinon.assert.calledOnce(removeEventListener);
       sinon.assert.calledWithExactly(removeEventListener, 'change', listener);
@@ -46,13 +46,13 @@ describe('MediaQueryUtils', () => {
     it('should return true if the media matches', () => {
       sinon.stub(window, 'matchMedia').returns({ matches: true });
 
-      expect(MediaQueryUtils.matches(chance.string())).equals(true);
+      expect(MediaQuery.matches(chance.string())).equals(true);
     });
 
     it('should return false if the media does not matches', () => {
       sinon.stub(window, 'matchMedia').returns({ matches: false });
 
-      expect(MediaQueryUtils.matches(chance.string())).equals(false);
+      expect(MediaQuery.matches(chance.string())).equals(false);
     });
   });
 });
