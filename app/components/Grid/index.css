@@ -15,11 +15,13 @@
     }
   }
 
-  &[direction="row"] > .innerGrid {
-    flex-direction: row;
+  &[direction="row"] {
+    > .innerGrid {
+      flex-direction: row;
 
-    > *:not(:last-child) {
-      margin-right: var(--sci-grid-spacing);
+      > *:not(:last-child) {
+        margin-right: var(--sci-grid-spacing);
+      }
     }
 
     @media (max-width: 599px) {
