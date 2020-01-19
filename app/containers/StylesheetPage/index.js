@@ -170,9 +170,13 @@ const components = {
                 <Button data-cancel>Cancel</Button>
               </Grid>
             ),
-          })
-            .then(() => logger('done!'))
-            .catch((error) => logger(error));
+          }).then((response) => {
+            if (response.canceled) {
+              logger(response.reason);
+            } else {
+              logger('done!');
+            }
+          });
         }}
       >
         Open Modal

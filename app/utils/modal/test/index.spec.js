@@ -21,9 +21,9 @@ describe('Utils(Modal)', () => {
     it('should forward the resolve function to onClose of Modal', async () => {
       const expectedResult = chance.string();
 
-      let resolve;
+      let close;
       sinon.stub(ModalComponents, 'Modal').callsFake(({ onClose }) => {
-        resolve = onClose;
+        close = onClose;
         return null;
       });
 
@@ -31,20 +31,23 @@ describe('Utils(Modal)', () => {
         component: () => <div />,
       });
 
-      resolve(expectedResult);
+      close(expectedResult);
 
-      const result = await promise;
+      const response = await promise;
 
-      expect(result).equals(expectedResult);
+      expect(response).equals({
+        result: expectedResult,
+        canceled: false,
+      });
       sinon.assert.calledOnce(ReactDOM.unmountComponentAtNode);
     });
 
-    it('should forward the reject function to onCancel of Modal', async () => {
+    it('should onCancel should resolve the promise as canceled', async () => {
       const expectedResult = chance.string();
 
-      let reject;
+      let cancel;
       sinon.stub(ModalComponents, 'Modal').callsFake(({ onCancel }) => {
-        reject = onCancel;
+        cancel = onCancel;
         return null;
       });
 
@@ -52,9 +55,14 @@ describe('Utils(Modal)', () => {
         component: () => <div />,
       });
 
-      reject(new Error(expectedResult));
+      cancel(expectedResult);
 
-      await expect(promise).rejects(Error, expectedResult);
+      const response = await promise;
+
+      expect(response).equals({
+        reason: expectedResult,
+        canceled: true,
+      });
       sinon.assert.calledOnce(ReactDOM.unmountComponentAtNode);
     });
 
