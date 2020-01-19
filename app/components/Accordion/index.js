@@ -18,13 +18,11 @@ export function Accordion({ children, opened }) {
       Events.once(
         accordionRef.current,
         'transitionend',
-        () => {
-          setMaxHeight(null);
-        },
-        {
-          passive: true,
-        },
-      );
+        { passive: true },
+        Events.currentTargetPredicate,
+      ).then(() => {
+        setMaxHeight(null);
+      });
     } else if (!opened && visible) {
       setMaxHeight(accordionRef.current.scrollHeight);
 
@@ -34,13 +32,11 @@ export function Accordion({ children, opened }) {
         Events.once(
           accordionRef.current,
           'transitionend',
-          () => {
-            setVisible(false);
-          },
-          {
-            passive: true,
-          },
-        );
+          { passive: true },
+          Events.currentTargetPredicate,
+        ).then(() => {
+          setVisible(false);
+        });
       });
     }
   }, [opened, visible]);

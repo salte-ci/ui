@@ -83,6 +83,9 @@ module.exports = {
     files: [ 'app/**/*.spec.js' ],
     globals: {
       spyOn: true
+    },
+    rules: {
+      'react/prop-types': 0,
     }
   }]
 };

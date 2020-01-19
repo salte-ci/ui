@@ -20,9 +20,7 @@ describe('<Accordion />', () => {
 
   beforeEach(() => {
     sinon.stub(Render, 'OnNextRender').callsFake((callback) => callback());
-    sinon
-      .stub(Events, 'once')
-      .callsFake((target, type, callback) => callback());
+    sinon.stub(Events, 'once').resolves();
   });
 
   afterEach(() => {

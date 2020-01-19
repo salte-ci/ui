@@ -162,7 +162,7 @@ const components = {
         onClick={() => {
           modal({
             variant: 'medium',
-            children: (
+            component: () => (
               <Grid>
                 <Button theme="accent" data-close>
                   Confirm

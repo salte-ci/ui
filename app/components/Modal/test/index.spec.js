@@ -2,166 +2,175 @@ import React from 'react';
 import { expect } from '@hapi/code';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
+import { KEY_ESCAPE, KEY_TAB } from 'keycode-js';
+
+import * as Window from '../../../utils/window';
+import * as Events from '../../../utils/events';
 
 import { Modal } from '../index';
-import { Button } from '../../Button';
 
 describe('<Modal />', () => {
+  const RenderComponent = (overrides) => {
+    const props = {
+      component: 'div',
+      onClose: sinon.stub(),
+      onCancel: sinon.stub(),
+      ...overrides,
+    };
+
+    return mount(<Modal {...props} />);
+  };
+
   beforeEach(() => {
-    delete Modal.instance;
+    sinon.stub(Window, 'addEventListener');
+    sinon.stub(Window, 'removeEventListener');
+    sinon.stub(Events, 'once').resolves();
   });
 
   afterEach(() => {
     sinon.restore();
   });
 
-  describe('constructor', () => {
-    it('should be a singleton', () => {
-      mount(<Modal />);
+  it('should set defaults', () => {
+    const component = RenderComponent();
 
-      expect(Modal.instance).not.equals(undefined);
-    });
+    const {
+      component: Component,
+      onClose,
+      onCancel,
+      ...props
+    } = component.props();
 
-    it('should ensure it stays a singleton', () => {
-      spyOn(console, 'error'); // NOTE: This is being used to silence the error from the console.
-
-      mount(<Modal />);
-
-      expect(() => mount(<Modal />)).throws(
-        'The modal container is already defined',
-      );
+    expect(props).equals({
+      variant: 'medium',
     });
   });
 
-  describe('function(open)', () => {
-    const open = (component, props) => {
-      const identifier = component.instance().identifier(props || {});
-      const promise = Modal.open(props);
-      component.update();
-      return { promise, identifier };
-    };
+  describe('event(onKeyDown)', () => {
+    it('should add the "onKeyDown" listener on mount', () => {
+      RenderComponent();
 
-    it('should complete the promise when close is called', () => {
-      const component = mount(<Modal />);
-
-      const { promise, identifier } = open(component);
-
-      component.instance().close(identifier);
-
-      return promise;
+      sinon.assert.calledOnce(Window.addEventListener);
+      sinon.assert.notCalled(Window.removeEventListener);
     });
 
-    it('should prevent opening the same modal multiple times', async () => {
-      const component = mount(<Modal />);
+    it('should remove the "onKeyDown" listener on unmount', () => {
+      const component = RenderComponent();
 
-      const { promise, identifier } = open(component);
-      const { promise: preventPromise } = open(component);
+      component.unmount();
 
-      component.instance().close(identifier);
-
-      await promise;
-      await expect(preventPromise).rejects(Error);
+      sinon.assert.calledOnce(Window.addEventListener);
+      sinon.assert.calledOnce(Window.removeEventListener);
     });
 
-    it('should fail the promise when cancel is called', async () => {
-      const component = mount(<Modal />);
+    it('should close if the escape key is pressed', (done) => {
+      Window.addEventListener.restore();
+      sinon.stub(Window, 'addEventListener').callsFake((type, callback) => {
+        callback({
+          keyCode: KEY_ESCAPE,
+        });
+      });
 
-      const { promise, identifier } = open(component);
-
-      component.instance().cancel(identifier);
-
-      await expect(promise).rejects(Error);
+      RenderComponent({
+        onCancel: done,
+      });
     });
 
-    it('should ignore multiple close calls', async () => {
-      const component = mount(<Modal />);
+    it('should not close if any other key is pressed', (done) => {
+      Window.addEventListener.restore();
+      sinon.stub(Window, 'addEventListener').callsFake((type, callback) => {
+        callback({
+          keyCode: KEY_TAB,
+        });
+      });
 
-      const { promise, identifier } = open(component);
+      RenderComponent({
+        onCancel: () => done.fail('Expected onCancel to not get called.'),
+      });
 
-      component.instance().close(identifier);
-      component.instance().close(identifier);
-
-      return promise;
-    });
-
-    it('should ignore multiple cancel calls', async () => {
-      const component = mount(<Modal />);
-
-      const { promise, identifier } = open(component);
-
-      component.instance().cancel(identifier);
-      component.instance().cancel(identifier);
-
-      await expect(promise).rejects(Error);
+      done();
     });
   });
 
-  describe('event(onClick)', () => {
-    const open = (component, ...args) => {
-      const promise = Modal.open(...args);
-      component.update();
-      return promise;
-    };
+  // props: PropTypes.object,
+  // variant: PropTypes.oneOf(['small', 'medium', 'large']),
+  describe('prop(component)', () => {
+    it('should support providing a custom component', () => {
+      const CustomModal = () => <div />;
 
-    it('should close the modal if [data-close] is clicked', () => {
-      const component = mount(<Modal />);
-
-      const promise = open(component, {
-        children: <Button data-close>Close</Button>,
+      const component = RenderComponent({
+        component: CustomModal,
       });
 
-      component.find('Button[data-close]').simulate('click');
-
-      return promise;
+      expect(component.exists(CustomModal)).equals(true);
     });
 
-    it('should close the modal if [data-cancel] is clicked', async () => {
-      const component = mount(<Modal />);
+    it('should forward close and cancel functions to the custom component', () => {
+      const CustomModal = ({ close, cancel }) => {
+        expect(close).function();
+        expect(cancel).function();
 
-      const promise = open(component, {
-        children: <Button data-cancel>Close</Button>,
+        return <div />;
+      };
+
+      const component = RenderComponent({
+        component: CustomModal,
       });
 
-      component.find('Button[data-cancel]').simulate('click');
-
-      await expect(promise).rejects(Error);
+      expect(component.exists(CustomModal)).equals(true);
     });
+  });
 
-    it('should open a modal and fail the promise if the backdrop is clicked', async () => {
-      const component = mount(<Modal />);
-
-      const promise = open(component);
-
-      component.find('#backdrop').simulate('click');
-
-      await expect(promise).rejects(Error);
-    });
-
-    it('should ignore clicks on other children', () => {
-      const component = mount(<Modal />);
-
-      const closeSpy = sinon.spy(component.instance(), 'close');
-      const cancelSpy = sinon.spy(component.instance(), 'cancel');
-
-      const promise = open(component, {
-        children: (
-          <>
-            <Button id="hello">Hello!</Button>
-            <Button data-close>Close</Button>
-          </>
-        ),
+  describe('prop(onClose)', () => {
+    it('should call onClose if an element with "data-close" is clicked', (done) => {
+      const component = RenderComponent({
+        component: () => <div tid="close" />,
+        onClose: done,
       });
 
-      component.find('Button#hello').simulate('click');
+      component.find('[tid="close"]').simulate('click', {
+        target: {
+          dataset: {
+            close: true,
+          },
+        },
+      });
+    });
+  });
 
-      sinon.assert.notCalled(closeSpy);
-      sinon.assert.notCalled(cancelSpy);
+  describe('prop(onCancel)', () => {
+    it('should call onCancel if an element with "data-cancel" is clicked', (done) => {
+      const component = RenderComponent({
+        component: () => <div tid="cancel" />,
+        onCancel: done,
+      });
 
-      component.find('Button[data-close]').simulate('click');
+      component.find('[tid="cancel"]').simulate('click', {
+        target: {
+          dataset: {
+            cancel: true,
+          },
+        },
+      });
+    });
 
-      sinon.assert.calledOnce(closeSpy);
+    it('should call onCancel if the backdrop is clicked', (done) => {
+      const component = RenderComponent({
+        onCancel: done,
+      });
 
-      return promise;
+      component.find('[tid="backdrop"]').simulate('click');
+    });
+
+    it('should ignore clicks to anything else', (done) => {
+      const component = RenderComponent({
+        component: () => <div tid="component" />,
+        onCancel: () => done.fail('Expected "onClose" to never be invoked.'),
+        onClose: () => done.fail('Expected "onClose" to never be invoked.'),
+        onClick: () => done(),
+      });
+
+      component.find('[tid="component"]').simulate('click');
     });
   });
 });

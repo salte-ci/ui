@@ -1,132 +1,96 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
+import { KEY_ESCAPE } from 'keycode-js';
+import * as Window from '../../utils/window';
 
 import { Card } from '../Card';
+import * as Events from '../../utils/events';
 
 import styles from './index.css';
+import { OPENED, OPENING, CLOSING, CLOSED } from './constants';
 
-const container = document.createElement('div');
-container.id = 'modal-container';
-document.body.appendChild(container);
+export function Modal({
+  component: Component,
+  onClose,
+  onCancel,
+  onClick,
+  props,
+  variant,
+  ...extraProps
+}) {
+  const backdrop = useRef();
+  const [status, setStatus] = useState(CLOSED);
 
-// TODO: Implement Show and Hide animations
-// TODO: Add a way of providing a result / reason from the children.
+  const animate = (initialStatus, finalStatus) => {
+    setStatus(initialStatus);
 
-export class Modal extends React.Component {
-  constructor(props) {
-    super(props);
+    return Events.once(
+      backdrop.current,
+      'transitionend',
+      { passive: true },
+      Events.currentTargetPredicate,
+    ).then(() => {
+      setStatus(finalStatus);
+    });
+  };
 
-    if (Modal.instance) {
-      throw new Error('The modal container is already defined');
-    }
+  const close = (result) =>
+    animate(CLOSING, CLOSED).then(() => onClose(result));
+  const cancel = (reason) =>
+    animate(CLOSING, CLOSED).then(() => onCancel(reason));
 
-    Modal.instance = this;
+  useEffect(() => {
+    animate(OPENING, OPENED);
+  }, []);
 
-    this.state = {
-      modals: [],
+  useEffect(() => {
+    const OnKeyDown = (e) => {
+      if (![KEY_ESCAPE].includes(e.keyCode)) return;
+
+      cancel();
     };
-  }
 
-  static open(props) {
-    return Modal.instance.add(props);
-  }
+    Window.addEventListener('keydown', OnKeyDown);
 
-  identifier(props) {
-    return btoa(JSON.stringify(props));
-  }
+    return () => {
+      Window.removeEventListener('keydown', OnKeyDown);
+    };
+  }, []);
 
-  add(props = {}) {
-    const identifier = this.identifier(props);
+  return (
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+    <div
+      {...extraProps}
+      tid="backdrop"
+      className={styles.backdrop}
+      ref={backdrop}
+      status={status}
+      onClick={(e) => {
+        if (e.target.dataset.cancel || e.target === backdrop.current) {
+          cancel();
+        } else if (e.target.dataset.close) {
+          close();
+        }
 
-    const index = this.find(identifier);
-
-    if (index !== -1) return Promise.reject(new Error('Already exists...'));
-
-    return new Promise((resolve, reject) => {
-      this.setState((prevState) => ({
-        modals: [
-          ...prevState.modals,
-          { ...props, resolve, reject, identifier },
-        ],
-      }));
-    });
-  }
-
-  close(identifier, result) {
-    const index = this.find(identifier);
-
-    if (index === -1) return;
-
-    const { resolve } = this.state.modals[index];
-    this.remove(index);
-
-    resolve(result);
-  }
-
-  cancel(identifier, reason) {
-    const index = this.find(identifier);
-
-    if (index === -1) return;
-
-    const { reject } = this.state.modals[index];
-    this.remove(index);
-
-    reject(
-      reason || new Error('Modal was closed or no error message was provided.'),
-    );
-  }
-
-  remove(index) {
-    this.setState((prevState) => {
-      prevState.modals.splice(index, 1);
-      return { modals: prevState.modals };
-    });
-  }
-
-  find(identifier) {
-    return this.state.modals.findIndex(
-      (modal) => modal.identifier === identifier,
-    );
-  }
-
-  render() {
-    return (
-      <>
-        {this.state.modals.map(
-          ({
-            resolve,
-            reject,
-            children,
-            identifier,
-            variant = 'medium',
-            ...extraProps
-          }) => (
-            // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-            <div
-              {...extraProps}
-              id="backdrop"
-              key={identifier}
-              onClick={(event) => {
-                if (
-                  event.target.dataset.cancel ||
-                  event.target === event.currentTarget
-                ) {
-                  this.cancel(identifier);
-                } else if (event.target.dataset.close) {
-                  this.close(identifier);
-                }
-              }}
-              className={styles.backdrop}
-            >
-              <Card className={styles.modal} variant={variant.toString()}>
-                {children}
-              </Card>
-            </div>
-          ),
-        )}
-      </>
-    );
-  }
+        if (onClick) onClick(e);
+      }}
+    >
+      <Card className={styles.modal} role="dialog" variant={variant.toString()}>
+        <Component {...props} close={close} cancel={cancel} />
+      </Card>
+    </div>
+  );
 }
 
-ReactDOM.render(<Modal />, container);
+Modal.propTypes = {
+  component: PropTypes.elementType.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
+  props: PropTypes.object,
+  variant: PropTypes.oneOf(['small', 'medium', 'large']),
+};
+
+Modal.defaultProps = {
+  variant: 'medium',
+};

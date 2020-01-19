@@ -4,18 +4,43 @@
   left: 0;
   right: 0;
   bottom: 0;
+  padding: 20px;
+
+  display: flex;
+  justify-content: center;
+  align-items: start;
 
   background-color: var(--sci-darken-color);
-}
 
-.modal {
-  position: absolute;
-  top: 30%;
-  left: 50%;
+  transition: 0.15s ease-in-out;
+  transition-property: opacity;
 
-  transform: translate(-50%, 0);
-}
+  > .modal {
+    top: 30%;
 
-.modal[variant="medium"] {
-  width: 600px;
+    transition: 0.15s ease-in-out;
+    transition-property: transform;
+
+    &[variant="medium"] {
+      width: 600px;
+    }
+  }
+
+  &[status="opening"],
+  &[status="opened"] {
+    opacity: 1;
+
+    > .modal {
+      transform: translateY(0px);
+    }
+  }
+
+  &[status="closing"],
+  &[status="closed"] {
+    opacity: 0;
+
+    > .modal {
+      transform: translateY(-10px);
+    }
+  }
 }
