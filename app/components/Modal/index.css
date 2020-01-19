@@ -16,13 +16,20 @@
   transition-property: opacity;
 
   > .modal {
-    top: 30%;
+    top: 200px;
+    max-height: 100%;
+    overflow: auto;
+    box-sizing: border-box;
 
     transition: 0.15s ease-in-out;
     transition-property: transform;
 
     &[variant="medium"] {
       width: 600px;
+    }
+
+    @media (max-width: 599px) {
+      top: 0;
     }
   }
 
