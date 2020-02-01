@@ -3,7 +3,7 @@ import sinon from 'sinon';
 
 import { chance } from '../../test/mock';
 
-import * as Events from '../index';
+import * as Events from '..';
 
 describe('Utils(Events)', () => {
   describe('func(currentTargetPredicate)', () => {

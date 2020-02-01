@@ -1,19 +1,22 @@
-import React from 'react';
+import { act } from 'react-dom/test-utils';
 import sinon from 'sinon';
 import { expect } from '@hapi/code';
 
+import * as Environments from '../../../config/environments';
 import * as Config from '../../../config';
 
-import { Header } from '../index';
-import { MountWrapper } from '../../../utils/test/mount';
-import { MergeDeep } from '../../../utils/merge';
+import { Header } from '..';
+import { FixtureFactory } from '../../../utils/test/mount';
 import { chance, MockUntestables } from '../../../utils/test/mock';
 import { auth } from '../../../auth';
 import { Toggle } from '../../Toggle';
+import { AccountSettingsModal } from '../../AccountSettingsModal';
+import { ALPHA, LIVE, LOCAL } from '../../../config/constants';
 
 describe('<Header />', () => {
-  const RenderComponent = (overrides) => {
-    const props = {
+  const Fixture = FixtureFactory({
+    component: Header,
+    props: () => ({
       idToken: {
         expired: true,
         user: {
@@ -21,10 +24,9 @@ describe('<Header />', () => {
           picture: chance.url(),
         },
       },
-    };
-
-    return MountWrapper(<Header {...MergeDeep(props, overrides)} />);
-  };
+    }),
+    mountType: 'app',
+  });
 
   beforeEach(() => {
     MockUntestables();
@@ -38,36 +40,44 @@ describe('<Header />', () => {
   });
 
   it('should render the component', () => {
-    const component = RenderComponent();
+    const component = Fixture();
 
     expect(component.children().length).equals(1);
   });
 
   describe('config(environment)', () => {
     it('should render a toggle if the environment is "alpha"', () => {
-      sinon.stub(Config, 'environment').get(() => 'alpha');
+      sinon.stub(Environments, 'environment').get(() => ALPHA);
 
-      const component = RenderComponent();
+      const component = Fixture();
 
       expect(component.exists(Toggle)).equals(true);
     });
 
-    it('should call "UpdateLocal" when the Toggle is clicked', () => {
-      sinon.stub(Config, 'environment').get(() => 'alpha');
-      sinon.stub(Config, 'UpdateLocal');
+    it('should render a toggle if the environment is "local"', () => {
+      sinon.stub(Environments, 'environment').get(() => LOCAL);
 
-      const component = RenderComponent();
+      const component = Fixture();
+
+      expect(component.exists(Toggle)).equals(true);
+    });
+
+    it('should call "SetLocal" when the Toggle is clicked', () => {
+      sinon.stub(Environments, 'environment').get(() => ALPHA);
+      sinon.stub(Config, 'SetLocal');
+
+      const component = Fixture();
 
       component.find(Toggle).simulate('click');
 
-      sinon.assert.calledOnce(Config.UpdateLocal);
-      sinon.assert.calledWithExactly(Config.UpdateLocal, true);
+      sinon.assert.calledOnce(Config.SetLocal);
+      sinon.assert.calledWithExactly(Config.SetLocal, true);
     });
 
     it('should not render a toggle if the environment is not "alpha"', () => {
-      sinon.stub(Config, 'environment').get(() => 'live');
+      sinon.stub(Environments, 'environment').get(() => LIVE);
 
-      const component = RenderComponent();
+      const component = Fixture();
 
       expect(component.exists(Toggle)).equals(false);
     });
@@ -75,9 +85,11 @@ describe('<Header />', () => {
 
   describe('state(idToken)', () => {
     it('should render Sign Up if the user is not logged in', () => {
-      const component = RenderComponent({
-        idToken: {
-          expired: true,
+      const component = Fixture({
+        props: {
+          idToken: {
+            expired: true,
+          },
         },
       });
 
@@ -86,9 +98,11 @@ describe('<Header />', () => {
     });
 
     it('should render Sign Out if the user is logged in', () => {
-      const component = RenderComponent({
-        idToken: {
-          expired: false,
+      const component = Fixture({
+        props: {
+          idToken: {
+            expired: false,
+          },
         },
       });
 
@@ -99,9 +113,11 @@ describe('<Header />', () => {
 
   describe('Sign Up', () => {
     it('should invoke "login" when clicked', () => {
-      const component = RenderComponent({
-        idToken: {
-          expired: true,
+      const component = Fixture({
+        props: {
+          idToken: {
+            expired: true,
+          },
         },
       });
 
@@ -113,11 +129,57 @@ describe('<Header />', () => {
     });
   });
 
+  describe('Account Settings', () => {
+    it('should open the AccountSettingsModal upon being clicked', () => {
+      const component = Fixture({
+        props: {
+          idToken: {
+            expired: false,
+          },
+        },
+      });
+
+      component
+        .find('#account-settings')
+        .hostNodes()
+        .simulate('click');
+
+      expect(component.find(AccountSettingsModal).prop('opened')).equals(true);
+    });
+
+    it('should close the AccountSettingsModal when onClose is invoked', async () => {
+      const component = Fixture({
+        props: {
+          idToken: {
+            expired: false,
+          },
+        },
+      });
+
+      component
+        .find('#account-settings')
+        .hostNodes()
+        .simulate('click');
+
+      expect(component.find(AccountSettingsModal).prop('opened')).equals(true);
+
+      const { onClose } = component.find(AccountSettingsModal).props();
+
+      await act(async () => onClose());
+
+      component.update();
+
+      expect(component.find(AccountSettingsModal).prop('opened')).equals(false);
+    });
+  });
+
   describe('Sign Out', () => {
     it('should invoke "logout" when clicked', () => {
-      const component = RenderComponent({
-        idToken: {
-          expired: false,
+      const component = Fixture({
+        props: {
+          idToken: {
+            expired: false,
+          },
         },
       });
 

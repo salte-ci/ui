@@ -1,13 +1,16 @@
-import React from 'react';
 import sinon from 'sinon';
 import { expect } from '@hapi/code';
 
-import { mount } from 'enzyme';
-import { Small } from '../index';
-import { MockUntestables } from '../../../utils/test/mock';
+import { Small } from '..';
+import { MockUntestables, chance } from '../../../utils/test/mock';
 import { GetVariable } from '../../../utils/theme';
+import { FixtureFactory } from '../../../utils/test/mount';
 
 describe('<Small />', () => {
+  const Fixture = FixtureFactory({
+    component: Small,
+  });
+
   beforeEach(() => {
     MockUntestables();
   });
@@ -16,14 +19,8 @@ describe('<Small />', () => {
     sinon.restore();
   });
 
-  it('should render', () => {
-    const component = mount(<Small />);
-
-    expect(component.children().length).equals(1);
-  });
-
   it('should set defaults', () => {
-    const component = mount(<Small />);
+    const component = Fixture();
 
     expect(component.props()).equals({
       theme: 'darken',
@@ -32,15 +29,24 @@ describe('<Small />', () => {
 
   describe('prop(children)', () => {
     it('should support providing children', () => {
-      const component = mount(<Small>Hello World</Small>);
+      const children = chance.string();
+      const component = Fixture({
+        props: {
+          children,
+        },
+      });
 
-      expect(component.text()).equals('Hello World');
+      expect(component.text()).equals(children);
     });
   });
 
   describe('prop(align)', () => {
     it('should be a short-hand for the textAlign style', () => {
-      const component = mount(<Small align="center" />);
+      const component = Fixture({
+        props: {
+          align: 'center',
+        },
+      });
 
       expect(component.find('#small').prop('style').textAlign).equals('center');
     });
@@ -48,7 +54,11 @@ describe('<Small />', () => {
 
   describe('prop(style)', () => {
     it('should support providing custom styles', () => {
-      const component = mount(<Small style={{ height: 100 }} />);
+      const component = Fixture({
+        props: {
+          style: { height: 100 },
+        },
+      });
 
       expect(component.find('#small').prop('style').height).equals(100);
     });
@@ -56,7 +66,11 @@ describe('<Small />', () => {
 
   describe('prop(theme)', () => {
     it('should support providing a custom theme', () => {
-      const component = mount(<Small theme="primary" />);
+      const component = Fixture({
+        props: {
+          theme: 'primary',
+        },
+      });
 
       const { '--sci-small-color': SmallColor } = component
         .find('#small')

@@ -4,6 +4,9 @@ import { auth } from '../../auth';
 
 const initialState = {
   auth0: auth.provider('auth0').idToken,
+  bitbucket: auth.provider('bitbucket').code,
+  github: auth.provider('github').code,
+  gitlab: auth.provider('gitlab').code,
 };
 
 const actions = {

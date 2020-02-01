@@ -5,7 +5,11 @@ import styles from './index.css';
 import { H2 } from '../H2';
 import { Grid } from '../Grid';
 
-export function ErrorState({ children, error }) {
+export function ErrorState({ children, errors }) {
+  const error = Array.isArray(errors)
+    ? errors.filter((e) => Boolean(e))[0]
+    : errors;
+
   if (error) {
     return (
       <Grid id="error" direction="column" className={styles.error}>
@@ -20,5 +24,5 @@ export function ErrorState({ children, error }) {
 
 ErrorState.propTypes = {
   children: PropTypes.node.isRequired,
-  error: PropTypes.object,
+  errors: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
 };

@@ -1,15 +1,19 @@
 import React from 'react';
 import { expect } from '@hapi/code';
-import { mount } from 'enzyme';
 import sinon from 'sinon';
 
-import { Button } from '../index';
+import { Button } from '..';
 
-import { MockIcons } from '../../../utils/test/mock';
+import { MockIcons, chance } from '../../../utils/test/mock';
 import { Icon } from '../../Icon';
 import { GetVariable } from '../../../utils/theme';
+import { FixtureFactory } from '../../../utils/test/mount';
 
 describe('<Button />', () => {
+  const Fixture = FixtureFactory({
+    component: Button,
+  });
+
   beforeEach(() => {
     MockIcons();
   });
@@ -19,7 +23,7 @@ describe('<Button />', () => {
   });
 
   it('should set defaults', () => {
-    const component = mount(<Button />);
+    const component = Fixture();
 
     expect(component.props()).equals({
       disabled: false,
@@ -27,32 +31,43 @@ describe('<Button />', () => {
       type: 'div',
       rounded: false,
       large: false,
+      loading: false,
     });
   });
 
   describe('prop(children)', () => {
     it('should support providing children elements', () => {
-      const component = mount(
-        <Button>
-          <div>Hello World</div>
-        </Button>,
-      );
+      const content = chance.string();
+      const component = Fixture({
+        props: {
+          children: <div>{content}</div>,
+        },
+      });
 
-      expect(component.text()).equals('Hello World');
+      expect(component.text()).equals(content);
       expect(component.exists('[test-id="wrapper"]')).equals(false);
     });
 
     it('should automatically wrap text nodes', () => {
-      const component = mount(<Button>Hello World</Button>);
+      const children = chance.string();
+      const component = Fixture({
+        props: {
+          children,
+        },
+      });
 
-      expect(component.text()).equals('Hello World');
+      expect(component.text()).equals(children);
       expect(component.exists('[test-id="wrapper"]')).equals(true);
     });
   });
 
   describe('prop(theme)', () => {
     it('should support other themes', () => {
-      const component = mount(<Button theme="accent" />);
+      const component = Fixture({
+        props: {
+          theme: 'accent',
+        },
+      });
 
       expect(component.prop('theme')).equals('accent');
 
@@ -68,7 +83,11 @@ describe('<Button />', () => {
 
   describe('prop(type)', () => {
     it('should support other Element types', () => {
-      const component = mount(<Button type="a" />);
+      const component = Fixture({
+        props: {
+          type: 'a',
+        },
+      });
 
       expect(component.prop('type')).equals('a');
 
@@ -81,23 +100,55 @@ describe('<Button />', () => {
 
   describe('prop(rounded)', () => {
     it('should support the Button being rounded', () => {
-      const component = mount(<Button rounded />);
+      const component = Fixture({
+        props: {
+          rounded: true,
+        },
+      });
 
       expect(component.prop('rounded')).equals(true);
+    });
+
+    it('should support the Button not being rounded', () => {
+      const component = Fixture({
+        props: {
+          rounded: false,
+        },
+      });
+
+      expect(component.prop('rounded')).equals(false);
     });
   });
 
   describe('prop(large)', () => {
     it('should support the Button being large', () => {
-      const component = mount(<Button large />);
+      const component = Fixture({
+        props: {
+          large: true,
+        },
+      });
 
       expect(component.prop('large')).equals(true);
+    });
+
+    it('should support the Button not being large', () => {
+      const component = Fixture({
+        props: {
+          large: false,
+        },
+      });
+
+      expect(component.prop('large')).equals(false);
     });
   });
 
   describe('prop(icon)', () => {
     it('should support providing an icon', () => {
-      const component = mount(<Button icon="bitbucket" />);
+      const component = Fixture({
+        props: {
+          icon: 'bitbucket',
+        },
+      });
 
       expect(component.prop('icon')).equals('bitbucket');
       expect(component.find(Icon).prop('name')).equals('bitbucket');
@@ -106,7 +157,11 @@ describe('<Button />', () => {
 
   describe('prop(alignSelf)', () => {
     it('should be a short-hand for the alignSelf style property', () => {
-      const component = mount(<Button alignSelf="center" />);
+      const component = Fixture({
+        props: {
+          alignSelf: 'center',
+        },
+      });
 
       expect(component.find('[role="button"]').prop('style').alignSelf).equals(
         'center',
@@ -116,7 +171,11 @@ describe('<Button />', () => {
 
   describe('prop(disabled)', () => {
     it('should support being disabled', () => {
-      const component = mount(<Button disabled />);
+      const component = Fixture({
+        props: {
+          disabled: true,
+        },
+      });
 
       expect(component.find('[role="button"]').prop('disabled')).equals(true);
 
@@ -131,7 +190,12 @@ describe('<Button />', () => {
 
     it('should ignore click events when disabled', () => {
       const onClick = sinon.stub();
-      const component = mount(<Button disabled onClick={onClick} />);
+      const component = Fixture({
+        props: {
+          disabled: true,
+          onClick,
+        },
+      });
 
       sinon.assert.notCalled(onClick);
 

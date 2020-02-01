@@ -1,0 +1,7 @@
+.body {
+  white-space: pre-wrap;
+
+  &[bold="true"] {
+    font-weight: bold;
+  }
+}

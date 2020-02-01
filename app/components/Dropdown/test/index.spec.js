@@ -1,21 +1,19 @@
 import React from 'react';
 import sinon from 'sinon';
 import { expect } from '@hapi/code';
-import { mount } from 'enzyme';
 
-import { Dropdown } from '../index';
+import { Dropdown } from '..';
 import { chance } from '../../../utils/test/mock';
 import * as Window from '../../../utils/window';
+import { FixtureFactory } from '../../../utils/test/mount';
 
 describe('<Dropdown />', () => {
-  const RenderComponent = (overrides) => {
-    const props = {
-      toggle: 'Toggle',
-      ...overrides,
-    };
-
-    return mount(<Dropdown {...props} />);
-  };
+  const Fixture = FixtureFactory({
+    component: Dropdown,
+    props: () => ({
+      toggle: chance.string(),
+    }),
+  });
 
   afterEach(() => {
     sinon.restore();
@@ -24,8 +22,10 @@ describe('<Dropdown />', () => {
   describe('prop(toggle)', () => {
     it('should support providing a string', () => {
       const toggle = chance.string();
-      const component = RenderComponent({
-        toggle,
+      const component = Fixture({
+        props: {
+          toggle,
+        },
       });
 
       expect(component.find('[tid="toggle"]').text()).equals(toggle);
@@ -33,8 +33,10 @@ describe('<Dropdown />', () => {
 
     it('should support providing a component', () => {
       const toggle = chance.string();
-      const component = RenderComponent({
-        toggle: <div>{toggle}</div>,
+      const component = Fixture({
+        props: {
+          toggle: <div>{toggle}</div>,
+        },
       });
 
       expect(component.find('[tid="toggle"]').text()).equals(toggle);
@@ -43,13 +45,15 @@ describe('<Dropdown />', () => {
 
   describe('prop(children)', () => {
     it('should support providing items', () => {
-      const component = RenderComponent({
-        children: (
-          <>
-            <Dropdown.Item>Item</Dropdown.Item>
-            <Dropdown.Item>Item</Dropdown.Item>
-          </>
-        ),
+      const component = Fixture({
+        props: {
+          children: (
+            <>
+              <Dropdown.Item>Item</Dropdown.Item>
+              <Dropdown.Item>Item</Dropdown.Item>
+            </>
+          ),
+        },
       });
 
       expect(component.find('[tid="dropdown"]').children().length).equals(2);
@@ -58,7 +62,7 @@ describe('<Dropdown />', () => {
 
   describe('prop(alignment)', () => {
     it('should automatically reposition the dropdown upon being opened', async () => {
-      const component = RenderComponent();
+      const component = Fixture();
 
       component.find('[tid="toggle"]').simulate('click');
 
@@ -69,8 +73,10 @@ describe('<Dropdown />', () => {
     });
 
     it('should support being centered', async () => {
-      const component = RenderComponent({
-        alignment: 'center',
+      const component = Fixture({
+        props: {
+          alignment: 'center',
+        },
       });
 
       component.find('[tid="toggle"]').simulate('click');
@@ -82,8 +88,10 @@ describe('<Dropdown />', () => {
     });
 
     it('should support being right aligned', async () => {
-      const component = RenderComponent({
-        alignment: 'right',
+      const component = Fixture({
+        props: {
+          alignment: 'right',
+        },
       });
 
       component.find('[tid="toggle"]').simulate('click');
@@ -97,7 +105,7 @@ describe('<Dropdown />', () => {
 
   describe('state(opened)', () => {
     it('should toggle opened when the toggle is clicked', () => {
-      const component = RenderComponent();
+      const component = Fixture();
 
       component.find('[tid="toggle"]').simulate('click');
 
@@ -108,7 +116,7 @@ describe('<Dropdown />', () => {
       sinon.stub(Window, 'addEventListener');
       sinon.stub(Window, 'removeEventListener');
 
-      const component = RenderComponent();
+      const component = Fixture();
 
       sinon.assert.notCalled(Window.addEventListener);
 
@@ -124,7 +132,7 @@ describe('<Dropdown />', () => {
       sinon.stub(Window, 'addEventListener');
       sinon.stub(Window, 'removeEventListener');
 
-      const component = RenderComponent();
+      const component = Fixture();
 
       sinon.assert.notCalled(Window.removeEventListener);
 
@@ -139,7 +147,7 @@ describe('<Dropdown />', () => {
     it('should unregister event listeners when unmounted', () => {
       sinon.stub(Window, 'removeEventListener');
 
-      const component = RenderComponent();
+      const component = Fixture();
 
       sinon.assert.notCalled(Window.removeEventListener);
 
@@ -152,7 +160,7 @@ describe('<Dropdown />', () => {
     });
 
     it('should stay open if the dropdown was clicked', async () => {
-      const component = RenderComponent();
+      const component = Fixture();
 
       const promise = new Promise((resolve) => {
         sinon.stub(Window, 'addEventListener').callsFake((type, listener) => {
@@ -177,7 +185,7 @@ describe('<Dropdown />', () => {
     });
 
     it('should automatically close if anything other then the dropdown was clicked', async () => {
-      const component = RenderComponent();
+      const component = Fixture();
 
       const promise = new Promise((resolve) => {
         sinon.stub(Window, 'addEventListener').callsFake((type, listener) => {

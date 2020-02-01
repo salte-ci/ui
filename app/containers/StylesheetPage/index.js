@@ -22,12 +22,9 @@ import { List, ListItem } from '../../components/List';
 
 import styles from './index.css';
 
-import { modal } from '../../utils/modal';
-import { RootLogger } from '../../utils/logger';
 import { GetVariable, THEMES } from '../../utils/theme';
 import { Accordion } from '../../components/Accordion';
-
-const logger = RootLogger.extend('stylesheet');
+import { Modal } from '../../components/Modal';
 
 const config = fs.readFileSync('./app/examples/config.yaml', 'utf8');
 
@@ -92,6 +89,14 @@ const components = {
           Salte CI
         </Button>
       </div>
+      <H4>Buttons (loading)</H4>
+      <div className={styles.grid}>
+        {THEMES.map((theme) => (
+          <Button key={theme} theme={theme} loading>
+            {theme}
+          </Button>
+        ))}
+      </div>
     </>
   ),
   Dropdown: () => (
@@ -155,34 +160,25 @@ const components = {
       <ListItem>World</ListItem>
     </List>
   ),
-  Modal: () => (
-    <Grid>
-      <Button
-        theme="secondary"
-        onClick={() => {
-          modal({
-            variant: 'medium',
-            component: () => (
-              <Grid>
-                <Button theme="accent" data-close>
-                  Confirm
-                </Button>
-                <Button data-cancel>Cancel</Button>
-              </Grid>
-            ),
-          }).then((response) => {
-            if (response.canceled) {
-              logger(response.reason);
-            } else {
-              logger('done!');
-            }
-          });
-        }}
-      >
-        Open Modal
-      </Button>
-    </Grid>
-  ),
+  Modal: () => {
+    const [opened, setOpened] = useState(false);
+
+    return (
+      <Grid>
+        <Modal opened={opened} onClose={() => setOpened(false)}>
+          <Grid>
+            <Button theme="accent" onClick={() => setOpened(false)}>
+              Confirm
+            </Button>
+            <Button onClick={() => setOpened(false)}>Cancel</Button>
+          </Grid>
+        </Modal>
+        <Button theme="secondary" onClick={() => setOpened(true)}>
+          Open Modal
+        </Button>
+      </Grid>
+    );
+  },
   Accordion: () => {
     const [opened, setOpened] = useState(false);
 

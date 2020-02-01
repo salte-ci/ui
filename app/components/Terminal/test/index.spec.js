@@ -1,20 +1,29 @@
-import React from 'react';
 import { expect } from '@hapi/code';
-import { mount } from 'enzyme';
-import { Terminal } from '../index';
+import { Terminal } from '..';
+import { chance } from '../../../utils/test/mock';
+import { FixtureFactory } from '../../../utils/test/mount';
 
 describe('<Terminal />', () => {
+  const Fixture = FixtureFactory({
+    component: Terminal,
+  });
+
   it('should render', () => {
-    const component = mount(<Terminal />);
+    const component = Fixture();
 
     expect(component.children().length).equals(1);
   });
 
   describe('prop(children)', () => {
     it('should support providing children', () => {
-      const component = mount(<Terminal>Hello World</Terminal>);
+      const children = chance.string();
+      const component = Fixture({
+        props: {
+          children,
+        },
+      });
 
-      expect(component.find('#content').text()).equals('Hello World');
+      expect(component.find('#content').text()).equals(children);
     });
   });
 });

@@ -6,6 +6,7 @@ import { THEMES, GetComplementary, GetVariable } from '../../utils/theme';
 import styles from './index.css';
 import { Icon } from '../Icon';
 import { Grid } from '../Grid';
+import { LoadingIndicator } from '../LoadingIndicator';
 
 export function Button({
   alignSelf,
@@ -16,6 +17,7 @@ export function Button({
   type: Type,
   rounded,
   large,
+  loading,
   onClick,
   ...extraProps
 }) {
@@ -28,6 +30,7 @@ export function Button({
       disabled={disabled}
       rounded={rounded.toString()}
       large={large.toString()}
+      loading={loading.toString()}
       icon={Boolean(icon).toString()}
       role="button"
       className={styles.button}
@@ -40,29 +43,35 @@ export function Button({
         if (!disabled && onClick) onClick(e);
       }}
     >
-      <div id="shadow" className={styles.shadow} />
-      <Grid
-        id="content"
-        className={styles.content}
-        alignItems="center"
-        justifyContent="center"
-        flex={1}
-        spacing={10}
+      <LoadingIndicator
+        className={styles.loading}
+        loading={loading}
+        theme={complementaryTheme}
       >
-        {icon && (
-          <Icon
-            className={styles.icon}
-            name={icon}
-            large={large}
-            theme={complementaryTheme}
-          />
-        )}
-        {typeof children === 'string' ? (
-          <div test-id="wrapper">{children}</div>
-        ) : (
-          children
-        )}
-      </Grid>
+        <div id="shadow" className={styles.shadow} />
+        <Grid
+          id="content"
+          className={styles.content}
+          alignItems="center"
+          justifyContent="center"
+          flex={1}
+          spacing={10}
+        >
+          {icon && (
+            <Icon
+              className={styles.icon}
+              name={icon}
+              large={large}
+              theme={complementaryTheme}
+            />
+          )}
+          {typeof children === 'string' ? (
+            <div test-id="wrapper">{children}</div>
+          ) : (
+            children
+          )}
+        </Grid>
+      </LoadingIndicator>
     </Type>
   );
 }
@@ -76,6 +85,7 @@ Button.propTypes = {
   type: PropTypes.elementType,
   rounded: PropTypes.bool,
   large: PropTypes.bool,
+  loading: PropTypes.bool,
   onClick: PropTypes.func,
 };
 
@@ -85,4 +95,5 @@ Button.defaultProps = {
   type: 'div',
   rounded: false,
   large: false,
+  loading: false,
 };

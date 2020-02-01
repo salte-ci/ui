@@ -8,6 +8,7 @@ yarn-error.log
 
 # Editors
 .vscode/
+!.vscode/launch.json
 
 # ParcelJS
 dist/

@@ -69,3 +69,18 @@ export function requestAnimationFrame(
 ) {
   return $window.requestAnimationFrame(callback);
 }
+
+/**
+ * Fetches a resource from the network.
+ * @param {String|URL} resource the resource that you wish to fetch
+ * @param {RequestInit} [init] An object containing any custom settings that you want to apply to the request.
+ * @param {Window} $window the window object, useful for testing purposes.
+ */
+export function fetch(
+  resource,
+  init,
+  /* istanbul ignore next */
+  $window = window,
+) {
+  return $window.fetch(resource, init);
+}

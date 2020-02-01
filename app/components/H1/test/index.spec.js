@@ -1,19 +1,34 @@
-import React from 'react';
 import { expect } from '@hapi/code';
-import { mount } from 'enzyme';
 
-import { H1 } from '../index';
+import { H1 } from '..';
+import { chance } from '../../../utils/test/mock';
+import { FixtureFactory } from '../../../utils/test/mount';
 
 describe('<H1 />', () => {
+  const Fixture = FixtureFactory({
+    component: H1,
+    props: () => ({
+      children: chance.string(),
+    }),
+  });
+
   it('should support providing extra props', () => {
-    const component = mount(<H1 hello="world">Hello World</H1>);
+    const component = Fixture({
+      props: {
+        hello: 'world',
+      },
+    });
 
     expect(component.find('h1').prop('hello')).equals('world');
   });
 
   describe('prop(className)', () => {
     it('should support providing a className', () => {
-      const component = mount(<H1 className="test">Hello World</H1>);
+      const component = Fixture({
+        props: {
+          className: 'test',
+        },
+      });
 
       expect(component.find('h1').prop('className')).match(/test/);
     });
@@ -21,9 +36,14 @@ describe('<H1 />', () => {
 
   describe('prop(children)', () => {
     it('should support providing children', () => {
-      const component = mount(<H1>Hello World</H1>);
+      const children = chance.string();
+      const component = Fixture({
+        props: {
+          children,
+        },
+      });
 
-      expect(component.text()).equals('Hello World');
+      expect(component.text()).equals(children);
     });
   });
 });

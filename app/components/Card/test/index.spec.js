@@ -1,23 +1,31 @@
-import React from 'react';
 import sinon from 'sinon';
 import { expect } from '@hapi/code';
-import { mount } from 'enzyme';
 
-import { Card } from '../index';
+import { Card } from '..';
 import { GetVariable } from '../../../utils/theme';
 import { chance } from '../../../utils/test/mock';
+import { FixtureFactory } from '../../../utils/test/mount';
 
 describe('<Card />', () => {
+  const Fixture = FixtureFactory({
+    component: Card,
+    props: () => ({
+      children: chance.string(),
+    }),
+  });
+
   it('should render the component', () => {
-    const component = mount(<Card />);
+    const component = Fixture();
 
     expect(component.children().length).equals(1);
   });
 
   it('should set defaults', () => {
-    const component = mount(<Card />);
+    const component = Fixture();
 
-    expect(component.props()).equals({
+    const { children, ...props } = component.props();
+
+    expect(props).equals({
       direction: 'column',
       embed: false,
       loading: false,
@@ -26,22 +34,35 @@ describe('<Card />', () => {
   });
 
   it('should support providing extra props', () => {
-    const component = mount(<Card hello="world">Hello World</Card>);
+    const component = Fixture({
+      props: {
+        hello: 'world',
+      },
+    });
 
     expect(component.find('#card').prop('hello')).equals('world');
   });
 
   describe('prop(children)', () => {
     it('should support providing content', () => {
-      const component = mount(<Card>Hello World</Card>);
+      const children = chance.string();
+      const component = Fixture({
+        props: {
+          children,
+        },
+      });
 
-      expect(component.text()).equals('Hello World');
+      expect(component.text()).equals(children);
     });
   });
 
   describe('prop(theme)', () => {
     it('should support providing a theme', () => {
-      const component = mount(<Card theme="primary" />);
+      const component = Fixture({
+        props: {
+          theme: 'primary',
+        },
+      });
 
       const { '--sci-card-accent-color': CardAccentColor } = component
         .find('#card')
@@ -53,15 +74,25 @@ describe('<Card />', () => {
 
   describe('prop(header)', () => {
     it('should support providing a header', () => {
-      const component = mount(<Card header="Header" />);
+      const header = chance.string();
+      const component = Fixture({
+        props: {
+          header,
+        },
+      });
 
       expect(component.exists('H3#header')).equals(true);
-      expect(component.find('H3#header').text()).equals('Header');
+      expect(component.find('H3#header').text()).equals(header);
       expect(component.find('#card').prop('style').paddingTop).equals('10px');
     });
 
     it('should support theming the header divider', () => {
-      const component = mount(<Card header="Header" theme="primary" />);
+      const component = Fixture({
+        props: {
+          header: 'Header',
+          theme: 'primary',
+        },
+      });
 
       expect(component.exists('Line#divider')).equals(true);
       expect(component.find('Line#divider').prop('theme')).equals('primary');
@@ -70,14 +101,22 @@ describe('<Card />', () => {
 
   describe('prop(embed)', () => {
     it('should support being embedded', () => {
-      const component = mount(<Card embed />);
+      const component = Fixture({
+        props: {
+          embed: true,
+        },
+      });
 
       expect(component.find('#card').prop('embed')).equals('true');
       expect(component.find('#card').prop('style').paddingTop).equals(null);
     });
 
     it('should support not being embedded', () => {
-      const component = mount(<Card />);
+      const component = Fixture({
+        props: {
+          embed: false,
+        },
+      });
 
       expect(component.find('#card').prop('embed')).equals('false');
       expect(component.find('#card').prop('style').paddingTop).equals('20px');
@@ -86,7 +125,11 @@ describe('<Card />', () => {
 
   describe('prop(direction)', () => {
     it('should support a direction of "row"', () => {
-      const component = mount(<Card direction="row" />);
+      const component = Fixture({
+        props: {
+          direction: 'row',
+        },
+      });
 
       expect(component.find('Grid[tid="layout"]').prop('direction')).equals(
         'row',
@@ -98,7 +141,11 @@ describe('<Card />', () => {
     it('should support a custom className', () => {
       const className = chance.string();
 
-      const component = mount(<Card className={className} />);
+      const component = Fixture({
+        props: {
+          className,
+        },
+      });
 
       expect(component.find('#card').prop('className')).contains(className);
     });
@@ -107,13 +154,21 @@ describe('<Card />', () => {
   describe('prop(onClick)', () => {
     it('should support being clickable', () => {
       const onClick = sinon.stub();
-      const component = mount(<Card onClick={onClick} />);
+      const component = Fixture({
+        props: {
+          onClick,
+        },
+      });
 
       expect(component.find('[role="button"]').prop('onClick')).equals(onClick);
     });
 
     it('should support not being clickable', () => {
-      const component = mount(<Card />);
+      const component = Fixture({
+        props: {
+          onClick: undefined,
+        },
+      });
 
       expect(component.exists('[role="button"]')).equals(false);
     });

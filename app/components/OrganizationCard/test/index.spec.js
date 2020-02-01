@@ -3,7 +3,7 @@ import sinon from 'sinon';
 import { expect } from '@hapi/code';
 import { MountWrapperWithCustomState } from '../../../utils/test/mount';
 import { MockUntestables, MockState } from '../../../utils/test/mock';
-import { OrganizationCard } from '../index';
+import { OrganizationCard } from '..';
 import { Accordion } from '../../Accordion';
 
 describe('<OrganizationCard />', () => {

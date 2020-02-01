@@ -1,6 +1,6 @@
 import { expect } from '@hapi/code';
 
-import { MergeDeep } from '../index';
+import { MergeDeep } from '..';
 
 describe('Utils(Merge)', () => {
   describe('func(MergeDeep)', () => {

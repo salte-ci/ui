@@ -3,12 +3,12 @@
   font-size: 15px;
   font-weight: 300;
   position: relative;
-  border-radius: 6px;
   user-select: none;
   text-decoration: none;
   outline: none;
-
+  min-width: 110px;
   height: var(--sci-button-height);
+  border-radius: var(--sci-border-radius);
 
   &[large="false"] {
     --sci-button-height: 40px;
@@ -24,17 +24,21 @@
     --sci-button-padding: 20px;
   }
 
-  &[rounded="true"] {
-    border-radius: calc(var(--sci-button-height) / 2);
+  &[rounded="false"] {
+    --sci-border-radius: 6px;
   }
 
-  > .shadow {
+  &[rounded="true"] {
+    --sci-border-radius: calc(var(--sci-button-height) / 2);
+  }
+
+  .shadow {
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 2px;
-    border-radius: inherit;
+    border-radius: var(--sci-border-radius);
 
     box-shadow: 0px 2px 0px 0px var(--sci-darken-color), 0px 2px 0px 0px var(--sci-button-background-color);
 
@@ -42,19 +46,19 @@
     transition-property: box-shadow;
   }
 
-  > .content {
+  .content {
     margin-bottom: 2px;
-    border-radius: inherit;
+    border-radius: var(--sci-border-radius);
     padding: 0 10px;
     color: var(--sci-button-color);
     background-color: var(--sci-button-background-color);
     padding: 0 var(--sci-button-padding);
 
     transition: 0.05s ease-in-out;
-    transition-property: transform, color, background-color;
+    transition-property: transform, color, background-color, opacity;
   }
 
-  &[icon="true"] > .content {
+  &[icon="true"] .content {
     padding-left: 5px;
 
     > .icon:first-child:nth-last-child(1) {
@@ -65,12 +69,16 @@
   &:not([disabled]) {
     cursor: pointer;
 
-    &:active > .content {
+    &:active .content {
       transform: translateY(2px);
     }
   }
 
   &[disabled] {
-    cursor: not-disabled;
+    cursor: not-allowed;
+  }
+
+  &[loading="true"] .content > * {
+    opacity: 0;
   }
 }

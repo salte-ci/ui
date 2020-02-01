@@ -1,12 +1,18 @@
-import React from 'react';
 import { expect } from '@hapi/code';
 import sinon from 'sinon';
-import { mount } from 'enzyme';
 import { MOBILE_QUERY_ONLY, MediaQuery } from '..';
 import { chance } from '../../../utils/test/mock';
 import * as MediaQueryUtils from '../../../utils/media-query';
+import { FixtureFactory } from '../../../utils/test/mount';
 
 describe('<MediaQuery />', () => {
+  const Fixture = FixtureFactory({
+    component: MediaQuery,
+    props: () => ({
+      children: chance.string(),
+    }),
+  });
+
   afterEach(() => {
     sinon.restore();
   });
@@ -15,7 +21,7 @@ describe('<MediaQuery />', () => {
     it('should register a media query listener', () => {
       sinon.stub(MediaQueryUtils, 'on');
 
-      mount(<MediaQuery>{chance.string()}</MediaQuery>);
+      Fixture();
 
       sinon.assert.calledOnce(MediaQueryUtils.on);
       sinon.assert.calledWith(MediaQueryUtils.on, MOBILE_QUERY_ONLY);
@@ -24,7 +30,7 @@ describe('<MediaQuery />', () => {
     it('should update request the updated visibility media value', () => {
       sinon.stub(MediaQueryUtils, 'on');
 
-      mount(<MediaQuery>{chance.string()}</MediaQuery>);
+      Fixture();
 
       // Wait till after to ensure the calls are coming from the invocation.
       sinon.stub(MediaQueryUtils, 'matches');
@@ -44,7 +50,7 @@ describe('<MediaQuery />', () => {
     it('should register a media query listener', () => {
       sinon.stub(MediaQueryUtils, 'off');
 
-      const component = mount(<MediaQuery>{chance.string()}</MediaQuery>);
+      const component = Fixture();
 
       sinon.assert.notCalled(MediaQueryUtils.off);
 
@@ -62,11 +68,16 @@ describe('<MediaQuery />', () => {
         .withArgs(MOBILE_QUERY_ONLY)
         .returns(false);
 
-      const content = chance.string();
+      const children = chance.string();
 
-      const component = mount(<MediaQuery desktop>{content}</MediaQuery>);
+      const component = Fixture({
+        props: {
+          children,
+          desktop: true,
+        },
+      });
 
-      expect(component.text()).equals(content);
+      expect(component.text()).equals(children);
     });
 
     it('should not display if the screen size is mobile', () => {
@@ -75,9 +86,12 @@ describe('<MediaQuery />', () => {
         .withArgs(MOBILE_QUERY_ONLY)
         .returns(true);
 
-      const content = chance.string();
-
-      const component = mount(<MediaQuery desktop>{content}</MediaQuery>);
+      const component = Fixture({
+        props: {
+          children: chance.string(),
+          desktop: true,
+        },
+      });
 
       expect(component.text()).equals('');
     });
@@ -90,11 +104,16 @@ describe('<MediaQuery />', () => {
         .withArgs(MOBILE_QUERY_ONLY)
         .returns(true);
 
-      const content = chance.string();
+      const children = chance.string();
 
-      const component = mount(<MediaQuery mobile>{content}</MediaQuery>);
+      const component = Fixture({
+        props: {
+          children,
+          mobile: true,
+        },
+      });
 
-      expect(component.text()).equals(content);
+      expect(component.text()).equals(children);
     });
 
     it('should not display if the screen size is not mobile', () => {
@@ -103,9 +122,12 @@ describe('<MediaQuery />', () => {
         .withArgs(MOBILE_QUERY_ONLY)
         .returns(false);
 
-      const content = chance.string();
-
-      const component = mount(<MediaQuery mobile>{content}</MediaQuery>);
+      const component = Fixture({
+        props: {
+          children: chance.string(),
+          mobile: true,
+        },
+      });
 
       expect(component.text()).equals('');
     });

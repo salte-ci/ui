@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import { Chance } from 'chance';
 
 import * as Icons from '../icons';
+import * as Thunk from '../thunk';
 
 export const chance = Chance();
 
@@ -13,6 +14,10 @@ export function MockIcons() {
 // We should attempt to eliminate this at some point
 export function MockUntestables() {
   MockIcons();
+}
+
+export function MockThunks() {
+  sinon.stub(Thunk, 'LoadingThunk').callsFake((key, thunk) => thunk);
 }
 
 export function MockState(overrides) {
@@ -29,6 +34,17 @@ export function MockState(overrides) {
       organizations: false,
     },
     error: {},
+    providers: [
+      MockProvider({
+        type: 'github',
+      }),
+      MockProvider({
+        type: 'gitlab',
+      }),
+      MockProvider({
+        type: 'bitbucket',
+      }),
+    ],
     organizations: GenerateArray(3, (index) =>
       MockOrganization({ id: index + 1 }),
     ),
@@ -45,8 +61,32 @@ export function MockState(overrides) {
     return output;
   }, {});
 
+  state.links = state.providers.map((provider) =>
+    MockLink({
+      provider_id: provider.id,
+    }),
+  );
+
   return {
     ...state,
+    ...overrides,
+  };
+}
+
+export function MockProvider(overrides) {
+  return {
+    id: chance.integer({ min: 0 }),
+    type: chance.pickone(['github', 'gitlab', 'bitbucket']),
+    name: chance.string(),
+    friendly_name: chance.string(),
+    ...overrides,
+  };
+}
+
+export function MockLink(overrides) {
+  return {
+    account_id: chance.integer(),
+    provider_id: chance.integer(),
     ...overrides,
   };
 }

@@ -22,18 +22,18 @@ export default function() {
   return (
     <Grid direction="column">
       <H1 align="center">Dashboard</H1>
-      {loading ? (
-        <LoadingIndicator loading={loading} />
-      ) : (
-        <ErrorState error={error}>
-          {organizations.map((organization) => (
-            <OrganizationCard
-              key={organization.id}
-              organization={organization}
-            />
-          ))}
+      <LoadingIndicator loading={loading} tid="dashboard-loading">
+        <ErrorState errors={error}>
+          <Grid direction="column">
+            {organizations.map((organization) => (
+              <OrganizationCard
+                key={organization.id}
+                organization={organization}
+              />
+            ))}
+          </Grid>
         </ErrorState>
-      )}
+      </LoadingIndicator>
     </Grid>
   );
 }

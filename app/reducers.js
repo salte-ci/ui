@@ -6,6 +6,8 @@ import { combineReducers } from 'redux';
 
 import { AuthReducer } from './actions/auth/reducer';
 import { ErrorReducer } from './actions/error/reducer';
+import { LinksReducer } from './actions/links/reducer';
+import { ProvidersReducer } from './actions/providers/reducer';
 import { LoadingReducer } from './actions/loading/reducer';
 import { OrganizationsReducer } from './actions/organizations/reducer';
 import { RepositoriesReducer } from './actions/repositories/reducer';
@@ -17,6 +19,8 @@ export function createReducer(injectedReducers = {}) {
   const rootReducer = combineReducers({
     auth: AuthReducer,
     error: ErrorReducer,
+    links: LinksReducer,
+    providers: ProvidersReducer,
     loading: LoadingReducer,
     organizations: OrganizationsReducer,
     repositories: RepositoriesReducer,

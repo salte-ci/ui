@@ -1,6 +1,6 @@
 import { expect } from '@hapi/code';
 
-import { GetVariable, GetComplementary } from '../index';
+import { GetVariable, GetComplementary } from '..';
 import { chance } from '../../test/mock';
 
 describe('Utils(Theme)', () => {

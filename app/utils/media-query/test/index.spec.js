@@ -1,6 +1,6 @@
 import { expect } from '@hapi/code';
 import sinon from 'sinon';
-import * as MediaQuery from '../index';
+import * as MediaQuery from '..';
 import { chance } from '../../test/mock';
 
 describe('Utils(MediaQuery)', () => {

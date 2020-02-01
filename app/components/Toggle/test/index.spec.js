@@ -1,17 +1,24 @@
-import React from 'react';
 import { expect } from '@hapi/code';
-import { mount } from 'enzyme';
 import sinon from 'sinon';
 
 import { GetVariable } from '../../../utils/theme';
 
 import { Line } from '../../Line';
-import { Toggle } from '../index';
+import { Toggle } from '..';
+import { FixtureFactory } from '../../../utils/test/mount';
 
 describe('<Toggle />', () => {
+  const Fixture = FixtureFactory({
+    component: Toggle,
+  });
+
   describe('prop(checked)', () => {
     it('should support being checked', () => {
-      const component = mount(<Toggle checked />);
+      const component = Fixture({
+        props: {
+          checked: true,
+        },
+      });
 
       const { style, checked, 'aria-checked': ariaChecked } = component
         .find('[role="checkbox"]')
@@ -31,7 +38,11 @@ describe('<Toggle />', () => {
     });
 
     it('should support not being checked', () => {
-      const component = mount(<Toggle />);
+      const component = Fixture({
+        props: {
+          checked: false,
+        },
+      });
 
       const { style, checked, 'aria-checked': ariaChecked } = component
         .find('[role="checkbox"]')
@@ -39,7 +50,7 @@ describe('<Toggle />', () => {
 
       const { '--sci-toggle-color': ToggleColor } = style;
       expect(ToggleColor).equals(GetVariable('accent'));
-      expect(checked).equals(undefined);
+      expect(checked).equals(false);
       expect(ariaChecked).equals(false);
 
       const lines = component.find(Line);
@@ -55,7 +66,11 @@ describe('<Toggle />', () => {
     it('should forward the "onClick" event', () => {
       const onClick = sinon.stub();
 
-      const component = mount(<Toggle onClick={onClick} />);
+      const component = Fixture({
+        props: {
+          onClick,
+        },
+      });
 
       component.find('[role="checkbox"]').simulate('click');
 

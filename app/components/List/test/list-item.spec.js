@@ -1,13 +1,16 @@
-import React from 'react';
 import sinon from 'sinon';
 import { expect } from '@hapi/code';
 
-import { mount } from 'enzyme';
-import { ListItem } from '../index';
-import { MockUntestables } from '../../../utils/test/mock';
+import { ListItem } from '..';
+import { MockUntestables, chance } from '../../../utils/test/mock';
 import { Icon } from '../../Icon';
+import { FixtureFactory } from '../../../utils/test/mount';
 
 describe('<ListItem />', () => {
+  const Fixture = FixtureFactory({
+    component: ListItem,
+  });
+
   beforeEach(() => {
     MockUntestables();
   });
@@ -16,14 +19,8 @@ describe('<ListItem />', () => {
     sinon.restore();
   });
 
-  it('should render', () => {
-    const component = mount(<ListItem />);
-
-    expect(component.children().length).equals(1);
-  });
-
   it('should set defaults', () => {
-    const component = mount(<ListItem />);
+    const component = Fixture();
 
     expect(component.props()).equals({
       icon: 'bullet',
@@ -33,23 +30,36 @@ describe('<ListItem />', () => {
 
   describe('prop(children)', () => {
     it('should support providing children', () => {
-      const component = mount(<ListItem>Hello World</ListItem>);
+      const children = chance.string();
+      const component = Fixture({
+        props: {
+          children,
+        },
+      });
 
-      expect(component.text()).contains('Hello World');
+      expect(component.text()).contains(children);
     });
   });
 
   describe('prop(icon)', () => {
-    it('should support providing children', () => {
-      const component = mount(<ListItem icon="infinite" />);
+    it('should support providing an icon', () => {
+      const component = Fixture({
+        props: {
+          icon: 'infinite',
+        },
+      });
 
       expect(component.find(Icon).prop('name')).equals('infinite');
     });
   });
 
   describe('prop(theme)', () => {
-    it('should support providing children', () => {
-      const component = mount(<ListItem theme="secondary" />);
+    it('should support providing a theme', () => {
+      const component = Fixture({
+        props: {
+          theme: 'secondary',
+        },
+      });
 
       expect(component.find(Icon).prop('theme')).equals('secondary');
     });

@@ -1,7 +1,6 @@
 import { UPDATE_REPOSITORIES } from './constants';
 import * as Repository from './repository';
-import { UpdateLoading } from '../loading/actions';
-import { UpdateError } from '../error/actions';
+import { LoadingThunk } from '../../utils/thunk';
 
 export function UpdateRepositories(organizationID, repositories) {
   return {
@@ -13,21 +12,13 @@ export function UpdateRepositories(organizationID, repositories) {
 }
 
 export function GetRepositoriesForOrganization(organizationID) {
-  return async (dispatch) => {
-    try {
-      dispatch(UpdateError(`repositories:${organizationID}`, null));
-      dispatch(UpdateRepositories(organizationID, []));
-      dispatch(UpdateLoading(`repositories:${organizationID}`, true));
+  return LoadingThunk(`repositories:${organizationID}`, async (dispatch) => {
+    dispatch(UpdateRepositories(organizationID, []));
 
-      const repositories = await Repository.GetRepositoriesForOrganization(
-        organizationID,
-      );
+    const repositories = await Repository.GetRepositoriesForOrganization(
+      organizationID,
+    );
 
-      dispatch(UpdateRepositories(organizationID, repositories));
-    } catch (error) {
-      dispatch(UpdateError(`repositories:${organizationID}`, error));
-    } finally {
-      dispatch(UpdateLoading(`repositories:${organizationID}`, false));
-    }
-  };
+    dispatch(UpdateRepositories(organizationID, repositories));
+  });
 }

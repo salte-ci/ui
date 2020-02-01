@@ -1,7 +1,7 @@
 import { expect } from '@hapi/code';
 import sinon from 'sinon';
 
-import * as Window from '../index';
+import * as Window from '..';
 import { chance } from '../../test/mock';
 
 describe('Utils(Window)', () => {
@@ -133,6 +133,23 @@ describe('Utils(Window)', () => {
 
       sinon.assert.calledOnce(window.requestAnimationFrame);
       sinon.assert.calledWithExactly(window.requestAnimationFrame, callback);
+    });
+  });
+
+  describe('func(fetch)', () => {
+    it('should invoke fetch', async () => {
+      const url = chance.url();
+      const options = { method: 'post' };
+      const expectedResponse = chance.string();
+      const window = {
+        fetch: sinon.stub().resolves(expectedResponse),
+      };
+
+      const response = await Window.fetch(url, options, window);
+
+      expect(response).equals(expectedResponse);
+      sinon.assert.calledOnce(window.fetch);
+      sinon.assert.calledWithExactly(window.fetch, url, options);
     });
   });
 });

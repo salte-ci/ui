@@ -4,6 +4,7 @@ import { Bitbucket } from '@salte-auth/bitbucket';
 import { GitHub } from '@salte-auth/github';
 import { GitLab } from '@salte-auth/gitlab';
 import { Redirect } from '@salte-auth/redirect';
+import { Tab } from '@salte-auth/tab';
 
 import { config, ENDPOINTS } from './config';
 
@@ -40,5 +41,7 @@ export const auth = new SalteAuth({
       default: true,
       navigate: 'history',
     }),
+
+    new Tab(),
   ],
 });

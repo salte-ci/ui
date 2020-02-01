@@ -1,12 +1,15 @@
-import React from 'react';
 import { expect } from '@hapi/code';
-import { mount } from 'enzyme';
 
-import HomePage from '../index';
+import HomePage from '..';
+import { FixtureFactory } from '../../../utils/test/mount';
 
 describe('<HomePage />', () => {
+  const Fixture = FixtureFactory({
+    component: HomePage,
+  });
+
   it('should render', () => {
-    const component = mount(<HomePage />);
+    const component = Fixture();
 
     expect(component.children().length).equals(1);
   });

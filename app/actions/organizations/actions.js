@@ -1,7 +1,6 @@
 import { UPDATE_ORGANIZATIONS } from './constants';
 import * as Repository from './repository';
-import { UpdateLoading } from '../loading/actions';
-import { UpdateError } from '../error/actions';
+import { LoadingThunk } from '../../utils/thunk';
 
 export function UpdateOrganizations(organizations) {
   return {
@@ -11,19 +10,11 @@ export function UpdateOrganizations(organizations) {
 }
 
 export function GetOrganizationsForUser(uid) {
-  return async (dispatch) => {
-    try {
-      dispatch(UpdateError('organizations', null));
-      dispatch(UpdateOrganizations([]));
-      dispatch(UpdateLoading('organizations', true));
+  return LoadingThunk('organizations', async (dispatch) => {
+    dispatch(UpdateOrganizations([]));
 
-      const organizations = await Repository.GetOrganizationsForUser(uid);
+    const organizations = await Repository.GetOrganizationsForUser(uid);
 
-      dispatch(UpdateOrganizations(organizations));
-    } catch (error) {
-      dispatch(UpdateError('organizations', error));
-    } finally {
-      dispatch(UpdateLoading('organizations', false));
-    }
-  };
+    dispatch(UpdateOrganizations(organizations));
+  });
 }

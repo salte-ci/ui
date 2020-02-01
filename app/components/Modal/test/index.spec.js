@@ -1,30 +1,33 @@
-import React from 'react';
+import { act } from 'react-dom/test-utils';
 import { expect } from '@hapi/code';
-import { mount } from 'enzyme';
 import sinon from 'sinon';
 import { KEY_ESCAPE, KEY_TAB } from 'keycode-js';
 
 import * as Window from '../../../utils/window';
 import * as Events from '../../../utils/events';
 
-import { Modal } from '../index';
+import { FixtureFactory } from '../../../utils/test/mount';
+import { Modal } from '..';
+import { chance } from '../../../utils/test/mock';
+import { noop } from '../../../utils/noop';
+import * as Render from '../../../utils/render';
 
 describe('<Modal />', () => {
-  const RenderComponent = (overrides) => {
-    const props = {
-      component: 'div',
+  const Fixture = FixtureFactory({
+    component: Modal,
+    props: () => ({
+      children: chance.string(),
       onClose: sinon.stub(),
       onCancel: sinon.stub(),
-      ...overrides,
-    };
-
-    return mount(<Modal {...props} />);
-  };
+      opened: true,
+    }),
+  });
 
   beforeEach(() => {
     sinon.stub(Window, 'addEventListener');
     sinon.stub(Window, 'removeEventListener');
     sinon.stub(Events, 'once').resolves();
+    sinon.stub(Render, 'OnNextRender').resolves();
   });
 
   afterEach(() => {
@@ -32,30 +35,28 @@ describe('<Modal />', () => {
   });
 
   it('should set defaults', () => {
-    const component = RenderComponent();
+    const component = Fixture();
 
-    const {
-      component: Component,
-      onClose,
-      onCancel,
-      ...props
-    } = component.props();
+    const { children, onClose, onCancel, ...props } = component.props();
 
     expect(props).equals({
+      opened: true,
       variant: 'medium',
+      onCloseFinished: noop,
+      onOpenFinished: noop,
     });
   });
 
   describe('event(onKeyDown)', () => {
     it('should add the "onKeyDown" listener on mount', () => {
-      RenderComponent();
+      Fixture();
 
       sinon.assert.calledOnce(Window.addEventListener);
       sinon.assert.notCalled(Window.removeEventListener);
     });
 
     it('should remove the "onKeyDown" listener on unmount', () => {
-      const component = RenderComponent();
+      const component = Fixture();
 
       component.unmount();
 
@@ -66,111 +67,129 @@ describe('<Modal />', () => {
     it('should close if the escape key is pressed', (done) => {
       Window.addEventListener.restore();
       sinon.stub(Window, 'addEventListener').callsFake((type, callback) => {
-        callback({
-          keyCode: KEY_ESCAPE,
-        });
+        if (type === 'keydown') {
+          callback({
+            keyCode: KEY_ESCAPE,
+          });
+        }
       });
 
-      RenderComponent({
-        onCancel: done,
+      Fixture({
+        props: {
+          onClose: done,
+        },
       });
     });
 
     it('should not close if any other key is pressed', (done) => {
       Window.addEventListener.restore();
       sinon.stub(Window, 'addEventListener').callsFake((type, callback) => {
-        callback({
-          keyCode: KEY_TAB,
-        });
+        if (type === 'keydown') {
+          callback({
+            keyCode: KEY_TAB,
+          });
+        }
       });
 
-      RenderComponent({
-        onCancel: () => done.fail('Expected onCancel to not get called.'),
+      Fixture({
+        props: {
+          onCancel: () => done.fail('Expected onCancel to not get called.'),
+        },
       });
 
       done();
     });
   });
 
-  // props: PropTypes.object,
-  // variant: PropTypes.oneOf(['small', 'medium', 'large']),
-  describe('prop(component)', () => {
-    it('should support providing a custom component', () => {
-      const CustomModal = () => <div />;
-
-      const component = RenderComponent({
-        component: CustomModal,
+  describe('prop(children)', () => {
+    it('should support providing children', () => {
+      const children = chance.string();
+      const component = Fixture({
+        props: {
+          children,
+        },
       });
 
-      expect(component.exists(CustomModal)).equals(true);
-    });
-
-    it('should forward close and cancel functions to the custom component', () => {
-      const CustomModal = ({ close, cancel }) => {
-        expect(close).function();
-        expect(cancel).function();
-
-        return <div />;
-      };
-
-      const component = RenderComponent({
-        component: CustomModal,
-      });
-
-      expect(component.exists(CustomModal)).equals(true);
+      expect(component.text()).contains(children);
     });
   });
 
   describe('prop(onClose)', () => {
-    it('should call onClose if an element with "data-close" is clicked', (done) => {
-      const component = RenderComponent({
-        component: () => <div tid="close" />,
-        onClose: done,
-      });
-
-      component.find('[tid="close"]').simulate('click', {
-        target: {
-          dataset: {
-            close: true,
-          },
+    it('should call onClose if the backdrop is clicked', (done) => {
+      const component = Fixture({
+        props: {
+          onClose: done,
         },
-      });
-    });
-  });
-
-  describe('prop(onCancel)', () => {
-    it('should call onCancel if an element with "data-cancel" is clicked', (done) => {
-      const component = RenderComponent({
-        component: () => <div tid="cancel" />,
-        onCancel: done,
-      });
-
-      component.find('[tid="cancel"]').simulate('click', {
-        target: {
-          dataset: {
-            cancel: true,
-          },
-        },
-      });
-    });
-
-    it('should call onCancel if the backdrop is clicked', (done) => {
-      const component = RenderComponent({
-        onCancel: done,
       });
 
       component.find('[tid="backdrop"]').simulate('click');
     });
 
     it('should ignore clicks to anything else', (done) => {
-      const component = RenderComponent({
-        component: () => <div tid="component" />,
-        onCancel: () => done.fail('Expected "onClose" to never be invoked.'),
-        onClose: () => done.fail('Expected "onClose" to never be invoked.'),
-        onClick: () => done(),
+      const component = Fixture({
+        props: {
+          onClose: () => done.fail('Expected "onClose" to never be invoked.'),
+          onClick: () => done(),
+        },
       });
 
-      component.find('[tid="component"]').simulate('click');
+      component.find('Card[tid="modal"]').simulate('click');
+    });
+  });
+
+  describe('prop(opened)', () => {
+    it('should support being open', () => {
+      const component = Fixture({
+        props: {
+          opened: true,
+        },
+      });
+
+      expect(component.exists('[tid="backdrop"]')).equals(true);
+    });
+
+    it('should support being closed', () => {
+      const component = Fixture({
+        props: {
+          opened: false,
+        },
+      });
+
+      expect(component.exists('[tid="backdrop"]')).equals(false);
+    });
+  });
+
+  describe('prop(onCloseFinished)', () => {
+    it('should invoke onCloseFinished once the transition is over', async (done) => {
+      const component = Fixture({
+        props: {
+          opened: true,
+          onCloseFinished: done,
+        },
+      });
+
+      await act(async () =>
+        component.setProps({
+          opened: false,
+        }),
+      );
+    });
+  });
+
+  describe('prop(onOpenFinished)', () => {
+    it('should invoke onOpenFinished once the transition is over', async (done) => {
+      const component = Fixture({
+        props: {
+          opened: false,
+          onOpenFinished: done,
+        },
+      });
+
+      await act(async () =>
+        component.setProps({
+          opened: true,
+        }),
+      );
     });
   });
 });

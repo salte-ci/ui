@@ -1,12 +1,11 @@
-import React from 'react';
 import sinon from 'sinon';
 import { Chance } from 'chance';
 import { expect } from '@hapi/code';
-import { MountWrapper } from '../../../utils/test/mount';
+import { FixtureFactory } from '../../../utils/test/mount';
 
-import { App } from '../index';
+import { App } from '..';
 import { auth } from '../../../auth';
-import { MockUntestables } from '../../../utils/test/mock';
+import { MockUntestables, MockState } from '../../../utils/test/mock';
 import { UPDATE_TOKEN } from '../../../actions/auth/constants';
 import { DashboardPage } from '../../DashboardPage/Loadable';
 import { HomePage } from '../../HomePage/Loadable';
@@ -14,6 +13,12 @@ import { HomePage } from '../../HomePage/Loadable';
 const chance = Chance();
 
 describe('<App />', () => {
+  const Fixture = FixtureFactory({
+    component: App,
+    state: MockState,
+    mountType: 'app',
+  });
+
   beforeEach(() => {
     MockUntestables();
     sinon.stub(auth, 'on');
@@ -24,17 +29,19 @@ describe('<App />', () => {
   });
 
   it('should render', () => {
-    const component = MountWrapper(<App />);
+    const component = Fixture();
 
     expect(component.children().length).equals(1);
   });
 
   describe('state(auth.idTokens.auth0)', () => {
     it('should display the HomePage if the token is expired', () => {
-      const component = MountWrapper(<App />, {
-        auth: {
-          auth0: {
-            expired: true,
+      const component = Fixture({
+        state: {
+          auth: {
+            auth0: {
+              expired: true,
+            },
           },
         },
       });
@@ -43,10 +50,12 @@ describe('<App />', () => {
     });
 
     it('should display the DashboardPage if the token is not expired', () => {
-      const component = MountWrapper(<App />, {
-        auth: {
-          auth0: {
-            expired: false,
+      const component = Fixture({
+        state: {
+          auth: {
+            auth0: {
+              expired: false,
+            },
           },
         },
       });
@@ -59,7 +68,7 @@ describe('<App />', () => {
     it('should register listeners for login and logout on each provider', () => {
       sinon.assert.notCalled(auth.on);
 
-      MountWrapper(<App />);
+      Fixture();
 
       sinon.assert.calledTwice(auth.on);
       sinon.assert.calledWith(auth.on, 'login');
@@ -84,7 +93,9 @@ describe('<App />', () => {
 
       const dispatch = sinon.stub();
 
-      MountWrapper(<App />, undefined, dispatch);
+      Fixture({
+        dispatch,
+      });
 
       sinon.assert.calledWithExactly(dispatch, {
         type: UPDATE_TOKEN,
@@ -103,7 +114,9 @@ describe('<App />', () => {
 
       const dispatch = sinon.stub();
 
-      MountWrapper(<App />, undefined, dispatch);
+      Fixture({
+        dispatch,
+      });
 
       sinon.assert.notCalled(dispatch);
     });

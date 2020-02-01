@@ -72,7 +72,7 @@ export function OrganizationCard({ organization, ...extraProps }) {
         </Grid>
       </Grid>
       {repositories && (
-        <ErrorState error={error}>
+        <ErrorState errors={error}>
           <Accordion opened={!loading && page === REPOSITORIES}>
             <RepositoriesCard
               organization={organization}

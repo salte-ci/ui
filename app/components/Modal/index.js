@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { KEY_ESCAPE } from 'keycode-js';
 import * as Window from '../../utils/window';
@@ -7,47 +8,59 @@ import { Card } from '../Card';
 import * as Events from '../../utils/events';
 
 import styles from './index.css';
-import { OPENED, OPENING, CLOSING, CLOSED } from './constants';
+import { noop } from '../../utils/noop';
+import { OnNextRender } from '../../utils/render';
+
+const container = document.createElement('div');
+document.body.appendChild(container);
 
 export function Modal({
-  component: Component,
+  children,
+  opened,
   onClose,
-  onCancel,
+  onCloseFinished,
   onClick,
+  onOpenFinished,
   props,
   variant,
   ...extraProps
 }) {
   const backdrop = useRef();
-  const [status, setStatus] = useState(CLOSED);
-
-  const animate = (initialStatus, finalStatus) => {
-    setStatus(initialStatus);
-
-    return Events.once(
-      backdrop.current,
-      'transitionend',
-      { passive: true },
-      Events.currentTargetPredicate,
-    ).then(() => {
-      setStatus(finalStatus);
-    });
-  };
-
-  const close = (result) =>
-    animate(CLOSING, CLOSED).then(() => onClose(result));
-  const cancel = (reason) =>
-    animate(CLOSING, CLOSED).then(() => onCancel(reason));
+  const [visible, setVisible] = useState(opened);
 
   useEffect(() => {
-    animate(OPENING, OPENED);
-  }, []);
+    if (opened && !visible) {
+      OnNextRender().then(() => {
+        setVisible(true);
+
+        Events.once(
+          backdrop.current,
+          'transitionend',
+          { passive: true },
+          Events.currentTargetPredicate,
+        ).then(() => {
+          onOpenFinished();
+        });
+      });
+    } else if (!opened && visible) {
+      Events.once(
+        backdrop.current,
+        'transitionend',
+        { passive: true },
+        Events.currentTargetPredicate,
+      ).then(() => {
+        setVisible(false);
+
+        onCloseFinished();
+      });
+    }
+  }, [opened]);
 
   useEffect(() => {
     const OnKeyDown = (e) => {
       if (![KEY_ESCAPE].includes(e.keyCode)) return;
 
-      cancel();
+      onClose();
     };
 
     Window.addEventListener('keydown', OnKeyDown);
@@ -57,40 +70,48 @@ export function Modal({
     };
   }, []);
 
-  return (
+  if (!visible && !opened) return null;
+
+  return ReactDOM.createPortal(
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <div
       {...extraProps}
       tid="backdrop"
       className={styles.backdrop}
       ref={backdrop}
-      status={status}
+      opened={(opened && visible).toString()}
       onClick={(e) => {
-        if (e.target.dataset.cancel || e.target === backdrop.current) {
-          cancel();
-        } else if (e.target.dataset.close) {
-          close();
-        }
+        if (e.target === backdrop.current) onClose();
 
         if (onClick) onClick(e);
       }}
     >
-      <Card className={styles.modal} role="dialog" variant={variant.toString()}>
-        <Component {...props} close={close} cancel={cancel} />
+      <Card
+        className={styles.modal}
+        role="dialog"
+        variant={variant.toString()}
+        tid="modal"
+      >
+        {children}
       </Card>
-    </div>
+    </div>,
+    container,
   );
 }
 
 Modal.propTypes = {
-  component: PropTypes.elementType.isRequired,
+  children: PropTypes.node.isRequired,
+  opened: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
+  onCloseFinished: PropTypes.func,
   onClick: PropTypes.func,
+  onOpenFinished: PropTypes.func,
   props: PropTypes.object,
   variant: PropTypes.oneOf(['small', 'medium', 'large']),
 };
 
 Modal.defaultProps = {
   variant: 'medium',
+  onCloseFinished: noop,
+  onOpenFinished: noop,
 };

@@ -36,3 +36,7 @@ Toggle.propTypes = {
   checked: PropTypes.bool,
   onClick: PropTypes.func,
 };
+
+Toggle.defaultProps = {
+  checked: false,
+};

@@ -7,7 +7,7 @@ import {
   FLEX_DIRECTION,
   JUSTIFY_CONTENT,
   LANGUAGES,
-} from '../index';
+} from '..';
 
 describe('PropTypeValues', () => {
   describe('constant(TEXT_ALIGN)', () => {

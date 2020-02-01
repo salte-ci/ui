@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
@@ -9,11 +9,15 @@ import { Button } from '../Button';
 import styles from './index.css';
 import { MediaQuery } from '../MediaQuery';
 import { Toggle } from '../Toggle';
-import { config, environment, UpdateLocal } from '../../config';
+import { config, environment, SetLocal } from '../../config';
 import { Grid } from '../Grid';
 import { Dropdown } from '../Dropdown';
+import { AccountSettingsModal } from '../AccountSettingsModal';
+import { LOCAL, ALPHA } from '../../config/constants';
 
 export function Header({ idToken }) {
+  const [opened, setOpened] = useState(false);
+
   return (
     <header className={styles.header}>
       <Grid className={styles.content} alignItems="center" flex={1}>
@@ -21,10 +25,10 @@ export function Header({ idToken }) {
           Salte CI
         </Button>
         <div style={{ flex: 1 }} />
-        {environment === 'alpha' && (
+        {[LOCAL, ALPHA].includes(environment) && (
           <Toggle
             checked={config.local}
-            onClick={() => UpdateLocal(!config.local)}
+            onClick={() => SetLocal(!config.local)}
           />
         )}
         {idToken.expired ? (
@@ -47,7 +51,12 @@ export function Header({ idToken }) {
               </Button>
             }
           >
-            <Dropdown.Item id="settings" type={Link} to="/">
+            <Dropdown.Item
+              id="account-settings"
+              onClick={() => {
+                setOpened(true);
+              }}
+            >
               Account Settings
             </Dropdown.Item>
             <Dropdown.Item id="sign-out" onClick={() => auth.logout('auth0')}>
@@ -56,6 +65,10 @@ export function Header({ idToken }) {
           </Dropdown>
         )}
       </Grid>
+      <AccountSettingsModal
+        opened={opened}
+        onClose={() => setOpened(!opened)}
+      />
     </header>
   );
 }

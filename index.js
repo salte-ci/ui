@@ -1,12 +1,13 @@
 import Raven from 'raven-js';
 
 import { version } from './package.json';
-import { environment, localhost } from './app/config';
+import { environment } from './app/config';
 import { RootLogger } from './app/utils/logger';
+import { LOCAL } from './app/config/constants';
 
 const logger = RootLogger.extend('setup');
 
-if (localhost) {
+if (environment === LOCAL) {
   localStorage.setItem('debug', 'salte-ci:*');
 }
 

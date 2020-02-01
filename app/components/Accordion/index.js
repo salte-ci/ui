@@ -26,7 +26,7 @@ export function Accordion({ children, opened }) {
     } else if (!opened && visible) {
       setMaxHeight(accordionRef.current.scrollHeight);
 
-      Render.OnNextRender(() => {
+      Render.OnNextRender().then(() => {
         setMaxHeight(0);
 
         Events.once(

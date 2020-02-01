@@ -1,12 +1,15 @@
-import React from 'react';
 import sinon from 'sinon';
 import { expect } from '@hapi/code';
 
-import { mount } from 'enzyme';
-import { List } from '../index';
+import { List } from '..';
 import { MockUntestables } from '../../../utils/test/mock';
+import { FixtureFactory } from '../../../utils/test/mount';
 
 describe('<List />', () => {
+  const Fixture = FixtureFactory({
+    component: List,
+  });
+
   beforeEach(() => {
     MockUntestables();
   });
@@ -16,7 +19,7 @@ describe('<List />', () => {
   });
 
   it('should render', () => {
-    const component = mount(<List />);
+    const component = Fixture();
 
     expect(component.children().length).equals(1);
   });

@@ -12,6 +12,7 @@
 
   background-color: var(--sci-darken-color);
 
+  opacity: 0;
   transition: 0.15s ease-in-out;
   transition-property: opacity;
 
@@ -21,11 +22,20 @@
     overflow: auto;
     box-sizing: border-box;
 
+    transform: translateY(-10px);
     transition: 0.15s ease-in-out;
     transition-property: transform;
 
-    &[variant="medium"] {
+    &[variant="small"] {
       width: 600px;
+    }
+
+    &[variant="medium"] {
+      width: 800px;
+    }
+
+    &[variant="large"] {
+      width: 1000px;
     }
 
     @media (max-width: 599px) {
@@ -33,21 +43,11 @@
     }
   }
 
-  &[status="opening"],
-  &[status="opened"] {
+  &[opened="true"] {
     opacity: 1;
 
     > .modal {
       transform: translateY(0px);
-    }
-  }
-
-  &[status="closing"],
-  &[status="closed"] {
-    opacity: 0;
-
-    > .modal {
-      transform: translateY(-10px);
     }
   }
 }

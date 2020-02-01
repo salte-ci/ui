@@ -1,16 +1,20 @@
-import React from 'react';
 import sinon from 'sinon';
 import { expect } from '@hapi/code';
 
-import { MountWrapper } from '../../../utils/test/mount';
+import { FixtureFactory } from '../../../utils/test/mount';
 
-import DashboardPage from '../index';
-import { LoadingIndicator } from '../../../components/LoadingIndicator';
+import DashboardPage from '..';
 import { ErrorState } from '../../../components/ErrorState';
 import { OrganizationCard } from '../../../components/OrganizationCard';
-import { MockUntestables } from '../../../utils/test/mock';
+import { MockUntestables, MockState } from '../../../utils/test/mock';
 
 describe('<DashboardPage />', () => {
+  const Fixture = FixtureFactory({
+    component: DashboardPage,
+    state: MockState,
+    mountType: 'app',
+  });
+
   beforeEach(() => {
     MockUntestables();
   });
@@ -20,56 +24,70 @@ describe('<DashboardPage />', () => {
   });
 
   it('should render', () => {
-    const component = MountWrapper(<DashboardPage />);
+    const component = Fixture();
 
     expect(component.children().length).equals(1);
   });
 
   describe('state(loading.organizations)', () => {
     it('should display the loading indicator if loading', () => {
-      const component = MountWrapper(<DashboardPage />, {
-        loading: {
-          organizations: true,
+      const component = Fixture({
+        state: {
+          loading: {
+            organizations: true,
+          },
         },
       });
 
-      expect(component.exists(LoadingIndicator)).equals(true);
-      expect(component.exists(ErrorState)).equals(false);
+      expect(
+        component
+          .find('LoadingIndicator[tid="dashboard-loading"]')
+          .prop('loading'),
+      ).equals(true);
     });
 
     it('should display the ErrorState if not loading', () => {
-      const component = MountWrapper(<DashboardPage />, {
-        loading: {
-          organizations: false,
+      const component = Fixture({
+        state: {
+          loading: {
+            organizations: false,
+          },
         },
       });
 
-      expect(component.exists(ErrorState)).equals(true);
-      expect(component.exists(LoadingIndicator)).equals(false);
+      expect(
+        component
+          .find('LoadingIndicator[tid="dashboard-loading"]')
+          .prop('loading'),
+      ).equals(false);
     });
   });
 
   describe('state(error.organizations)', () => {
     it('should provide the error to the ErrorState', () => {
       const error = new Error('Whoops!');
-      const component = MountWrapper(<DashboardPage />, {
-        loading: {
-          organizations: false,
-        },
-        error: {
-          organizations: error,
+      const component = Fixture({
+        state: {
+          loading: {
+            organizations: false,
+          },
+          error: {
+            organizations: error,
+          },
         },
       });
 
-      expect(component.find(ErrorState).prop('error')).equals(error);
+      expect(component.find(ErrorState).prop('errors')).equals(error);
     });
   });
 
   describe('state(organizations)', () => {
     it('should display the organizations', () => {
-      const component = MountWrapper(<DashboardPage />, {
-        loading: {
-          organizations: false,
+      const component = Fixture({
+        state: {
+          loading: {
+            organizations: false,
+          },
         },
       });
 
